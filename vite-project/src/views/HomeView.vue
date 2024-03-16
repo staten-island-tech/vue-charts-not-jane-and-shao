@@ -3,14 +3,20 @@ import { db,app } from '@/fireSetup';
 import { doc, setDoc } from "firebase/firestore"; 
 import { ref, computed  } from 'vue';
 import start from '@/components/start.vue';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider,onAuthStateChanged  } from "firebase/auth";
 
 const provider = new GoogleAuthProvider(app);
 
-
+let signIn = ref(false)
 
 const auth = getAuth();
-signInWithPopup(auth, provider)
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+  signIn.value = user
+  } else {
+
+    signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -27,18 +33,21 @@ console.log(token)
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
   });
-let code = ref('test')
+  }
+});
+
+let name = ref('test')
 const pathID = computed(()=>{
-  return `${code.value}/lobby`
+  return `/lobby/${name.value}`
 })
 </script> 
 
 <template>
-  <form>
-    <input type="text" v-model="code">
-    <p>{{ code }}</p>
+  <form v-if="signIn">
+    <input type="text" v-model="name" maxlength="20">
+    <p>Hello There, {{ signIn.displayName }}! </p>
+    <RouterLink :to="pathID">test</RouterLink><br>
   </form>
-  <RouterLink :to="pathID">test</RouterLink><br>
 </template>
 
 <style scoped>

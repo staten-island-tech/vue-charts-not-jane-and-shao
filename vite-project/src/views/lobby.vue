@@ -1,13 +1,59 @@
 <template>
-    <div>
-        <p>test</p>
+    <div v-if="1">
+        <h5>{{ $route }}</h5>
+        <form>
+            <button @click.prevent="showJoin = false; showHost = true">host</button>
+            <button @click.prevent="showJoin = true; showHost = false">join</button>
+        </form>
+    </div>
+    <div v-if="showHost" id="joinBox">
+        <h1>Host A Game</h1>
+        <button v-for="i in ['gameone','gametwo','gamethree']" @click="mode = i">{{ i }}</button>
+        <h2>{{ mode }}: {{ rCode.toUpperCase() }}</h2>
+        <form>
+            <input type="text" v-model="rCode" maxlength="6">
+            <RouterLink v-if="rCode.length == 6 && mode" id="rl" :to="pathID">test</RouterLink><br>
+        </form>
+    </div>
+    <div v-if="showJoin" id="joinBox">
+        <h1>Join {{ jCode.toUpperCase() }}</h1>
+        <form>
+            <input type="text" v-model="jCode" maxlength="6">
+        </form>
     </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+let mode = ref('')
+let rCode = ref('')
+let jCode = ref('')
+let showJoin = ref(false)
+let showHost = ref(false)
 
+const pathID = computed(()=>{
+  return `${mode.value}/${rCode.value.toUpperCase()}`
+})
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
+#rl{
+    background-color: white;
+}
+#joinBox,#hostBox{
+    /* background-image: url(https://i.imgur.com/WItwZfy.png);
+    image */
+    background-repeat: no-repeat;
+    text-align: center;
+    border-radius: 10%;
+    height: 65vh;
+    width:  55vw;
+    background-color: teal;
+    border: black 2px solid;
+     position: absolute;
+     top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 </style>
