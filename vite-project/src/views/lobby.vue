@@ -1,6 +1,7 @@
 <template>
     <div v-if="1">
         <h5>{{ $route }}</h5>
+        <button @click="potato()">eawewa</button>
         <form>
             <button @click.prevent="showJoin = false; showHost = true">host</button>
             <button @click.prevent="showJoin = true; showHost = false">join</button>
@@ -12,7 +13,7 @@
         <h2>{{ mode }}: {{ rCode.toUpperCase() }}</h2>
         <form>
             <input type="text" v-model="rCode" maxlength="6">
-            <RouterLink v-if="rCode.length == 6 && mode" id="rl" :to="pathID">test</RouterLink><br>
+            <button v-if="rCode.length == 6 && mode" id="rl" @click="router.replace({ path: `/${mode}/${rCode.toUpperCase()}/host`, replace: true })">test</button><br>
         </form>
     </div>
     <div v-if="showJoin" id="joinBox">
@@ -25,8 +26,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 const route = useRoute()
+const router = useRouter()
 
 let name = route.params.id
 let mode = ref('')
@@ -35,9 +37,13 @@ let jCode = ref('')
 let showJoin = ref(false)
 let showHost = ref(false)
 
-const pathID = computed(()=>{
-  return `${mode.value}/${rCode.value.toUpperCase()}`
-})
+// const pathID = computed(()=>{
+//   return `${mode.value}/${rCode.value.toUpperCase()}`
+// })
+
+// const hpathID = computed(()=>{
+//   return `${mode.value}/${rCode.value.toUpperCase()}/host`
+// })
 </script>
 
 <style scoped>
