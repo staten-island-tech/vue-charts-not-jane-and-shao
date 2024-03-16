@@ -25,6 +25,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+
+let name = route.params.id
 let mode = ref('')
 let rCode = ref('')
 let jCode = ref('')
