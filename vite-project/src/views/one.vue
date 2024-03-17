@@ -1,6 +1,6 @@
 <template>
     <div>
-        <H1>WORKING</H1>
+        <H1 v-if="params.mode == 'host'">{{ params.id }}</H1>
     </div>
 </template>
 

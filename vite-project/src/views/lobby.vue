@@ -1,8 +1,9 @@
 <template>
-    <div v-if="1">
+    <div v-if="info.name">
         <h5>{{ $route }}</h5>
         <button @click="potato()">eawewa</button>
         <form>
+            <button @click.prevent="toast()">host</button>
             <button @click.prevent="showJoin = false; showHost = true">host</button>
             <button @click.prevent="showJoin = true; showHost = false">join</button>
         </form>
@@ -13,7 +14,7 @@
         <h2>{{ mode }}: {{ rCode.toUpperCase() }}</h2>
         <form>
             <input type="text" v-model="rCode" maxlength="6">
-            <button v-if="rCode.length == 6 && mode" id="rl" @click="router.replace({ path: `/${mode}/${rCode.toUpperCase()}/host`, replace: true })">test</button><br>
+            <button v-if="rCode.length == 6 && mode" id="rl" @click="router.replace({ path: `/${mode}/${rCode.toUpperCase()}/host`, replace: true, testvar: 87 })">test</button><br>
         </form>
     </div>
     <div v-if="showJoin" id="joinBox">
@@ -25,10 +26,32 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted,onUnmounted,onBeforeUnmount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { db } from '@/fireSetup'
+import { info } from '@/reactive';
+import { collection, doc, setDoc, getDoc, onSnapshot, getDocs, deleteDoc  } from "firebase/firestore"; 
 const route = useRoute()
 const router = useRouter()
+
+
+console.log(info)
+onMounted(async () =>{
+    await setDoc(doc(db, "players", name), {
+  name: info.name,
+});
+
+console.log(name)
+
+window.onbeforeunload = function(event) {
+    deleteDoc(doc(db, "players", name))
+};
+
+
+})
+
+
+
 
 let name = route.params.id
 let mode = ref('')
