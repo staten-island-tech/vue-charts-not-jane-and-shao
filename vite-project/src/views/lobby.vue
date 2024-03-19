@@ -10,11 +10,11 @@
     </div>
     <div v-if="showHost" id="joinBox">
         <h1>Host A Game</h1>
-        <button v-for="i in ['gameone','gametwo','gamethree']" @click="mode = i">{{ i }}</button>
+        <button v-for="i in ['gameone']" @click="mode = i">{{ i }}</button>
         <h2>{{ mode }}: {{ rCode.toUpperCase() }}</h2>
         <form>
             <input type="text" v-model="rCode" maxlength="6">
-            <button v-if="rCode.length == 6 && mode" id="rl" @click="router.replace({ path: `/${mode}/${rCode.toUpperCase()}/host`, replace: true, testvar: 87 })">test</button><br>
+            <button v-if="rCode.length == 6 && mode" id="rl" @click="newG = 1; router.replace({ path: `/${mode}/${rCode.toUpperCase()}/host`, replace: true, testvar: 87 })">test</button><br>
         </form>
     </div>
     <div v-if="showJoin" id="joinBox">
@@ -33,27 +33,36 @@ import { info } from '@/reactive';
 import { collection, doc, setDoc, getDoc, onSnapshot, getDocs, deleteDoc  } from "firebase/firestore"; 
 const route = useRoute()
 const router = useRouter()
+let newG = 0
 
-
-console.log(info)
 onMounted(async () =>{
-    await setDoc(doc(db, "players", name), {
+    if(info.name){
+    await setDoc(doc(db, "players", info.name), {
   name: info.name,
-});
+})};
 
-console.log(name)
+
 
 window.onbeforeunload = function(event) {
-    deleteDoc(doc(db, "players", name))
+    deleteDoc(doc(db, "players", info.name))
 };
 
+onSnapshot(collection(db,'players'), qs => {
+  qs.forEach((doc) => {
+    redraw(doc.data().name)
+})
+})
 
 })
 
 
+function redraw(){
+    console.log('player')
+}
 
 
-let name = route.params.id
+
+let name = info.name
 let mode = ref('')
 let rCode = ref('')
 let jCode = ref('')

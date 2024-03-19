@@ -13,37 +13,37 @@ const provider = new GoogleAuthProvider(app);
 let nameList = ref([])
 let signIn = ref(false)
 
-const auth = getAuth();
+// const auth = getAuth();
 
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-  signIn.value = user
-  info.token = user.uid
-  } else {
-    signInWithPopup(auth, provider)
-  .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user = result.user;
-    info.token = user.uid
-}).catch((error) => {
- console.log(error)
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });
-  }
-}); 
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//   signIn.value = user
+//   info.token = user.uid
+//   } else {
+//     signInWithPopup(auth, provider)
+//   .then((result) => {
+//     // This gives you a Google Access Token. You can use it to access the Google API.
+//     const credential = GoogleAuthProvider.credentialFromResult(result);
+//     const token = credential.accessToken;
+//     const user = result.user;
+//     info.token = user.uid
+// }).catch((error) => {
+//  console.log(error)
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     // The email of the user's account used.
+//     const email = error.customData.email;
+//     const credential = GoogleAuthProvider.credentialFromError(error);
+//     // ...
+//   });
+//   }
+// }); 
 
 
 let name = ref('noah')
 const pathID = computed(()=>{
-  return `/lobby/${info.token}`
+  return `/lobby/`
 })
 
 
@@ -53,7 +53,7 @@ onMounted(async () =>{
   //   console.log('ea')
   //   const qs = await getDocs(collection(db, 'players')
   // )
-// console.log(qs)
+// conoole.log(qs)
 // qs.forEach((doc) => {
 //   console.log(doc.data().name)
 // })
@@ -65,6 +65,7 @@ onBeforeUnmount(() => {
 
 onSnapshot(collection(db,'players'), qs => {
   qs.forEach((doc) => {
+    console.log(doc.data().name)
   nameList.value.push(doc.data().name)
 })
 })
@@ -93,9 +94,9 @@ async function nameTest(){
 
 <template>
   <button @click="console.log(info)">test</button>
-  <form v-if="signIn">
+  <form v-if="1">
     <input type="text" v-model="name" maxlength="20">
-    <p>Hello There, {{ signIn.displayName }}! </p>
+    <p>Hello There</p>
     <RouterLink v-if="name && !nameList.includes(name.toLowerCase())" :to="pathID">noah</RouterLink><br>
   </form>
 </template>
