@@ -7,7 +7,6 @@ createApp(answer).mount('#app')
 
 <template>
   <div id="app"></div>
-  <div>funny prompt goes here</div>
   <br>
 </template>
 
