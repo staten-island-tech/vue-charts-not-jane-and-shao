@@ -1,105 +1,127 @@
 <script setup>
-import { db,app } from '@/fireSetup';
-import { ref as r } from "firebase/database"; 
-import { ref, computed, onMounted, onUnmounted, onBeforeUnmount  } from 'vue';
-import start from '@/components/start.vue';
-import { collection, doc, setDoc, getDoc, onSnapshot, getDocs  } from "firebase/firestore"; 
-import * as firebase from 'firebase/app'
-import { getAuth, signInWithPopup, GoogleAuthProvider,onAuthStateChanged  } from "firebase/auth";
-import { info } from '@/reactive';
+import { onMounted } from 'vue';
 
+onMounted(() => {
+  let bgtest = new Image()
+  bgtest.src = 'https://i.redd.it/n3398r4desh81.jpg'
+  let playertest = new Image()
+  playertest.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
 
-const provider = new GoogleAuthProvider(app);
-let nameList = ref([])
-let signIn = ref(false)
+  const canvas = document.querySelector("canvas");
+  if (canvas.getContext) {
+    const c = canvas.getContext("2d");
+    class Sprite { 
+      constructor({ position, image }) {
+        this.position = position
+        this.image = image
+      }
 
-// const auth = getAuth();
+      draw() {
+        c.drawImage(this.image, this.position.x, this.position.y)
+      }
+    }
 
+    const background = new Sprite({
+      position: {
+        x: 0,
+        y: 0,
+      },
+      image: bgtest,
+    })
 
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//   signIn.value = user
-//   info.token = user.uid
-//   } else {
-//     signInWithPopup(auth, provider)
-//   .then((result) => {
-//     // This gives you a Google Access Token. You can use it to access the Google API.
-//     const credential = GoogleAuthProvider.credentialFromResult(result);
-//     const token = credential.accessToken;
-//     const user = result.user;
-//     info.token = user.uid
-// }).catch((error) => {
-//  console.log(error)
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // The email of the user's account used.
-//     const email = error.customData.email;
-//     const credential = GoogleAuthProvider.credentialFromError(error);
-//     // ...
-//   });
-//   }
-// }); 
+    const player = new Sprite({
+      position: {
+        x: 50,
+        y: 50,
+      }, image: playertest,
+    })
 
+    const keys = {
+      up: false,
+      down: false,
+      left: false,
+      right: false,
+    }
 
-let name = ref('noah')
-const pathID = computed(()=>{
-  return `/lobby/`
+    let lastKeyPressed = ''
+    window.addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case 'ArrowDown':
+    case 's':
+      keys.down=true
+      lastKeyPressed = 'down'
+      break
+    case 'ArrowRight':
+    case 'd':
+      keys.right=true
+      lastKeyPressed = 'right'
+      break
+    case 'ArrowUp':
+    case 'w':
+      keys.up=true
+      lastKeyPressed = 'up'
+      break
+    case 'ArrowLeft':
+    case 'a':
+      keys.left=true
+      lastKeyPressed = 'left'
+      break
+  }
 })
+  
 
-
-
-
-onMounted(async () =>{
-  //   console.log('ea')
-  //   const qs = await getDocs(collection(db, 'players')
-  // )
-// conoole.log(qs)
-// qs.forEach((doc) => {
-//   console.log(doc.data().name)
-// })
-
-
-onBeforeUnmount(() => {
-  info.name = name.value
+  window.addEventListener('keyup', (event) => {
+  switch (event.key) {
+    case 'ArrowDown':
+    case 's':
+      keys.down=false
+      break
+    case 'ArrowRight':
+    case 'd':
+      keys.right=false
+      break
+    case 'ArrowUp':
+    case 'w':
+      keys.up=false
+      break
+    case 'ArrowLeft':
+    case 'a':
+      keys.left=false
+      break
+  }
 })
+function animate() {
+      window.requestAnimationFrame(animate)
+      background.draw()
+      player.draw()
+      if (keys.up && lastKeyPressed == 'up') {
+        console.log(background.position.x,background.position.y)
+        background.position.y += 3
+      }
+      else if (keys.down && lastKeyPressed == 'down') {
+        console.log(background.position.x,background.position.y)
+        background.position.y -= 3
+      }
+      else if (keys.left && lastKeyPressed == 'left') {
+        console.log(background.position.x,background.position.y)
+        background.position.x += 3
+      }
+      else if (keys.right && lastKeyPressed == 'right') {
+        console.log(background.position.x,background.position.y)
+        background.position.x -= 3
+      }
+    }
+    animate()
+  }})
 
-onSnapshot(collection(db,'players'), qs => {
-  qs.forEach((doc) => {
-    console.log(doc.data().name)
-  nameList.value.push(doc.data().name)
-})
-})
-console.log(nameList.value)
-})
-
-async function nameTest(){
-  const playersRef = collection(db, "players");
-  onChildAdded(playersRef, (data) => {
-  console.log('ea')
-});
-
-  await setDoc(doc(playersRef, "test"), {
-    name: "Me", state: "NY"});
 
 
-
-// const res = await db.collection('cities').doc('LA').set(data);
-//   const docRef = doc(db, "i", "i");
-// const docSnap = await getDoc(docRef);
-// console.log(docSnap.data())
-
-} 
-</script> 
-
+</script>
 
 <template>
-  <button @click="console.log(info)">test</button>
-  <form v-if="1">
-    <input type="text" v-model="name" maxlength="20">
-    <p>Hello There</p>
-    <RouterLink v-if="name && !nameList.includes(name.toLowerCase())" :to="pathID">noah</RouterLink><br>
-  </form>
-</template>
+  <main>
+    <canvas width="1024" height="576">
 
-<style scoped>
-</style>
+    </canvas>
+  </main>
+</template>
