@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login.vue'
-import Lobby from '@/views/Lobby.vue'
+import Lobby from '@/views/lobby.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
