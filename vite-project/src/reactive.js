@@ -1,10 +1,9 @@
 import { reactive } from 'vue'
 
-const info = reactive({
-     name: false,
-     token: ''
-    })
+const info = reactive({ 
+    name: false 
+})
 
-    export{
-        info
-    }
+export{
+    info
+}
