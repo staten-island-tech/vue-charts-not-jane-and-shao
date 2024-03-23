@@ -4,21 +4,23 @@ import { db } from '@/fireSetup';
 import { ref } from 'vue';
 import { getDatabase, ref as r, set, onDisconnect,onValue, update   } from "firebase/database";
 import { info } from '@/reactive';
+import gSet from '@/components/gSet.vue'
 
-let selfInfo = ref('test')
+let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
 const qt = getDatabase()
 const reference = r(qt, selfRef);
-
+console.log(reference)
 onDisconnect(reference).remove();
 let otherPlayers = []
-
+let showGameSettings = ref(false)
 function test(){
   console.log(reference)
     set(reference, {
       username: info.name,
-      xPos: Math.floor(Math.random() * 50),
-      yPos: Math.floor(Math.random() * 50),
+      xPos: 0,
+      yPos: 0,
+      sprite:`https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg`,
     })
 selfInfo.value = {
       username: info.name,
@@ -28,19 +30,26 @@ selfInfo.value = {
 
 
 onValue(r(qt, 'players/'), (snapshot) => {
-  let otherPlayers = []
+  let tempList = []
   Object.keys(snapshot.val()).forEach((player)=> {
-    otherPlayers.push(snapshot.val()[player])
+    tempList.push(snapshot.val()[player])
   })
+  otherPlayers = tempList
   console.log(otherPlayers)
 });
   }
 
 
+  
 
 onMounted(() => {
   if(info.name){
+
   test()
+
+
+
+
   let bgtest = new Image()
   bgtest.src = 'https://i.redd.it/n3398r4desh81.jpg'
   let playertest = new Image()
@@ -59,6 +68,8 @@ onMounted(() => {
         c.drawImage(this.image, this.position.x, this.position.y)
       }
     }
+
+
 
     const background = new Sprite({
       position: {
@@ -82,11 +93,16 @@ onMounted(() => {
       right: false,
     }
 
-    otherPlayers.forEach((playertest)=>{ playertest.draw() })
     
     let lastKeyPressed = ''
     window.addEventListener('keydown', (event) => {
   switch (event.key) {
+    case 'Shift':
+    console.log(10000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2))
+      if(3600000000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2)){
+        gameSettings()
+      }
+      break
     case 'ArrowDown':
     case 's':
       keys.down=true
@@ -138,30 +154,30 @@ function animate() {
       selfInfo.value.xPos = player.position.x
       selfInfo.value.yPos = player.position.y
       if (keys.up && lastKeyPressed == 'up') {
-        player.position.y -= 3
+        player.position.y -= 6
         update(reference, {yPos: selfInfo.value.yPos,})
       }
       else if (keys.down && lastKeyPressed == 'down') {
-        console.log(background.position.x,background.position.y)
-        player.position.y += 3
+        player.position.y += 6
         update(reference, {yPos: player.position.y,})
       }
       else if (keys.left && lastKeyPressed == 'left') {
-        console.log(background.position.x,background.position.y)
-        player.position.x -= 3
+        player.position.x -= 6
         update(reference, {xPos: selfInfo.value.xPos,})
       }
       else if (keys.right && lastKeyPressed == 'right') {
-        console.log(background.position.x,background.position.y)
-        player.position.x += 3
+        player.position.x += 6
         update(reference, {xPos: selfInfo.value.xPos,})
       }
     }
     animate()
   }
+
   }})
 
-
+function gameSettings(){
+  showGameSettings.value = true
+}
 
 </script>
 
@@ -170,5 +186,6 @@ function animate() {
     <canvas width="1024" height="576">
 
     </canvas>
+    <gSet v-if="showGameSettings"></gSet>
   </main>
 </template>

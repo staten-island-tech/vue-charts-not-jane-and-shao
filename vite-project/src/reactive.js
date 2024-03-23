@@ -1,7 +1,8 @@
 import { reactive } from 'vue'
 
 const info = reactive({ 
-    name: false 
+    name: false, 
+    winner: false,
 })
 
 export{
