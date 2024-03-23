@@ -16,6 +16,7 @@
 import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child   } from "firebase/database";
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
+import { info } from "@/reactive";
 const router = useRouter()
 const route = useRoute()
 let gameSettings = ref({
@@ -27,24 +28,32 @@ let gameSettings = ref({
 async function gameStart(){
   const qt = getDatabase();
   let valid = true
+  let joinable = false
+  let roomList = []
   await get(r(qt), '/').then((snapshot) => { 
-  Object.keys(snapshot.val().rooms).forEach((player)=> {
-    if(player == gameSettings.value.code){
-      valid = false 
-    }
+  Object.values(snapshot.val().rooms).forEach((room)=> {
+    roomList.push(room)
   })
 })
-console.log(valid )
+roomList.forEach(room => {
+  if(room.code == gameSettings.value.code){
+      valid = false 
+      joinable = room.joinable
+    }
+})
+// console.log( `room: ${valid} joinable ${joinable}`)
 if(valid && gameSettings.value.type == 'host'){
   console.log(`hosting game ${gameSettings.value.code}`)
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/host` })
+  r(qt, 'players/' + info.name).removeValue();
 }
-else if(valid == false && gameSettings.value.type == 'join'){
+else if(!valid && gameSettings.value.type == 'join' && joinable){
   console.log(`joining game ${gameSettings.value.code}`)
 }
 else{
   console.log(`joining/hosting invalid game`)
 }
+
 }
 
 

@@ -38,7 +38,7 @@ onValue(r(qt, 'players/'), (snapshot) => {
   Object.keys(snapshot.val()).forEach((player)=> {
     tempList.push(snapshot.val()[player])
   })
-  otherPlayers = tempList
+  otherPlayers = tempList 
   console.log(otherPlayers)
 });
   }
