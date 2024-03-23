@@ -17,10 +17,10 @@ console.log(reference)
 onDisconnect(reference).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
-// if(Object.keys(route.params) + ''){
-//   console.log(Object.keys(route.params) + '')
-//   console.log('ea')
-// }
+if(Object.keys(route.params) + ''){
+  console.log(Object.keys(route.params) + '')
+  console.log('ea')
+}
 function test(){
   let a = new Image()
   a.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
@@ -159,7 +159,7 @@ onMounted(() => {
     case 'a':
       keys.left=false
       break
-  }
+}
 })
 function animate() {
       
@@ -171,6 +171,7 @@ function animate() {
 
       selfInfo.value.xPos = player.position.x
       selfInfo.value.yPos = player.position.y
+      if(1){
       if (keys.up && lastKeyPressed == 'up') {
         player.position.y -= 6
         update(reference, {yPos: selfInfo.value.yPos,})
@@ -186,7 +187,7 @@ function animate() {
       else if (keys.right && lastKeyPressed == 'right') {
         player.position.x += 6
         update(reference, {xPos: selfInfo.value.xPos,})
-      }
+      }}
     }
     animate()
   }
@@ -199,9 +200,19 @@ function animate() {
 
 <template>
   <main>
+    <div id="canvasBox">
     <canvas width="1024" height="576">
 
     </canvas>
+  </div>
     <gSet v-if="showGameSettings"></gSet>
   </main>
 </template>
+
+<style scoped>  
+#canvasBox{
+  background: yellow;
+  display: flex;
+  justify-content: center;
+}
+</style>
