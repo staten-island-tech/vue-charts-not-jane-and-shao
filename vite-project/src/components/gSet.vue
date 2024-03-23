@@ -44,14 +44,14 @@ roomList.forEach(room => {
 // console.log( `room: ${valid} joinable ${joinable}`)
 if(valid && gameSettings.value.type == 'host'){
   // console.log(`hosting game ${gameSettings.value.code}`)
-  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/host` })
   await set(r(qt, 'players/' + info.name), null)
   info.inLobby == false
+  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/host` })
 }
 else if(!valid && gameSettings.value.type == 'join' && joinable){
-  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/join` })
   await set(r(qt, 'players/' + info.name), null)
   info.inLobby == false
+  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/join` })
 }
 else{
   console.log(`joining/hosting invalid game`)
@@ -109,6 +109,6 @@ else{
 // }
 </script>
 
-<style lang="scss" scoped>  
+<style scoped>  
 
 </style>

@@ -42,12 +42,15 @@ selfInfo.value = {
 
 onValue(r(qt, 'players/'), (snapshot) => {
   let tempList = []
+  if(info.inLobby){
   if(Object.keys(snapshot.val()) != null && snapshot.val() != null){
+    console.log(info.inLobby)
   Object.keys(snapshot.val()).forEach((player)=> {
       tempList.push(snapshot.val()[player])
   })
   otherPlayers = tempList 
   console.log(otherPlayers)
+}
 }
 });
   }
