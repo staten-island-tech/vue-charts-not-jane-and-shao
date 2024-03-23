@@ -2,18 +2,25 @@
 import { onMounted } from 'vue';
 import { db } from '@/fireSetup';
 import { ref } from 'vue';
+import { useRoute } from 'vue-router'
 import { getDatabase, ref as r, set, onDisconnect,onValue, update   } from "firebase/database";
 import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
 
+const route = useRoute()
 let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
 const qt = getDatabase()
 const reference = r(qt, selfRef);
+
 console.log(reference)
 onDisconnect(reference).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
+// if(Object.keys(route.params) + ''){
+//   console.log(Object.keys(route.params) + '')
+//   console.log('ea')
+// }
 function test(){
   let a = new Image()
   a.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
@@ -35,11 +42,13 @@ selfInfo.value = {
 
 onValue(r(qt, 'players/'), (snapshot) => {
   let tempList = []
+  if(Object.keys(snapshot.val()) != null && snapshot.val() != null){
   Object.keys(snapshot.val()).forEach((player)=> {
-    tempList.push(snapshot.val()[player])
+      tempList.push(snapshot.val()[player])
   })
   otherPlayers = tempList 
   console.log(otherPlayers)
+}
 });
   }
 
@@ -105,7 +114,7 @@ onMounted(() => {
     case 'Shift':
     console.log(10000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2))
       if(3600000000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2)){
-        gameSettings()
+        showGameSettings.value = true
       }
       break
     case 'ArrowDown':
@@ -184,9 +193,7 @@ function animate() {
 
   }})
 
-function gameSettings(){
-  showGameSettings.value = true
-}
+
 
 </script>
 
