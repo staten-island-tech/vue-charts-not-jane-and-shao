@@ -15,17 +15,21 @@ onDisconnect(reference).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
 function test(){
+  let a = new Image()
+  a.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
+
   console.log(reference)
     set(reference, {
       username: info.name,
-      xPos: 0,
-      yPos: 0,
-      sprite:`https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg`,
+      xPos: Math.floor(Math.random() * 50),
+      yPos: Math.floor(Math.random() * 50),
+      sprite: a
     })
 selfInfo.value = {
       username: info.name,
       xPos: Math.floor(Math.random() * 50),
       yPos: Math.floor(Math.random() * 50),
+      sprite: a
     }
 
 
@@ -43,6 +47,7 @@ onValue(r(qt, 'players/'), (snapshot) => {
   
 
 onMounted(() => {
+  console.log(otherPlayers)
   if(info.name){
 
   test()
@@ -148,9 +153,13 @@ onMounted(() => {
   }
 })
 function animate() {
+      
       window.requestAnimationFrame(animate)
       background.draw()
-      player.draw()
+       otherPlayers.forEach((plyaer)=>{
+        c.drawImage(playertest, plyaer.xPos, plyaer.yPos)
+      })
+
       selfInfo.value.xPos = player.position.x
       selfInfo.value.yPos = player.position.y
       if (keys.up && lastKeyPressed == 'up') {
