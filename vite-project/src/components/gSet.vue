@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child   } from "firebase/database";
+import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child,  } from "firebase/database";
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { info } from "@/reactive";
@@ -43,12 +43,14 @@ roomList.forEach(room => {
 })
 // console.log( `room: ${valid} joinable ${joinable}`)
 if(valid && gameSettings.value.type == 'host'){
-  console.log(`hosting game ${gameSettings.value.code}`)
+  // console.log(`hosting game ${gameSettings.value.code}`)
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/host` })
-  r(qt, 'players/' + info.name).removeValue();
+  await set(r(qt, 'players/' + info.name), null)
+
 }
 else if(!valid && gameSettings.value.type == 'join' && joinable){
-  console.log(`joining game ${gameSettings.value.code}`)
+  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/join` })
+  await set(r(qt, 'players/' + info.name), null)
 }
 else{
   console.log(`joining/hosting invalid game`)
