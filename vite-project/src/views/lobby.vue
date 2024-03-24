@@ -15,27 +15,35 @@ const reference = r(qt, selfRef);
 
 console.log(reference)
 onDisconnect(reference).remove();
+onDisconnect(r(qt,`playerlist/${info.name}`)).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
 if(Object.keys(route.params) + ''){
   console.log(Object.keys(route.params) + '')
   console.log('ea')
 }
+
+
+
 function test(){
+  set(r(qt,`playerlist/${info.name}`), {
+      username: info.name,
+    })
+
   let a = new Image()
   a.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
 
   console.log(reference)
     set(reference, {
       username: info.name,
-      xPos: Math.floor(Math.random() * 50),
-      yPos: Math.floor(Math.random() * 50),
+      xPos: 0,
+      yPos: 0,
       sprite: a
     })
 selfInfo.value = {
       username: info.name,
-      xPos: Math.floor(Math.random() * 50),
-      yPos: Math.floor(Math.random() * 50),
+      xPos: 0,
+      yPos: 0,
       sprite: a
     }
 

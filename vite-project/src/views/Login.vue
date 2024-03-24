@@ -1,7 +1,7 @@
 <script setup>
 import { db } from '@/fireSetup';
 import { ref } from 'vue';
-import { getDatabase, ref as r, onValue,get } from "firebase/database";
+import { getDatabase, ref as r, onValue,get, set } from "firebase/database";
 import { doc, setDoc, collection, getDoc,query,getDocs  } from "firebase/firestore"; 
 import { info } from '@/reactive.js'
 import { useRoute, useRouter } from 'vue-router'
@@ -9,13 +9,26 @@ import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
-
+const qt = getDatabase()
 let name = ref('Noah')
-async function LoginAttempt(){
 
-info.name = name.value.toUpperCase()
+async function LoginAttempt(){
+await get(r(qt), '/').then((snapshot) => { 
+  if(!Object.keys(snapshot.val().playerlist).includes(name.value.toUpperCase().replaceAll(' ', '-'))){
+    info.name = name.value.toUpperCase().replaceAll(' ', '-')
+    set(r(qt,`playerlist/${info.name}`), {
+      username: info.name,
+    })
 router.replace({ path: '/lobby' })
-}
+  }
+  else{
+    console.log('name taken!')
+  }
+})
+
+
+
+} 
 
 
 
