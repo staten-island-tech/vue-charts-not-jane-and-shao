@@ -40,7 +40,8 @@ selfInfo.value = {
     }
 
 
-onValue(r(qt, 'players/'), (snapshot) => {
+
+    onValue(r(qt, 'players/'), (snapshot) => {
   let tempList = []
 try{
     console.log(info.inLobby)
@@ -52,7 +53,7 @@ try{
   console.log(otherPlayers)
 }
 catch(error){
-  console.log('Take that, Obama.')
+  console.log('Take that, Obama')
 }
 });
   }
@@ -176,7 +177,7 @@ function animate() {
 
       selfInfo.value.xPos = player.position.x
       selfInfo.value.yPos = player.position.y
-      if(1){
+      if(info.inLobby){
       if (keys.up && lastKeyPressed == 'up') {
         player.position.y -= 6
         update(reference, {yPos: selfInfo.value.yPos,})
@@ -194,7 +195,7 @@ function animate() {
         update(reference, {xPos: selfInfo.value.xPos,})
       }}
     }
-      animate()
+    animate()
   }
 
   }})
@@ -216,8 +217,6 @@ function animate() {
 
 <style scoped>  
 #canvasBox{
-  background: yellow;
-  display: flex;
-  justify-content: center;
+  background: green;
 }
 </style>

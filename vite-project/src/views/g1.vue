@@ -17,7 +17,6 @@ let name = info.name
 let reference = r(qt, `rooms/${route.params.code}`);
 let gameInfo = 'test'
 let first = true
-console.log(canvas)
 
 if(route.params.auth == 'host'){
     set(reference, {
@@ -41,7 +40,6 @@ if(route.params.auth == 'host'){
   console.log(gameInfo)
 });
     console.log(gameInfo)
-    onDisconnect(reference).remove();
 }
 
 if(route.params.auth == 'join'){
