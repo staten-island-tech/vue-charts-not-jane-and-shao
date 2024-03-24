@@ -1,8 +1,8 @@
-<template>
-    <div>
-<p>awesome</p>
-<button v-if="route.params.auth == 'host' ">gaming</button>
-    </div>
+<template><div id="infoBox">
+  <form>
+    <h2>Login</h2>
+</form>
+</div>
 </template>
 
 <script setup>
@@ -10,12 +10,12 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  }
 import { useRoute } from 'vue-router'
 import { ref } from "vue";
 import { info } from "@/reactive";
-const route = useRoute()
 
+const route = useRoute()
 const qt = getDatabase()
 let name = info.name
 let reference = r(qt, `rooms/${route.params.code}`);
-let gameInfo = 'test'
+let gameInfo = ref('test')
 let first = true
 
 if(route.params.auth == 'host'){
@@ -33,27 +33,26 @@ if(route.params.auth == 'host'){
       },
       state: 'start'
     })      
-
+    onDisconnect(reference).remove();
 
     onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
-  gameInfo = snapshot.val()
-  console.log(gameInfo)
+  gameInfo.value = snapshot.val()
 });
-    console.log(gameInfo)
+    console.log(gameInfo.value)
 }
 
 if(route.params.auth == 'join'){
 await onValue(r(qt, `rooms/${route.params.code}/`), (snapshot) => {
-  gameInfo = snapshot.val()
+  gameInfo.value = snapshot.val()
   if(first){
     first = false
-    set(r(qt, `rooms/${route.params.code}/players/${gameInfo.aop + 1}`), {
-            pos: gameInfo.aop + 1,
+    set(r(qt, `rooms/${route.params.code}/players/${gameInfo.value.aop + 1}`), {
+            pos: gameInfo.value.aop + 1,
             name: name,
             points: 0,
   });
   update(r(qt, `rooms/${route.params.code}`), {
-     aop: gameInfo.aop + 1
+     aop: gameInfo.value.aop + 1
   });
   }
 });
