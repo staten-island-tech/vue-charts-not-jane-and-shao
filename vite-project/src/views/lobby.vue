@@ -26,9 +26,6 @@ if(Object.keys(route.params) + ''){
 
 
 function test(){
-  set(r(qt,`playerlist/${info.name}`), {
-      username: info.name,
-    })
 
   let a = new Image()
   a.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
@@ -187,19 +184,19 @@ function animate() {
       selfInfo.value.yPos = player.position.y
       if(info.inLobby){
       if (keys.up && lastKeyPressed == 'up') {
-        player.position.y -= 6
+        player.position.y -= 5
         update(reference, {yPos: selfInfo.value.yPos,})
       }
       else if (keys.down && lastKeyPressed == 'down') {
-        player.position.y += 6
+        player.position.y += 5
         update(reference, {yPos: player.position.y,})
       }
       else if (keys.left && lastKeyPressed == 'left') {
-        player.position.x -= 6
+        player.position.x -= 5
         update(reference, {xPos: selfInfo.value.xPos,})
       }
       else if (keys.right && lastKeyPressed == 'right') {
-        player.position.x += 6
+        player.position.x += 5
         update(reference, {xPos: selfInfo.value.xPos,})
       }}
     }
@@ -219,12 +216,38 @@ function animate() {
 
     </canvas>
   </div>
-    <gSet v-if="showGameSettings"></gSet>
+    <gSet id="settings" v-if="showGameSettings"></gSet>
   </main>
 </template>
 
 <style scoped>  
+
+#settings{
+  display: flexbox;
+  border: 3px black solid;
+  justify-content: center;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+    top: 100%;
+    left: 50%;
+    -webkit-transform: translate(50%, 0%);
+    transform: translate(-50%, -100%);
+}
 #canvasBox{
-  background: green;
+  /* align-items: center; */
+  justify-content: center;
+  display: flex;
+  opacity:0.8;
+    background-image: url(https://i.pinimg.com/736x/fc/2b/2b/fc2b2b547b98582926b7e7c993987163.jpg);
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index:-1000;
+}
+canvas{
+  border: 5px solid black 
 }
 </style>

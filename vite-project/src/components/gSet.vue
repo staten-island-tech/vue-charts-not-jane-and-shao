@@ -8,6 +8,7 @@
       <button @click.prevent="gameStart()">Start Game</button>
       <p>{{ gameSettings.type }}</p>
       <p>{{ gameSettings.code }}</p>
+      <p>{{ error }}</p>
     </form>
   </div>
 </template>
@@ -18,6 +19,7 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { info } from "@/reactive";
 const router = useRouter()
+let error = ref('')
 const route = useRoute()
 let gameSettings = ref({
   mode: 'g1',
@@ -54,6 +56,7 @@ else if(!valid && gameSettings.value.type == 'join' && joinable){
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/join` })
 }
 else{
+  error.value = 'joining/hosting invalid game'
   console.log(`joining/hosting invalid game`)
 }
 
