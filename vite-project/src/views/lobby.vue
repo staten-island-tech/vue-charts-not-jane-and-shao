@@ -28,7 +28,7 @@ if(Object.keys(route.params) + ''){
 function test(){
 
   let a = new Image()
-  a.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
+  a.src = 'https://www.serebii.net/swordshield/pokemon/298.png'
 
   console.log(reference)
     set(reference, {

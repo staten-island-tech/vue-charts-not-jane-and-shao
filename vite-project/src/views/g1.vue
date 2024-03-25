@@ -16,18 +16,18 @@
 <button @click.prevent="ou('under')">Under</button>
 </div>
 <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded == selfNumber">
-<p>waiting</p>
+<p>waiting</p>  
 </div>
 
 <div v-if="gameInfo.state == 'firstGuess'">
 <div v-if="selfNumber == gameInfo.up"><p>you are up</p>
 <form>
   <p>{{ guessValue }}%</p>
-	<input type='range' v-model="guessValue"/>
+	<input @click.prevent="update(r(qt, `rooms/${route.params.code}`), {guess: guessValue,})" @mousedown.left="update(r(qt, `rooms/${route.params.code}`), {guess: guessValue,})" type='range' v-model="guessValue"/>
   <p>{{ gameInfo.question }}</p>
   <button @click.prevent="valueGuess()">Submit</button>
 </form></div>
-<div v-else><p>you are not up</p></div></div>
+<div v-else><p>you are not up</p></div><p>{{ gameInfo.guess }}</p></div>
 </div>
 </template>
 
@@ -56,7 +56,11 @@ let selfNumber = ref(1000)
 
 
 function ou(choice){
-  console.log(choice)
+  update(r(qt, `rooms/${route.params.code}/players/${info.name}`), {
+     ou: choice,
+     state: 'secondGuess',
+     excluded: selfNumber.value
+  });
 }
 
 function valueGuess(){
@@ -66,6 +70,9 @@ function valueGuess(){
      guess: guessValue.value,
      state: 'secondGuess',
      excluded: selfNumber.value
+  });
+  update(r(qt, `rooms/${route.params.code}/players/${selfNumber.value}`), {
+     ou: 'skip',
   });
 }
 
@@ -127,7 +134,7 @@ async function host(){
             pos: 1,
             name: name,
             points: 0,
-            guess: 'under',
+            guess: 'under', 
             turn: false,
         }
       },
