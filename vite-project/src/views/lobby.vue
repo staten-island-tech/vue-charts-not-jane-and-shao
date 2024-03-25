@@ -176,6 +176,7 @@ function animate() {
       
       window.requestAnimationFrame(animate)
       background.draw()
+      
        otherPlayers.forEach((plyaer)=>{
         c.drawImage(playertest, plyaer.xPos, plyaer.yPos)
       })
