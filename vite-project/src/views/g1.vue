@@ -15,6 +15,7 @@
 <form>
   <p>{{ guessValue }}%</p>
 	<input type='range' v-model="guessValue"/>
+  <p>{{ gameInfo.question }}</p>
   <button @click.prevent="valueGuess()">Submit</button>
 </form></div>
 <div v-else><p>you are not up</p></div></div>
@@ -48,6 +49,10 @@ let selfNumber = ref(1000)
 function valueGuess(){
   console.log('ea')
   console.log(guessValue.value)
+  update(r(qt, `rooms/${route.params.code}`), {
+     guess: guessValue.value,
+     state: 'secondGuess',
+  });
 }
 
 
@@ -78,6 +83,7 @@ function startGame(){
   console.log(orderList)
   console.log(orderList.value.toString().replaceAll(',',''))
   update(r(qt, `rooms/${route.params.code}`), {
+    joinable: false,
      order: orderList.value.toString().replaceAll(',',''),
      state: 'firstGuess'
   });
@@ -97,6 +103,8 @@ async function host(){
       peopleNeeded: 3,
       aop: 0,
       order: false,
+      guess: false,
+      question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
       joinable: true,
       up: false,
       players: {
