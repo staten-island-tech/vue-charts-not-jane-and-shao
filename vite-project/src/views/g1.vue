@@ -10,6 +10,15 @@
     <p>{{ selfNumber }}</p>
 </form>
 </div>
+<div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
+<p>The Over Under Is {{ gameInfo.guess }}</p>
+<button @click.prevent="ou('over')">Over</button>
+<button @click.prevent="ou('under')">Under</button>
+</div>
+<div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded == selfNumber">
+<p>waiting</p>
+</div>
+
 <div v-if="gameInfo.state == 'firstGuess'">
 <div v-if="selfNumber == gameInfo.up"><p>you are up</p>
 <form>
@@ -46,12 +55,17 @@ let selfNumber = ref(1000)
 
 
 
+function ou(choice){
+  console.log(choice)
+}
+
 function valueGuess(){
   console.log('ea')
   console.log(guessValue.value)
   update(r(qt, `rooms/${route.params.code}`), {
      guess: guessValue.value,
      state: 'secondGuess',
+     excluded: selfNumber.value
   });
 }
 
@@ -104,6 +118,7 @@ async function host(){
       aop: 0,
       order: false,
       guess: false,
+      excluded: false,
       question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
       joinable: true,
       up: false,
@@ -112,6 +127,7 @@ async function host(){
             pos: 1,
             name: name,
             points: 0,
+            guess: 'under',
             turn: false,
         }
       },

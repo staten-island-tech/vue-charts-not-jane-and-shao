@@ -212,7 +212,7 @@ function animate() {
 <template>
   <main>
     <div id="canvasBox">
-    <canvas width="1024" height="576">
+    <canvas width="1920" height="1080">
 
     </canvas>
   </div>
