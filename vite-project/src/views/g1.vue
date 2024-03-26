@@ -1,15 +1,7 @@
 <template>
   <div v-if="info.name">
-<div id="infoBox" v-if="gameInfo.state == 'start'">
-  <form>
     <!-- v-if="gameInfo.aop + 2 >= gameInfo.peopleNeeded && role == 'host'" -->
-    <loading :game="'Guesspionage'" :gameInfo="gameInfo"></loading>
-   <button  v-if="role == 'host'"   @click.prevent="startGame()">start</button>
-    <p v-for="player in gameInfo.players">{{ player.name }}</p>
-    <p>test</p>
-    <p>{{ selfNumber }}</p>
-</form>
-</div>
+    <loading :game="'Guesspionage'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
 <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
 <p>The Over Under Is {{ gameInfo.guess }}</p>
 <button @click.prevent="ou('over')">Over</button>
@@ -170,6 +162,8 @@ async function host(){
   }
 });
 
+// let potato = firebase.database()
+onDisconnect(reference).remove();
   }
 
 
