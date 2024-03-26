@@ -28,7 +28,7 @@ if(Object.keys(route.params) + ''){
 function test(){
 
   let a = new Image()
-  a.src = 'https://www.serebii.net/swordshield/pokemon/298.png'
+  a.src = 'https://static.wikia.nocookie.net/clubpenguin/images/4/46/Goofy_penguin_-_copia.webp/revision/latest/scale-to-width-down/250?cb=20231231150128&path-prefix=es'
 
   console.log(reference)
     set(reference, {
@@ -78,7 +78,7 @@ onMounted(() => {
   let bgtest = new Image()
   bgtest.src = 'https://images.hdqwalls.com/wallpapers/8-bit-pixel-art-city-2o.jpg'
   let playertest = new Image()
-  playertest.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
+  playertest.src = 'https://static.wikia.nocookie.net/75247b18-3456-4e12-a5fd-19b7d66b643e/scale-to-width/755'
 
   const canvas = document.querySelector("canvas");
   if (canvas.getContext) {
