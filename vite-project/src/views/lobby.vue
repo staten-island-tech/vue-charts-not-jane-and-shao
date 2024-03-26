@@ -7,6 +7,7 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update   } from "fire
 import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
 
+
 const route = useRoute()
 let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
@@ -23,7 +24,9 @@ if(Object.keys(route.params) + ''){
   console.log('ea')
 }
 
-
+if(!info.name){
+  window.location = "http://localhost:5173/";
+}
 
 function test(){
 
@@ -51,7 +54,7 @@ selfInfo.value = {
 try{
     console.log(info.inLobby)
   Object.keys(snapshot.val()).forEach((player)=> {
-    console.log(  )
+    console.log(  ) 
       tempList.push(snapshot.val()[player])
   })
   otherPlayers = tempList 

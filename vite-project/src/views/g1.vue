@@ -4,15 +4,8 @@
     <loading :game="'Guesspionage'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
 
 
-    <secondGuess v-if="gameInfo.state == 'secondGuess'"></secondGuess>
-<!-- <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
-<p>The Over Under Is {{ gameInfo.guess }}</p>
-<button @click.prevent="ou('over')">Over</button>
-<button @click.prevent="ou('under')">Under</button>
-</div> -->
-<!-- <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded == selfNumber">
-<p>waiting</p>  
-</div> -->
+    <secondGuess v-if="gameInfo.state == 'secondGuess'" :selfNumber="selfNumber" :gameInfo="gameInfo" @ou="(i) => ou(i)"></secondGuess>
+
 
 <div v-if="gameInfo.state == 'firstGuess'">
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
@@ -42,15 +35,18 @@ let turn = 0
 let self = ref(false)
 let selfNumber = ref(1000)
 
+if(!info.name){
+  window.location = "http://localhost:5173/";
+}
 
 
-
-function ou(choice){
-  update(r(qt, `rooms/${route.params.code}/players/${info.name}`), {
+async function ou(choice){
+  update(r(qt, `rooms/${route.params.code}/players/${selfNumber.value}`), {
      ou: choice,
-     state: 'secondGuess',
-     excluded: selfNumber.value
   });
+  await get(r(qt), '/').then((snapshot) => { 
+  console.log(snapshot.val())
+})
 }
 
 function valueGuess(){
@@ -72,7 +68,7 @@ if(route.params.auth == 'host'){
 }
 
 
-if(route.params.auth == 'join' && info.name){
+if(route.params.auth == 'join'){
   console.log('ruh roh')
 join()
 
@@ -121,11 +117,10 @@ async function host(){
       up: false,
       players: {
         '0': {
-            pos: 1,
             name: name,
             points: 0,
             guess: 'NG', 
-            turn: false,
+            ou: false,
         }
       },
       state: 'start'
@@ -134,8 +129,8 @@ async function host(){
     selfNumber.value = 0
     onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
   gameInfo.value = snapshot.val()
-  console.log(snapshot.val().players)
-  snapshot.val().players.forEach(player => console.log(player.guess))
+  // console.log(snapshot.val().players)
+  // snapshot.val().players.forEach(player => console.log(player.guess))
 });
     console.log(gameInfo.value.players)
     gameInfo.value.players.forEach(player => {
@@ -151,10 +146,9 @@ async function host(){
     selfNumber.value = gameInfo.value.aop + 1
     console.log(selfNumber)
     set(r(qt, `rooms/${route.params.code}/players/${gameInfo.value.aop + 1}`), {
-            pos: gameInfo.value.aop + 1,
               name: name,
             points: 0,
-            turn: false,
+            ou: false,
   });
   update(r(qt, `rooms/${route.params.code}`), {
      aop: gameInfo.value.aop + 1
