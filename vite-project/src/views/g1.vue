@@ -2,14 +2,14 @@
   <div v-if="info.name">
     <!-- v-if="gameInfo.aop + 2 >= gameInfo.peopleNeeded && role == 'host'" -->
     <loading :game="'Guesspionage'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
-<!-- <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
+<div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
 <p>The Over Under Is {{ gameInfo.guess }}</p>
 <button @click.prevent="ou('over')">Over</button>
 <button @click.prevent="ou('under')">Under</button>
 </div> -->
 <!-- <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded == selfNumber">
 <p>waiting</p>  
-</div> -->
+</div>
 
 <div v-if="gameInfo.state == 'firstGuess'">
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
