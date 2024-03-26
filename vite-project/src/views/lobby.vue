@@ -76,7 +76,7 @@ onMounted(() => {
 
 
   let bgtest = new Image()
-  bgtest.src = 'https://i.redd.it/n3398r4desh81.jpg'
+  bgtest.src = 'https://images.hdqwalls.com/wallpapers/8-bit-pixel-art-city-2o.jpg'
   let playertest = new Image()
   playertest.src = 'https://i.pinimg.com/474x/88/fa/47/88fa47e3672b20b1962dbb11f0f81ce5.jpg'
 

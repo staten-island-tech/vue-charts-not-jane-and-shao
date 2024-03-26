@@ -2,24 +2,18 @@
   <div v-if="info.name">
     <!-- v-if="gameInfo.aop + 2 >= gameInfo.peopleNeeded && role == 'host'" -->
     <loading :game="'Guesspionage'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
-<div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
+<!-- <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
 <p>The Over Under Is {{ gameInfo.guess }}</p>
 <button @click.prevent="ou('over')">Over</button>
 <button @click.prevent="ou('under')">Under</button>
-</div>
-<div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded == selfNumber">
+</div> -->
+<!-- <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded == selfNumber">
 <p>waiting</p>  
-</div>
+</div> -->
 
 <div v-if="gameInfo.state == 'firstGuess'">
-<div v-if="selfNumber == gameInfo.up"><p>you are up</p>
-<form>
-  <p>{{ guessValue }}%</p>
-	<input @click.prevent="update(r(qt, `rooms/${route.params.code}`), {guess: guessValue,})" @mousedown.left="update(r(qt, `rooms/${route.params.code}`), {guess: guessValue,})" type='range' v-model="guessValue"/>
-  <p>{{ gameInfo.question }}</p>
-  <button @click.prevent="valueGuess()">Submit</button>
-</form></div>
-<div v-else><p>you are not up</p></div><p>{{ gameInfo.guess }}</p></div>
+  <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
+</div>
 </div>
 </template>
 
@@ -29,7 +23,7 @@ import { useRoute } from 'vue-router'
 import { ref } from "vue";
 import loading from "@/components/loading.vue";
 import { info } from "@/reactive"; 
-
+import mainGuess from "@/components/mainGuess.vue"
 const route = useRoute()
 const qt = getDatabase()
 let guessValue = ref(50)
@@ -116,7 +110,7 @@ async function host(){
       peopleNeeded: 3,
       aop: 0,
       order: false,
-      guess: false,
+      guess: 50,
       excluded: false,
       question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
       joinable: true,
@@ -126,7 +120,7 @@ async function host(){
             pos: 1,
             name: name,
             points: 0,
-            guess: 'under', 
+            guess: 'NG', 
             turn: false,
         }
       },
@@ -136,6 +130,8 @@ async function host(){
     selfNumber.value = 0
     onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
   gameInfo.value = snapshot.val()
+  console.log(snapshot.val().players)
+  snapshot.val().players.forEach(player => console.log(player.guess))
 });
     console.log(gameInfo.value.players)
     gameInfo.value.players.forEach(player => {
