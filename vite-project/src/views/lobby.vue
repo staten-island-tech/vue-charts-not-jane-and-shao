@@ -179,9 +179,10 @@ function animate() {
       
       window.requestAnimationFrame(animate)
       background.draw()
-      
+      c.font = "64px serif";
        otherPlayers.forEach((plyaer)=>{
         c.drawImage(playertest, plyaer.xPos, plyaer.yPos)
+        c.fillText(plyaer.username, plyaer.xPos+ 285, plyaer.yPos+100)
       })
 
       selfInfo.value.xPos = player.position.x

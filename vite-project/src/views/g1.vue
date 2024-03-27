@@ -10,6 +10,7 @@
 <div v-if="gameInfo.state == 'firstGuess'">
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
 </div>
+<roundResults v-if="gameInfo.state == 'roundResults'"></roundResults>
 </div>
 </template>
 
@@ -19,6 +20,7 @@ import { useRoute } from 'vue-router'
 import { ref } from "vue";
 import loading from "@/components/loading.vue";
 import secondGuess from "@/components/secondGuess.vue"
+import roundResults from "@/components/roundResults.vue"
 import { info } from "@/reactive"; 
 import mainGuess from "@/components/mainGuess.vue"
 const route = useRoute()
@@ -38,6 +40,9 @@ let selfNumber = ref(1000)
 if(!info.name){
   window.location = "http://localhost:5173/";
 }
+else{
+  console.log(info.name)
+}
 
 
 async function ou(choice){
@@ -45,7 +50,6 @@ async function ou(choice){
      ou: choice,
   });
   await get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => { 
-  console.log(snapshot.val())
   let i = 0
   snapshot.val().forEach(player => {
     if(player.ou == 'skip' || player.ou == 'under'|| player.ou == 'over'){
@@ -61,10 +65,7 @@ async function ou(choice){
 }
 
 function valueGuess(){
-  console.log('ea')
-  console.log(guessValue.value)
   update(r(qt, `rooms/${route.params.code}`), {
-     guess: guessValue.value,
      state: 'secondGuess',
      excluded: selfNumber.value
   });
@@ -80,7 +81,6 @@ if(route.params.auth == 'host'){
 
 
 if(route.params.auth == 'join'){
-  console.log('ruh roh')
 join()
 
   }
@@ -92,14 +92,11 @@ function startGame(){
    orderList.value = []
   while(i <= gameInfo.value.aop){  
     let ranNum = Math.round(Math.random() * gameInfo.value.aop  )
-    console.log(ranNum)
     if(orderList.value.includes(ranNum) == false){
       orderList.value.push(ranNum)
       i++
     }
   }
-  console.log(orderList)
-  console.log(orderList.value.toString().replaceAll(',',''))
   update(r(qt, `rooms/${route.params.code}`), {
     joinable: false,
      order: orderList.value.toString().replaceAll(',',''),
@@ -109,7 +106,6 @@ function startGame(){
 }
 
 function startTurn(){
-  console.log(gameInfo.value.order[turn])
   update(r(qt, `rooms/${route.params.code}`), {
      up: gameInfo.value.order[turn]
   });
@@ -140,13 +136,7 @@ async function host(){
     selfNumber.value = 0
     onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
   gameInfo.value = snapshot.val()
-  // console.log(snapshot.val().players)
-  // snapshot.val().players.forEach(player => console.log(player.guess))
 });
-    console.log(gameInfo.value.players)
-    gameInfo.value.players.forEach(player => {
-      console.log(player.name)
-    });
 }
 
   async function join(){
@@ -155,7 +145,6 @@ async function host(){
   if(first){
     first = false
     selfNumber.value = gameInfo.value.aop + 1
-    console.log(selfNumber)
     set(r(qt, `rooms/${route.params.code}/players/${gameInfo.value.aop + 1}`), {
               name: name,
             points: 0,

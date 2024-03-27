@@ -3,10 +3,12 @@
  <p v-for="player in gameInfo.players">{{ player.name }}</p>
  <form>
     <!-- v-if="gameInfo.aop + 2 >= gameInfo.peopleNeeded && role == 'host'" -->
-   <button v-if="role == 'host'"   @click.prevent="$emit('startGame')">start</button>
+   <button v-if="role == 'host' && gameInfo.aop > 0"   @click.prevent="$emit('startGame')">start</button>
    
 </form>
 </div>
+
+
 </template>
 
 
