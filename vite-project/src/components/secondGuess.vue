@@ -12,16 +12,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+
 
 defineProps({
   selfNumber: Number,
   gameInfo: Object,
 })
-
-function ou(choice){
-    console.log(choice)
-}
 </script>
 
 <style scoped>

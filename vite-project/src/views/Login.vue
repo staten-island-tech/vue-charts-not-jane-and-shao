@@ -14,7 +14,7 @@ let name = ref('Noah')
 
 async function LoginAttempt(){
 await get(r(qt), '/').then((snapshot) => { 
-  if(!Object.keys(snapshot.val().playerlist).includes(name.value.toUpperCase().replaceAll(' ', '-'))){
+  if(!Object.keys(snapshot.val().playerlist).includes(name.value.toUpperCase())){
     info.name = name.value.toUpperCase().replaceAll(' ', '-')
     set(r(qt,`playerlist/${info.name}`), {
       username: info.name,
@@ -24,7 +24,7 @@ router.replace({ path: '/lobby' })
   else{
     console.log('name taken!')
   }
-})
+})  
 
 
 
