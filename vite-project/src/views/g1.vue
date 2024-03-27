@@ -44,8 +44,11 @@ async function ou(choice){
   update(r(qt, `rooms/${route.params.code}/players/${selfNumber.value}`), {
      ou: choice,
   });
-  await get(r(qt), '/').then((snapshot) => { 
+  await get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => { 
   console.log(snapshot.val())
+  snapshot.val().forEach(player => {
+    console.log(player.ou)
+  })
 })
 }
 
