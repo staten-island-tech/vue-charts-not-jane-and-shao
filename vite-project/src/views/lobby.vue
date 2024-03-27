@@ -181,8 +181,8 @@ function animate() {
       background.draw()
       c.font = "64px serif";
        otherPlayers.forEach((plyaer)=>{
-        c.drawImage(playertest, plyaer.xPos, plyaer.yPos)
-        c.fillText(plyaer.username, plyaer.xPos+ 285, plyaer.yPos+100)
+        c.drawImage(playertest, plyaer.xPos+background.position.x, plyaer.yPos+background.position.y)
+        c.fillText(plyaer.username, plyaer.xPos+285+background.position.x, plyaer.yPos+background.position.y)
       })
 
       selfInfo.value.xPos = player.position.x
@@ -190,18 +190,22 @@ function animate() {
       if(info.inLobby){
       if (keys.up && lastKeyPressed == 'up') {
         player.position.y -= 5
+        background.position.y += 5
         update(reference, {yPos: selfInfo.value.yPos,})
       }
       else if (keys.down && lastKeyPressed == 'down') {
         player.position.y += 5
+        background.position.y -= 5
         update(reference, {yPos: player.position.y,})
       }
       else if (keys.left && lastKeyPressed == 'left') {
         player.position.x -= 5
+        background.position.x += 5
         update(reference, {xPos: selfInfo.value.xPos,})
       }
       else if (keys.right && lastKeyPressed == 'right') {
         player.position.x += 5
+        background.position.x -= 5
         update(reference, {xPos: selfInfo.value.xPos,})
       }}
     }
