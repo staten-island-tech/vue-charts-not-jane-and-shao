@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import reactive from '@/reactive'
 
 const sprites = [
     {
@@ -69,9 +68,16 @@ function setCharacter(){
 
 <template>
     <div id="app">
+        <br>
         <div>Select Character!</div>
-        <button @click="cycleB()">last</button>
-        <img :src="sprite[show].img" @click="setCharacter()">
-        <button @click="cycleF()">next</button>
+        <button @click.prevent="cycleB()">last</button>
+        <img class="sprites" :src="sprites[show].img" @click="setCharacter()">
+        <button @click.prevent="cycleF()">next</button>
     </div>
 </template>
+
+<style>
+.sprites{
+    max-height:100px;
+}
+</style>

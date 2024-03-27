@@ -42,6 +42,7 @@ router.replace({ path: '/lobby' })
     <h3>{{ name }}</h3>
     <input type="text" v-model="name" maxlength="15">
     <button @click.prevent="LoginAttempt()">Submit</button>
+    <selection></selection>
   </form>
 </div>
 </template>
