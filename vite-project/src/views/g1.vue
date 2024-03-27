@@ -46,9 +46,17 @@ async function ou(choice){
   });
   await get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => { 
   console.log(snapshot.val())
+  let i = 0
   snapshot.val().forEach(player => {
-    console.log(player.ou)
+    if(player.ou == 'skip' || player.ou == 'under'|| player.ou == 'over'){
+      i++
+    }
   })
+  if(i > gameInfo.value.aop){
+    update(r(qt, `rooms/${route.params.code}`), {
+     state: 'roundResults',
+  });
+  }
 })
 }
 
