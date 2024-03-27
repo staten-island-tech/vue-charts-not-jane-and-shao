@@ -5,7 +5,7 @@ import { getDatabase, ref as r, onValue,get, set } from "firebase/database";
 import { doc, setDoc, collection, getDoc,query,getDocs  } from "firebase/firestore"; 
 import { info } from '@/reactive.js'
 import { useRoute, useRouter } from 'vue-router'
-
+import selection from '@/components/selection.vue';
 
 const router = useRouter()
 const route = useRoute()

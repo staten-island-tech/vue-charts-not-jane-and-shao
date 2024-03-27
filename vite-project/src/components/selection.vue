@@ -53,20 +53,25 @@ function cycleF(){
     if(show.value > sprites.length){
         show.value = 0
     }
-    
+}
+
+function cycleB(){
+    show.value--
+    if(show.value < 0){
+        show.value = sprites.length
+    }
 }
 
 function setCharacter(){
     characterSprite.value = sprites.img
 }
-
-
 </script>
 
 <template>
     <div id="app">
+        <div>Select Character!</div>
         <button @click="cycleB()">last</button>
-        <img  :src="sprite[show.value].img" @click="setCharacter()">
+        <img :src="sprite[show].img" @click="setCharacter()">
         <button @click="cycleF()">next</button>
     </div>
 </template>
