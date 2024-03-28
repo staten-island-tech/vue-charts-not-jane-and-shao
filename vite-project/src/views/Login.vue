@@ -38,9 +38,10 @@ router.replace({ path: '/lobby' })
 
 <div id="infoBox">
   <form>
-    <h2>Login</h2>
-    <h3>{{ name }}</h3>
-    <input type="text" v-model="name" maxlength="15">
+    <h2>WELCOME!</h2>
+    <h3 v-if="name == '' ">{{ 'Input Your Name!' }}</h3>
+    <h3 v-else>{{ name }}</h3>
+    <input type="text" v-model="name" maxlength="16">
     <button @click.prevent="LoginAttempt()">Submit</button>
   </form>
 </div>
@@ -50,18 +51,20 @@ router.replace({ path: '/lobby' })
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 
 body{
-  background-color: beige;
+  background-color: darkorchid;
 }
 #infoBox{
   font-family: "DotGothic16", sans-serif;
-  background: greenyellow;
+  background: beige ;
   display: flex;
-  height: 50vh;
+  height: 60vh;
+  font-size: 50px;
   justify-content: center;
   text-align: center;
   border: 2px black solid;
   padding: 1%;
-  margin: 0 auto 0 auto;
-  width: 80vw
+  margin: 0 auto;
+  margin-top: 10vh;
+  width: 50vw
 }
 </style>
