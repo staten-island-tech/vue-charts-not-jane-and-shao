@@ -47,7 +47,13 @@ router.replace({ path: '/lobby' })
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+body{
+  background-color: beige;
+}
 #infoBox{
+  font-family: "DotGothic16", sans-serif;
   background: greenyellow;
   display: flex;
   height: 50vh;
@@ -55,5 +61,7 @@ router.replace({ path: '/lobby' })
   text-align: center;
   border: 2px black solid;
   padding: 1%;
+  margin: 0 auto 0 auto;
+  width: 80vw
 }
 </style>
