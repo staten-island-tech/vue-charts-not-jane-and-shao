@@ -10,7 +10,7 @@
 <div v-if="gameInfo.state == 'firstGuess'">
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
 </div>
-<roundResults v-if="gameInfo.state == 'roundResults'"></roundResults>
+<roundResults v-if="gameInfo.state == 'roundResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></roundResults>
 </div>
 </template>
 
@@ -36,6 +36,10 @@ let orderList = ref([])
 let turn = 0
 let self = ref(false)
 let selfNumber = ref(1000)
+let num = 42
+
+
+
 
 if(!info.name){
   window.location = "http://localhost:5173/";
@@ -121,6 +125,10 @@ async function host(){
       excluded: false,
       question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
       joinable: true,
+      question: {
+        prompt: 'loading',
+        ans: 'loading'
+      },
       up: false,
       players: {
         '0': {
