@@ -7,6 +7,7 @@
     <secondGuess v-if="gameInfo.state == 'secondGuess'" :selfNumber="selfNumber" :gameInfo="gameInfo" @ou="(i) => ou(i)"></secondGuess>
 
 
+    <p v-if="gameInfo.state == 'error'">lmao someone left</p>
 <div v-if="gameInfo.state == 'firstGuess'">
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
 </div>
@@ -132,6 +133,7 @@ function startTurn(){
 
 async function host(){
   set(reference, {
+     game: 'g1',
       code: route.params.code,
       peopleNeeded: 3,
       aop: 0,
@@ -155,7 +157,9 @@ async function host(){
       },
       state: 'start'
     })      
-    onDisconnect(reference).remove();
+    onDisconnect(reference).update({
+  state: 'error',
+});
     selfNumber.value = 0
     onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
   gameInfo.value = snapshot.val()
@@ -180,7 +184,9 @@ async function host(){
 });
 
 // let potato = firebase.database()
-onDisconnect(reference).remove();
+onDisconnect(reference).update({
+  state: 'error',
+});
   }
 
 

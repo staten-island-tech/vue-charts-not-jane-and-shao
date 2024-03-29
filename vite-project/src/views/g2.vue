@@ -2,6 +2,7 @@
     <div v-if="info.name">
       <loading :game="'Trivia Murder Party'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
     </div>
+    <question v-if="gameInfo.state == 'question'"></question>
   </template>
   
   <script setup>
@@ -10,14 +11,13 @@
   import { ref } from "vue";
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
+  import question from "@/components/questionScreen.vue";
   const route = useRoute()
   const qt = getDatabase()
   let name = info.name
   let reference = r(qt, `rooms/${route.params.code}`);
   let gameInfo = ref(false)
   let first = true
-  let orderList = ref([])
-  let turn = 0
   let selfNumber = ref(1000)
   
   
@@ -39,34 +39,32 @@
   
     }
   
+function startGame(){
+    update(r(qt, `rooms/${route.params.code}`), {
+     state: 'question'
+  });
+}
+
   
   
   async function host(){
     set(reference, {
+        game: 'g2',
         code: route.params.code,
-        peopleNeeded: 3,
         aop: 0,
-        order: false,
-        guess: 50,
-        excluded: false,
         question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
         joinable: true,
-        question: {
-          prompt: 'loading',
-          ans: 'loading'
-        },
-        up: false,
         players: {
           '0': {
               name: name,
               points: 0,
-              guess: 'NG', 
-              ou: false,
           }
         },
         state: 'start'
       })      
-      onDisconnect(reference).remove();
+      onDisconnect(reference).update({
+  state: 'error',
+});
       selfNumber.value = 0
       onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
     gameInfo.value = snapshot.val()
@@ -90,7 +88,9 @@
     }
   });
   
-  onDisconnect(reference).remove();
+  onDisconnect(reference).update({
+  state: 'error',
+});
     }
   
   
