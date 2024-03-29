@@ -2,6 +2,7 @@
     <div>
   
 <p>{{ info.name }}</p>
+<p>{{ gameInfo.guess }}</p>
 <p>{{ gameInfo.question.prompt }}</p>
 <p>{{ gameInfo.question.ans }}%</p>
 <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>

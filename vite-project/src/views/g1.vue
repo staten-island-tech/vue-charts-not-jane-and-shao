@@ -44,6 +44,7 @@ function newRound(){
     update(r(qt, `rooms/${route.params.code}`), {
      state: 'firstGuess',
      up: gameInfo.value.order[turn],
+     guess: 50,
   });
   }
   else{
