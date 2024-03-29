@@ -10,7 +10,7 @@
 <div v-if="gameInfo.state == 'firstGuess'">
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
 </div>
-<roundResults v-if="gameInfo.state == 'roundResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></roundResults>
+<roundResults v-if="gameInfo.state == 'roundResults'" :gameInfo="gameInfo" :selfNumber="selfNumber" @newRound="newRound()"></roundResults>
 </div>
 </template>
 
@@ -38,8 +38,22 @@ let self = ref(false)
 let selfNumber = ref(1000)
 let num = 42
 
+function newRound(){
+  turn++
+  if(gameInfo.value.order[turn]){
+    update(r(qt, `rooms/${route.params.code}`), {
+     state: 'firstGuess',
+     up: gameInfo.value.order[turn],
+  });
+  }
+  else{
+    gameEnd()
+  }
+}
 
-
+function gameEnd(){
+  console.log('end')
+}
 
 if(!info.name){
   window.location = "http://localhost:5173/";

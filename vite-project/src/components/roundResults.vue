@@ -1,9 +1,13 @@
 <template>
     <div>
+  
 <p>{{ info.name }}</p>
-<p>{{ selfNumber }}</p>
+<p>{{ gameInfo.question.prompt }}</p>
+<p>{{ gameInfo.question.ans }}%</p>
 <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
     </div>
+
+    <button v-if="route.params.auth == 'host'" @click.prevent="$emit('newRound')">OYASUMI</button>
 </template>
 
 <script setup>
@@ -24,17 +28,32 @@ onMounted(() => {
     exlAdd()
   }
   else{
-    console.log('h or l guy')
+    hlAdd()
   }  
 })
+
+
+
+async function hlAdd(){
+  await get(child(r(getDatabase()), `rooms/${route.params.code}`)).then((snapshot) => { 
+    if(parseInt(snapshot.val().guess) < snapshot.val().question.ans && snapshot.val().players[props.selfNumber].ou == 'over' || parseInt(snapshot.val().guess) > snapshot.val().question.ans && snapshot.val().players[props.selfNumber].ou == 'under'){
+      update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
+        points:snapshot.val().players[props.selfNumber].points + 1000
+  });
+    }
+  })  
+}
+
 
 async function exlAdd(){
   await get(child(r(getDatabase()), `rooms/${route.params.code}`)).then((snapshot) => { 
     console.log(snapshot.val())
     let pointa = 3000 - ((Math.abs(snapshot.val().question.ans - snapshot.val().guess)) * 100)
-    update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
+    if(pointa > 0){
+      update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
      points:snapshot.val().players[props.selfNumber].points + pointa
   });
+    }
   })
 }
 
