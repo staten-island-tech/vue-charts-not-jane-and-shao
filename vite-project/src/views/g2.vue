@@ -4,7 +4,8 @@
     </div>
     <question v-if="gameInfo.state == 'question'" :gameInfo="gameInfo" :selfNumber="selfNumber"></question>
     <results v-if="gameInfo.state == 'firstResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></results>
-    <math v-if="gameInfo.state == 'math'"></math>
+    <math v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber"></math>
+    <p v-if="gameInfo.state == 'math'">ea</p>
   </template>
   
   <script setup>
@@ -51,7 +52,7 @@ function startGame(){
   });
 }
 
-  
+
   
   async function host(){
     console.log('host')

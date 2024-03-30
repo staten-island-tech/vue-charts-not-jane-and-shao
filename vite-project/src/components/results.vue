@@ -14,7 +14,7 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  }
 import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
-let nextState = 'question'
+let nextState = ref('question')
 const props = defineProps({
         gameInfo: Object,
         selfNumber: Number,
@@ -31,7 +31,6 @@ const props = defineProps({
           })
         }
         else{
-          nextState = 'math'
           update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
             health: 'limbo',
             choice: false,
@@ -53,10 +52,28 @@ async function readyCheck(){
     }
   })  
    if(startGame){
-    update(r(qt, `rooms/${route.params.code}`), {state: nextState})
-    console.log(props.gameInfo.aop)
+    nextGameTest()
   }
 })
+}
+
+async function nextGameTest(){
+  console.log(nextState.value)
+     await get(child(r(getDatabase()), `rooms/${route.params.code}/players/`)).then((snapshot) => {
+      snapshot.val().forEach(player => {
+        console.log('player')
+        if(player.health == 'limbo'){
+          console.log(player.health)
+          nextState.value = 'math'
+        }
+        else{
+          console.log('alive' + player.health)
+        }
+      })
+    })
+    console.log(nextState.value)
+    await update(r(qt, `rooms/${route.params.code}`), {state: nextState.value})
+    console.log(props.gameInfo.aop)
 }
 </script>
 

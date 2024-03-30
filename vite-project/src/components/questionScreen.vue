@@ -27,30 +27,33 @@ const props = defineProps({
         selfNumber: Number
     })
 let interval
+let timeTracker = ref(15)
 
+onValue(r(qt, `rooms/${route.params.code}/time`), (snapshot) => {
+  timeTracker.value = snapshot.val()
+});
 
 
 async function choice(choice){
-  let allChecked = true
  await update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
      choice: choice,
   });
-   await get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
-    console.log(snapshot.val())
-    snapshot.val().forEach(player => {
-      if(player.choice == false){
-        allChecked = false
-      } 
-    })
-    })
-    console.log(allChecked)
-    if(allChecked == true){
-      timeD = 0
-      stopInterval = true
-      update(r(qt, `rooms/${route.params.code}/`), {
-     state: 'firstResults',
-  });
-    }
+  // //  await get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
+  // //   console.log(snapshot.val())
+  // //   snapshot.val().forEach(player => {
+  // //     if(player.choice == false){
+  // //       allChecked = false
+  // //     } 
+  // //   })
+  // //   })
+  // //   console.log(allChecked)
+  // //   if(allChecked == true){
+  // //     timeD = 0
+  // //     stopInterval = true
+  // //     update(r(qt, `rooms/${route.params.code}/`), {
+  // //    state: 'firstResults',
+  // // });
+  //   }
 }
 
 
@@ -59,6 +62,7 @@ async function getQuestionInfo(){
     console.log(route.params.auth)
     let num = Math.floor((Math.random() * 23)); 
   try{
+    console.log('host only')
     timeD = 15
   const response = await fetch(`https://theone-hofj.onrender.com/gp/${num}`)
   const data = await response.json(); 
@@ -84,19 +88,20 @@ else{
     onMounted(() => {
       timeD = 15
   console.log('ea')
-  getQuestionInfo()
+  if(route.params.auth == 'host'){
+    getQuestionInfo()
+  }
 })
 
 
 async function intFunction(){
-  console.log(props.gameInfo.time)
+  console.log(props.gameInfo.state)
       timeD--
      await update(r(qt, `rooms/${route.params.code}`), {
      time: timeD 
   });
   if(timeD < 1){
     clearTimeout(interval);
-    console.log('wajio')
     timeD = 15
     update(r(qt, `rooms/${route.params.code}/`), {
      state: 'firstResults',
@@ -104,7 +109,7 @@ async function intFunction(){
     })}
   else{
     if(props.gameInfo.time >= 1){
-      console.log(stopInterval)
+      console.log(route.params.auth)
     interval = setTimeout(intFunction, 1000)
     } 
   }}
