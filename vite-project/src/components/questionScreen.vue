@@ -20,7 +20,8 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  }
 import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
-let interval
+let timeD = 15
+let stopInterval = false
 const props = defineProps({
         gameInfo: Object,
         selfNumber: Number
@@ -41,6 +42,8 @@ async function choice(choice){
     })
     console.log(allChecked)
     if(allChecked == true){
+      stopInterval = true
+      timeD = 0
       update(r(qt, `rooms/${route.params.code}/`), {
      state: 'firstResults',
   });
@@ -49,7 +52,6 @@ async function choice(choice){
 
 
 async function getQuestionInfo(){
-  console.log(route.params.auth)
   if(route.params.auth == 'host'){
     console.log(route.params.auth)
     let num = Math.floor((Math.random() * 23)); 
@@ -65,10 +67,8 @@ async function getQuestionInfo(){
      d: data.d,
      answer: data.answer,
   });
-   update(r(qt, `rooms/${route.params.code}/`), {
-     time: 15
-  });
-   interval = setInterval(timerDecrease, 1000);
+  timeD = 15
+  intFunction()
 }
 catch(error){
   console.log(error)
@@ -83,17 +83,25 @@ else{
   getQuestionInfo()
 })
 
-async function timerDecrease(){
-    await update(r(qt, `rooms/${route.params.code}`), {
-     time: props.gameInfo.time - 1
+
+async function intFunction(){
+      timeD--
+     await update(r(qt, `rooms/${route.params.code}`), {
+     time: timeD 
   });
-  if(props.gameInfo.time <= 0){
-    clearInterval(interval)
+  if(timeD < 1){
+    console.log('wajio')
     update(r(qt, `rooms/${route.params.code}/`), {
      state: 'firstResults',
-  });
-  }
-}
+     time: 15
+    })}
+  else{
+    setTimeout(intFunction  , 1000)
+  }}
+
+// async function timerDecrease(){
+  
+// }
 </script>
 
 <style lang="scss" scoped>

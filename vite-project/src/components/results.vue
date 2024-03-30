@@ -2,7 +2,7 @@
     <div>
       <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
     </div>
-    <button v-if="route.params.auth == 'host'" @click.prevent="console.log('close your eyes and youll leave this dream')">OYASUMI</button>
+    <button @click.prevent="readyCheck()">OYASUMI</button>
 </template>
 
 <script setup>
@@ -14,7 +14,7 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  }
 import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
-
+let nextState = 'question'
 const props = defineProps({
         gameInfo: Object,
         selfNumber: Number,
@@ -29,15 +29,33 @@ const props = defineProps({
           })
         }
         else{
+          nextState = 'minigame'
           update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
-            health: 'dead',
+            health: 'limbo',
             choice: false,
           })
         }
       })
   })
 
+
+async function readyCheck(){
+  let startGame = true
+ await update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {ready: true})
+ await get(child(r(getDatabase()), `rooms/${route.params.code}/players/`)).then((snapshot) => { 
+  snapshot.val().forEach(player => {
+    if(player.health == 'limbo' || player.health == 'alive')
+      if(!player.ready){
+        startGame = false
+    }
+  })  
+   if(startGame){
+    update(r(qt, `rooms/${route.params.code}`), {state: nextState})
+  }
+})
+}
 </script>
+
 
 <style lang="scss" scoped>
 

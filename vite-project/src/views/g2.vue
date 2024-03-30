@@ -65,6 +65,7 @@ function startGame(){
               name: name,
               health: 'alive',
               points: 0,
+              ready: false,
               choice: false,
           }
         },
@@ -91,6 +92,7 @@ onDisconnect(reference).remove()
                 name: name,
               points: 0,
               health: 'alive',
+              ready: false,
               choice: false
     });
     update(r(qt, `rooms/${route.params.code}`), {
