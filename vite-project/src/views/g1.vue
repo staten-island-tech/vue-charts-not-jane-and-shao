@@ -157,9 +157,11 @@ async function host(){
       },
       state: 'start'
     })      
+  
     onDisconnect(reference).update({
   state: 'error',
 });
+onDisconnect(reference).remove()
     selfNumber.value = 0
     onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
   gameInfo.value = snapshot.val()

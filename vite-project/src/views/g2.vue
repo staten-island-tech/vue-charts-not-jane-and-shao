@@ -2,7 +2,7 @@
     <div v-if="info.name">
       <loading :game="'Trivia Murder Party'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
     </div>
-    <question v-if="gameInfo.state == 'question'"></question>
+    <question v-if="gameInfo.state == 'question'" :gameInfo="gameInfo"></question>
   </template>
   
   <script setup>
@@ -41,7 +41,8 @@
   
 function startGame(){
     update(r(qt, `rooms/${route.params.code}`), {
-     state: 'question'
+     state: 'question',
+     joinable: false,
   });
 }
 
@@ -58,6 +59,7 @@ function startGame(){
           '0': {
               name: name,
               points: 0,
+              choice: false,
           }
         },
         state: 'start'
@@ -65,6 +67,7 @@ function startGame(){
       onDisconnect(reference).update({
   state: 'error',
 });
+onDisconnect(reference).remove()
       selfNumber.value = 0
       onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
     gameInfo.value = snapshot.val()
@@ -80,7 +83,7 @@ function startGame(){
       set(r(qt, `rooms/${route.params.code}/players/${gameInfo.value.aop + 1}`), {
                 name: name,
               points: 0,
-              ou: false,
+              choice: false
     });
     update(r(qt, `rooms/${route.params.code}`), {
        aop: gameInfo.value.aop + 1
@@ -91,6 +94,7 @@ function startGame(){
   onDisconnect(reference).update({
   state: 'error',
 });
+onDisconnect(reference).remove()
     }
   
   

@@ -14,10 +14,10 @@
 <script setup>
 
 
-defineProps({
-  selfNumber: Number,
-  gameInfo: Object,
-})
+const props = defineProps({
+        selfNumber: Number,
+        gameInfo: Object,
+    })
 </script>
 
 <style scoped>
