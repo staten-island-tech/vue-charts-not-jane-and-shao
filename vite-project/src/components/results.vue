@@ -23,16 +23,19 @@ const props = defineProps({
   onMounted(async () =>{
       await get(child(r(getDatabase()), `rooms/${route.params.code}/players/${props.selfNumber}`)).then((snapshot) => {
         if(snapshot.val().choice == props.gameInfo.question.answer){
-          update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
+          console.log(snapshot.val())
+           update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
             points: props.gameInfo.players[props.selfNumber].points + 1500,
-            choice: false
+            choice: false,
+            ready: false,
           })
         }
         else{
-          nextState = 'minigame'
+          nextState = 'math'
           update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
             health: 'limbo',
             choice: false,
+            ready: false,
           })
         }
       })
@@ -51,6 +54,7 @@ async function readyCheck(){
   })  
    if(startGame){
     update(r(qt, `rooms/${route.params.code}`), {state: nextState})
+    console.log(props.gameInfo.aop)
   }
 })
 }

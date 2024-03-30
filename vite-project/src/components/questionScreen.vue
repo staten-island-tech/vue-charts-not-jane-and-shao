@@ -21,11 +21,14 @@ import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
 let timeD = 15
-let stopInterval = false
+let stopInterval = false  
 const props = defineProps({
         gameInfo: Object,
         selfNumber: Number
     })
+let interval
+
+
 
 async function choice(choice){
   let allChecked = true
@@ -42,8 +45,8 @@ async function choice(choice){
     })
     console.log(allChecked)
     if(allChecked == true){
-      stopInterval = true
       timeD = 0
+      stopInterval = true
       update(r(qt, `rooms/${route.params.code}/`), {
      state: 'firstResults',
   });
@@ -56,6 +59,7 @@ async function getQuestionInfo(){
     console.log(route.params.auth)
     let num = Math.floor((Math.random() * 23)); 
   try{
+    timeD = 15
   const response = await fetch(`https://theone-hofj.onrender.com/gp/${num}`)
   const data = await response.json(); 
   console.log(data) 
@@ -67,7 +71,6 @@ async function getQuestionInfo(){
      d: data.d,
      answer: data.answer,
   });
-  timeD = 15
   intFunction()
 }
 catch(error){
@@ -79,24 +82,31 @@ else{
 }
 }
     onMounted(() => {
+      timeD = 15
   console.log('ea')
   getQuestionInfo()
 })
 
 
 async function intFunction(){
+  console.log(props.gameInfo.time)
       timeD--
      await update(r(qt, `rooms/${route.params.code}`), {
      time: timeD 
   });
   if(timeD < 1){
+    clearTimeout(interval);
     console.log('wajio')
+    timeD = 15
     update(r(qt, `rooms/${route.params.code}/`), {
      state: 'firstResults',
      time: 15
     })}
   else{
-    setTimeout(intFunction  , 1000)
+    if(props.gameInfo.time >= 1){
+      console.log(stopInterval)
+    interval = setTimeout(intFunction, 1000)
+    } 
   }}
 
 // async function timerDecrease(){
