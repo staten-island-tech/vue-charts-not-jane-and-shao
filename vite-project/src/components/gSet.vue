@@ -2,7 +2,7 @@
   <div>
     <form>
       <button v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
-      <button v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2','g3']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
+      <button v-if="gameSettings.type == 'host'" v-for="x in ['g2','g3','g1']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
       <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3">
       <p v-if="gameSettings.type == 'host'">{{ gameSettings.mode }}</p>
       <button @click.prevent="gameStart()">Start Game</button>
@@ -22,7 +22,7 @@ const router = useRouter()
 let error = ref('')
 const route = useRoute()
 let gameSettings = ref({
-  mode: 'g1',
+  mode: 'g2',
   type: 'join',
   code: 'OPE1'
 })

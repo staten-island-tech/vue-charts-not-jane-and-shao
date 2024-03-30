@@ -2,7 +2,8 @@
     <div v-if="info.name">
       <loading :game="'Trivia Murder Party'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
     </div>
-    <question v-if="gameInfo.state == 'question'" :gameInfo="gameInfo"></question>
+    <question v-if="gameInfo.state == 'question'" :gameInfo="gameInfo" :selfNumber="selfNumber"></question>
+    <results v-if="gameInfo.state == 'firstResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></results>
   </template>
   
   <script setup>
@@ -12,7 +13,9 @@
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
   import question from "@/components/questionScreen.vue";
+  import results from "@/components/results.vue"
   const route = useRoute()
+  console.log(route.params.auth)
   const qt = getDatabase()
   let name = info.name
   let reference = r(qt, `rooms/${route.params.code}`);
@@ -49,15 +52,18 @@ function startGame(){
   
   
   async function host(){
+    console.log('host')
     set(reference, {
         game: 'g2',
         code: route.params.code,
         aop: 0,
         question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
         joinable: true,
+        time: 0,
         players: {
           '0': {
               name: name,
+              health: 'alive',
               points: 0,
               choice: false,
           }
@@ -75,6 +81,7 @@ onDisconnect(reference).remove()
   }
   
     async function join(){
+      console.log('join')
       await onValue(r(qt, `rooms/${route.params.code}/`), (snapshot) => {
     gameInfo.value = snapshot.val()
     if(first){
@@ -83,6 +90,7 @@ onDisconnect(reference).remove()
       set(r(qt, `rooms/${route.params.code}/players/${gameInfo.value.aop + 1}`), {
                 name: name,
               points: 0,
+              health: 'alive',
               choice: false
     });
     update(r(qt, `rooms/${route.params.code}`), {
