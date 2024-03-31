@@ -34,24 +34,6 @@ async function getQuestionInfo(){
 
 
 
-// let num = Math.floor(Math.random() * 10);
-// let num2 = Math.floor(Math.random() * 10);
-// let ans
-// let sign = Math.floor(Math.random() * 3);
-// console.log(num)
-// console.log(sign)
-// console.log(num2)
-// if(sign == 0){
-//     ans = (num * num2)
-// }
-// if(sign == 2){
-//     ans = (num - num2)
-// }
-// if(sign == 1){
-//     ans = (num + num2)
-// }
-
-// console.log(ans)
 catch(error){
   console.log(error)
 }

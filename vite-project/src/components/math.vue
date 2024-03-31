@@ -83,14 +83,14 @@ async function intFunction(){
     })
     get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
 snapshot.val().forEach(player => {
-  if(player.subPoints < 35 && player.health == 'limbo'){
+  if(player.subPoints < 35 && player.health == 'limbo' ||player.health == 'dead'){
     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead'})
   }
   else{
     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive'})
   } 
 })
-update(r(qt, `rooms/${route.params.code}`), {state: 'question'})
+update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
      })}
 
 
