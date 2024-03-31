@@ -4,7 +4,7 @@
     </div>
     <question v-if="gameInfo.state == 'question'" :gameInfo="gameInfo" :selfNumber="selfNumber"></question>
     <results v-if="gameInfo.state == 'firstResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></results>
-    <math v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber"></math>
+    <mathgame v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber"></mathgame>
     <p v-if="gameInfo.state == 'math'">ea</p>
   </template>
   
@@ -16,7 +16,7 @@
   import { info } from "@/reactive"; 
   import question from "@/components/questionScreen.vue";
   import results from "@/components/results.vue"
-  import math from "@/components/math.vue"
+ import mathgame from "@/components/math.vue";
   const route = useRoute()
   console.log(route.params.auth)
   const qt = getDatabase()
