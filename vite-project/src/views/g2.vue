@@ -6,7 +6,7 @@
     <results v-if="gameInfo.state == 'firstResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></results>
     <mathgame v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber"></mathgame>
     <p v-if="gameInfo.state == 'math'">ea</p>
-    <secondResults v-if="gameInfo.state == 'secondResults'" gameInfo="gameInfo" :selfNumber="selfNumber"></secondResults>
+    <secondResults v-if="gameInfo.state == 'secondResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></secondResults>
   </template>
   
   <script setup>

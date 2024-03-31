@@ -14,7 +14,7 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  }
 import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
-let nextState = ref('question')
+let nextState = ref('secondResults')
 const props = defineProps({
         gameInfo: Object,
         selfNumber: Number,

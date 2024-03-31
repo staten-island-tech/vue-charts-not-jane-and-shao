@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <p>{{ gameInfo }}</p>
-<p>second results test</p>
-<p>ea</p>
+    <div v-for="player in gameInfo.players">
+        <p v-if="player.health == 'alive'">{{ player }}</p>
     </div>
 </template>
 
@@ -11,8 +9,8 @@ const props = defineProps({
         selfNumber: Number,
         gameInfo: Object,
     })
-
-    props.gameInfo.players.forEach(player => console.log('player'))
+console.log(props)
+    props.gameInfo.players.forEach(player => console.log(player))
 </script>
 
 <style lang="scss" scoped>
