@@ -5,12 +5,17 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+let playerList = ref([])
 const props = defineProps({
         selfNumber: Number,
         gameInfo: Object,
     })
 console.log(props)
-    props.gameInfo.players.forEach(player => console.log(player))
+    props.gameInfo.players.forEach(player => {
+   playerList.value.push(player)
+    })
+    console.log(playerList)
 </script>
 
 <style lang="scss" scoped>
