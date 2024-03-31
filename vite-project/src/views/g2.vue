@@ -66,6 +66,8 @@ function startGame(){
         players: {
           '0': {
               name: name,
+              pos: 0,
+              subPoints: 0,
               health: 'alive',
               points: 0,
               ready: false,
@@ -92,10 +94,12 @@ onDisconnect(reference).remove()
       first = false
       selfNumber.value = gameInfo.value.aop + 1
       set(r(qt, `rooms/${route.params.code}/players/${gameInfo.value.aop + 1}`), {
+        pos: gameInfo.value.aop + 1,
                 name: name,
               points: 0,
               health: 'alive',
               ready: false,
+              subPoints: 0,
               choice: false
     });
     update(r(qt, `rooms/${route.params.code}`), {

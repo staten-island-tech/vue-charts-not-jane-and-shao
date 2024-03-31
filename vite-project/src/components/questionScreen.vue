@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="gameInfo.players[selfNumber].health == 'alive'">
         <p>{{gameInfo.question.prompt}}</p>
         <p>{{ selfNumber }}</p>
         <p>{{ gameInfo.time }}</p>

@@ -73,7 +73,6 @@ async function nextGameTest(){
     })
     console.log(nextState.value)
     await update(r(qt, `rooms/${route.params.code}`), {state: nextState.value})
-    console.log(props.gameInfo.aop)
 }
 </script>
 
