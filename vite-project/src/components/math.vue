@@ -90,7 +90,7 @@ snapshot.val().forEach(player => {
     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive'})
   } 
 })
-update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
+update(r(qt, `rooms/${route.params.code}`), {state: 'question'})
      })}
 
 
