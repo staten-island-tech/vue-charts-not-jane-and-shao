@@ -11,13 +11,16 @@ const router = useRouter()
 const route = useRoute()
 const qt = getDatabase()
 let name = ref('Noah')
+let sprite = ref('null')
 
 async function LoginAttempt(){
 await get(r(qt), '/').then((snapshot) => { 
   if(!Object.keys(snapshot.val().playerlist).includes(name.value.toUpperCase().replaceAll(' ', '-'))){
     info.name = name.value.toUpperCase().replaceAll(' ', '-')
+    info.sprite = sprite.value
     set(r(qt,`playerlist/${info.name}`), {
       username: info.name,
+      sprite: info.sprite
     })
 router.replace({ path: '/lobby' })
   }
@@ -25,9 +28,16 @@ router.replace({ path: '/lobby' })
     console.log('name taken!')
   }
 })
+
+
+
 } 
 
+const selectedSprite = ref(null)
 
+function spriteSelected(){
+  sprite.value = selectedSprite.value
+}
 
 </script>
 
@@ -39,7 +49,7 @@ router.replace({ path: '/lobby' })
     <h3>{{ name }}</h3>
     <input type="text" v-model="name" maxlength="15">
     <button @click.prevent="LoginAttempt()">Submit</button>
-    <selection></selection>
+    <selection @handleSelectedSprite="spriteSelected"></selection>
   </form>
 </div>
 </template>

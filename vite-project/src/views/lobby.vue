@@ -10,6 +10,7 @@ import gSet from '@/components/gSet.vue'
 const route = useRoute()
 let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
+let selfSprite = 'players/' + info.sprite
 const qt = getDatabase()
 const reference = r(qt, selfRef);
 
@@ -35,13 +36,13 @@ function test(){
       username: info.name,
       xPos: 0,
       yPos: 0,
-      sprite: a
+      sprite: info.sprite
     })
 selfInfo.value = {
       username: info.name,
       xPos: 0,
       yPos: 0,
-      sprite: a
+      sprite: info.sprite
     }
 
 

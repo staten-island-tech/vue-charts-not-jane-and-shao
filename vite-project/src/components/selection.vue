@@ -24,18 +24,11 @@ const sprites = [
     {
         img: "img link here",
     },
-    {
-        img: "img link here",
-    },
-    {
-        img: "img link here",
-    },
-    {
-        img: "img link here",
-    },
 ]
 
+
 const show = ref(0)
+const selectedSprite = ref(null)
 
 function cycleF(){
     show.value++
@@ -53,8 +46,18 @@ function cycleB(){
 }
 
 function setCharacter(){
-    const selectedSprite = sprites[show.value].img;
-    console.log(selectedSprite)
+    selectedSprite.value = sprites[show.value].img;
+    console.log(selectedSprite.value)
+    disabledButtons()
+}
+
+function disabledButtons(){
+    const nextButton = document.getElementById('nextButton');
+    const lastButton = document.getElementById('lastButton');
+    if (selectedSprite.value !== null) {
+        nextButton.disabled = true;
+        lastButton.disabled = true;
+    }
 }
 </script>
 
@@ -62,14 +65,14 @@ function setCharacter(){
     <div id="app">
         <br>
         <div>Select Character!</div>
-        <button @click.prevent="cycleB()" >last</button>
+        <button id="lastButton" @click.prevent="cycleB()" >last</button>
         <img class="sprites" :src="sprites[show].img" @click="setCharacter()">
-        <button @click.prevent="cycleF()" >next</button>
+        <button id="nextButton" @click.prevent="cycleF()" >next</button>
     </div>
 </template>
 
 <style>
 .sprites{
-    max-height:100px;
+    max-height:300px;
 }
 </style>
