@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router';
+import business from '@/assets/business-idle.png'
 
 const sprites = [
     {
-        img: "img link here",
+        img: business,
     },
     {
         img: "img link here",
@@ -49,13 +49,12 @@ function cycleB(){
     if(show.value < 0){
         show.value = sprites.length
     }
+    console.log(show.value)
 }
 
-const router = useRouter();
-
 function setCharacter(){
-    const selectedSprite = sprites[show.value];
-    router.push({ name: 'lobby', params: { sprite: selectedSprite }})
+    const selectedSprite = sprites[show.value].img;
+    console.log(selectedSprite)
 }
 </script>
 
@@ -63,9 +62,9 @@ function setCharacter(){
     <div id="app">
         <br>
         <div>Select Character!</div>
-        <button @click.prevent="cycleB()">last</button>
+        <button @click.prevent="cycleB()" >last</button>
         <img class="sprites" :src="sprites[show].img" @click="setCharacter()">
-        <button @click.prevent="cycleF()">next</button>
+        <button @click.prevent="cycleF()" >next</button>
     </div>
 </template>
 

@@ -25,9 +25,6 @@ router.replace({ path: '/lobby' })
     console.log('name taken!')
   }
 })
-
-
-
 } 
 
 
