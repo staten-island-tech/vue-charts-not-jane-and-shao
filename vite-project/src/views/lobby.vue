@@ -6,8 +6,9 @@ import { useRoute } from 'vue-router'
 import { getDatabase, ref as r, set, onDisconnect,onValue, update   } from "firebase/database";
 import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
+import {collision} from '@/assets/collisions.js'
 
-
+console.log(collision)
 const route = useRoute()
 let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
@@ -79,10 +80,10 @@ onMounted(() => {
 
 
   let bgtest = new Image()
-  bgtest.src = 'https://images.hdqwalls.com/wallpapers/8-bit-pixel-art-city-2o.jpg'
+  bgtest.src = `map.png`
   let playertest = new Image()
-  playertest.src = 'https://static.wikia.nocookie.net/75247b18-3456-4e12-a5fd-19b7d66b643e/scale-to-width/755'
-
+  playertest.src = `player.png`
+  
   const canvas = document.querySelector("canvas");
   if (canvas.getContext) {
     const c = canvas.getContext("2d");
@@ -101,16 +102,16 @@ onMounted(() => {
 
     const background = new Sprite({
       position: {
-        x: 0,
-        y: 0,
+        x: -1945,
+        y: -2200
       },
       image: bgtest,
     })
 
     const player = new Sprite({
       position: {
-        x: 50,
-        y: 50,
+        x: 2545,
+        y: 2800,
       }, image: playertest,
     })
 
@@ -181,7 +182,7 @@ function animate() {
       background.draw()
       c.font = "64px serif";
        otherPlayers.forEach((plyaer)=>{
-        c.drawImage(playertest, plyaer.xPos+background.position.x, plyaer.yPos+background.position.y)
+        c.drawImage(player.image, plyaer.xPos+background.position.x, plyaer.yPos+background.position.y)
         c.fillText(plyaer.username, plyaer.xPos+285+background.position.x, plyaer.yPos+background.position.y)
       })
 
