@@ -1,12 +1,14 @@
 <template>
     <div>
+      <p>the correct answer was choice {{ gameInfo.question.answer }}, {{ gameInfo.question[gameInfo.question.answer] }}</p>
+      
       <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
     </div>
     <button @click.prevent="readyCheck()">OYASUMI</button>
 </template>
 
 <script setup>
-import { info } from "@/reactive";
+import { info } from "@/reactive";  
 import { useRoute } from 'vue-router'
 import { ref,onMounted } from "vue";
 let potato = ["a","b","c","d"]
@@ -16,7 +18,7 @@ const route = useRoute()
 const qt = getDatabase()
 let nextState = ref('secondResults')
 const props = defineProps({
-        gameInfo: Object,
+        gameInfo: Object, 
         selfNumber: Number,
     })
 
@@ -30,7 +32,7 @@ const props = defineProps({
             ready: false,
           })
         }
-        else{
+        else if (snapshot.val().health == 'alive'){
           update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
             health: 'limbo',
             choice: false,
@@ -61,10 +63,11 @@ async function nextGameTest(){
   console.log(nextState.value)
      await get(child(r(getDatabase()), `rooms/${route.params.code}/players/`)).then((snapshot) => {
       snapshot.val().forEach(player => {
+        update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {ready: false})
         console.log('player')
         if(player.health == 'limbo'){
           console.log(player.health)
-          nextState.value = 'math'
+          nextState.value = 'dice'
         }
         else{
           console.log('alive' + player.health)

@@ -14,14 +14,12 @@ let selfRef = 'players/' + info.name
 const qt = getDatabase()
 const reference = r(qt, selfRef);
 
-console.log(reference)
 onDisconnect(reference).remove();
 onDisconnect(r(qt,`playerlist/${info.name}`)).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
 if(Object.keys(route.params) + ''){
   console.log(Object.keys(route.params) + '')
-  console.log('ea')
 }
 
 if(!info.name){
@@ -33,7 +31,6 @@ function test(){
   let a = new Image()
   a.src = 'https://static.wikia.nocookie.net/clubpenguin/images/4/46/Goofy_penguin_-_copia.webp/revision/latest/scale-to-width-down/250?cb=20231231150128&path-prefix=es'
 
-  console.log(reference)
     set(reference, {
       username: info.name,
       xPos: 0,
@@ -52,13 +49,10 @@ selfInfo.value = {
     onValue(r(qt, 'players/'), (snapshot) => {
   let tempList = []
 try{
-    console.log(info.inLobby)
   Object.keys(snapshot.val()).forEach((player)=> {
-    console.log(  ) 
       tempList.push(snapshot.val()[player])
   })
   otherPlayers = tempList 
-  console.log(otherPlayers)
 }
 catch(error){
   console.log('Take that, Obama')
@@ -70,7 +64,6 @@ catch(error){
   
 
 onMounted(() => {
-  console.log(otherPlayers)
   if(info.name){
 
   test()
@@ -126,7 +119,6 @@ onMounted(() => {
     window.addEventListener('keydown', (event) => {
   switch (event.key) {
     case 'Shift':
-    console.log(10000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2))
       if(3600000000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2)){
         showGameSettings.value = true
       }

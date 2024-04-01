@@ -7,11 +7,14 @@
     <mathgame v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber"></mathgame>
     <p v-if="gameInfo.state == 'math'">ea</p>
     <secondResults v-if="gameInfo.state == 'secondResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></secondResults>
+    <endScreen v-if="gameInfo.state == 'endResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></endScreen>
+    <diceGame v-if="gameInfo.state == 'dice'" :gameInfo="gameInfo" :selfNumber="selfNumber"></diceGame>
   </template>
   
   <script setup>
   import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
   import { useRoute } from 'vue-router'
+  import diceGame from "@/components/dice.vue"
   import { ref } from "vue";
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
@@ -19,6 +22,8 @@
   import results from "@/components/results.vue"
  import mathgame from "@/components/math.vue";
  import secondResults from "@/components/secondResults.vue"
+import endScreen from "@/components/endScreen.vue"
+
   const route = useRoute()
   console.log(route.params.auth)
   const qt = getDatabase()

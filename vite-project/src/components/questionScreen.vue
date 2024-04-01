@@ -95,7 +95,6 @@ else{
 
 
 async function intFunction(){
-  console.log(props.gameInfo.state)
       timeD--
      await update(r(qt, `rooms/${route.params.code}`), {
      time: timeD 
@@ -109,7 +108,6 @@ async function intFunction(){
     })}
   else{
     if(props.gameInfo.time >= 1){
-      console.log(route.params.auth)
     interval = setTimeout(intFunction, 1000)
     } 
   }}
