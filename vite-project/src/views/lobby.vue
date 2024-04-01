@@ -67,13 +67,18 @@ catch(error){
 });
   }
 
+let rows = []
+console.log(collision.length)
+for (let i=0;i<collision.length; i+=128){
+  rows.push(collision.slice(i,i+128))
+}
 
-  
+console.log(rows)
 
 onMounted(() => {
   console.log(otherPlayers)
   if(info.name){
-
+    console.log(info.name)
   test()
 
 
@@ -88,33 +93,59 @@ onMounted(() => {
   if (canvas.getContext) {
     const c = canvas.getContext("2d");
     class Sprite { 
-      constructor({ position, image }) {
+      constructor({ position, properties }) {
         this.position = position
-        this.image = image
+        this.properties = properties
       }
-
+    
       draw() {
-        c.drawImage(this.image, this.position.x, this.position.y)
+        c.drawImage(this.properties.image, this.position.x, this.position.y)
       }
     }
 
-
-
+    class boundary {
+      constructor({pos}){
+        this.pos = pos
+        this.w = 64
+        this.h = 64
+      }
+      draw() {
+        c.fillStyle = 'red'
+        c.fillRect(this.pos.x,this.pos.y,this.w,this.h)
+      }
+    }
+    let boundList = []
+    rows.forEach((x, i)=>{ 
+      x.forEach((tile, j)=>{
+        if (tile==397){
+          boundList.push(new boundary({pos: {
+            x: i * 64,
+            y: j * 64,
+          }}))
+        }
+      })
+    })
+    console.log(boundList)
     const background = new Sprite({
       position: {
-        x: -1945,
-        y: -2200
+        x: -2500,
+        y: -2500
       },
-      image: bgtest,
+      properties: {
+        image : bgtest
+      },
     })
 
     const player = new Sprite({
       position: {
-        x: 2545,
-        y: 2800,
-      }, image: playertest,
+        x: 3340+background.position.x,
+        y: 3000+background.position.y,
+        actualX: 3240,
+        actualY: 2900,
+      }, properties: { image: playertest,
+      name:info.name} 
     })
-
+    console.log(player.properties.name)
     const keys = {
       up: false,
       down: false,
@@ -127,10 +158,7 @@ onMounted(() => {
     window.addEventListener('keydown', (event) => {
   switch (event.key) {
     case 'Shift':
-    console.log(10000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2))
-      if(3600000000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2)){
         showGameSettings.value = true
-      }
       break
     case 'ArrowDown':
     case 's':
@@ -180,36 +208,44 @@ function animate() {
       
       window.requestAnimationFrame(animate)
       background.draw()
-      c.font = "64px serif";
+      c.font = "16px serif";
+      player.draw()
        otherPlayers.forEach((plyaer)=>{
-        c.drawImage(player.image, plyaer.xPos+background.position.x, plyaer.yPos+background.position.y)
+        if (plyaer.username!=player.properties.name){
+        c.drawImage(player.properties.image, plyaer.xPos+background.position.x+100, plyaer.yPos+background.position.y+100)
         c.fillText(plyaer.username, plyaer.xPos+285+background.position.x, plyaer.yPos+background.position.y)
+      }
       })
 
-      selfInfo.value.xPos = player.position.x
-      selfInfo.value.yPos = player.position.y
+      selfInfo.value.xPos = player.position.actualX
+      selfInfo.value.yPos = player.position.actualY
       if(info.inLobby){
       if (keys.up && lastKeyPressed == 'up') {
-        player.position.y -= 5
+        player.position.actualY-= 5
         background.position.y += 5
         update(reference, {yPos: selfInfo.value.yPos,})
       }
-      else if (keys.down && lastKeyPressed == 'down') {
-        player.position.y += 5
+      else if (keys.down &&  lastKeyPressed == 'down') {
+        player.position.actualY += 5
         background.position.y -= 5
-        update(reference, {yPos: player.position.y,})
+        update(reference, {yPos: selfInfo.value.yPos,})
       }
       else if (keys.left && lastKeyPressed == 'left') {
-        player.position.x -= 5
+        player.position.actualX -= 5
         background.position.x += 5
         update(reference, {xPos: selfInfo.value.xPos,})
       }
       else if (keys.right && lastKeyPressed == 'right') {
-        player.position.x += 5
+        player.position.actualX += 5
         background.position.x -= 5
         update(reference, {xPos: selfInfo.value.xPos,})
       }}
     }
+    boundList.forEach((bndry)=>{
+      c.fillStyle = "blue";
+      c.fillRect(bndry.pos.x,bndry.pos.y,bndry.w,bndry.h)
+      
+      })
     animate()
   }
 
