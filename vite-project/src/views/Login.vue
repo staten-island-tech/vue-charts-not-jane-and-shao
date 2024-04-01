@@ -35,7 +35,9 @@ router.replace({ path: '/lobby' })
 </script>
 
 <template>
+  <div id="gal">
   <div id="nintendo3DS">
+    <div id="bar"></div>
     <div class="topScreen">
       <!-- Placeholder for the top screen -->
     </div>
@@ -44,32 +46,60 @@ router.replace({ path: '/lobby' })
         <form>
           <br>
           <h2>Login</h2>
-          <h3>{{ name }}</h3>
+          <h3 v-if="name">{{ name.toUpperCase().replaceAll(' ', '-') }}</h3>
+          <h3 v-else>Username</h3>
           <input type="text" v-model="name" maxlength="15" placeholder="Enter your username">
           <button @click.prevent="LoginAttempt" :disabled="name == ''">Submit</button>
         </form>
       </div>
     </div>
     <div class="buttons">
-      <button class="up"></button>
+      <button class="up">X</button>
       <div>
-        <button class="left"></button>
-        <button class="down"></button>
-        <button class="right"></button>
+        <button class="left">Y</button>
+        <button class="down">B</button>
+        <button class="right">A</button>
       </div>
     </div>
     <div class="d-pad"></div>
   </div>
+</div>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 
+#gal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  background-image: url(https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/v1/attachments/delivery/asset/0032398f86ea753194c5eeba97eccda2-1627249600/ExportBackgroundnomoveclound/draw-a-pixel-pokemon-battle-background.gif); /* Just to visualize the extent */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#bar{
+  position: absolute;
+  top: 50%;
+  height: 50%;
+  border-radius: 20px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  transform: translate(0%,-100%);
+  z-index: -4;
+  background-color: black;
+  width: 720px;
+  border: 0px solid black;
+}
+
 #nintendo3DS {
   width: 720px;
   height: 675px;
-  background-image: url('https://i.imgur.com/WHwJbon.png');
-  background-color: #000000;
+  /* background-image: url('https://i.imgur.com/WHwJbon.png'); */
+  background-color: #0095b3;
   border: black 2px solid;
   border-radius: 20px;
   position: absolute;
@@ -97,6 +127,10 @@ router.replace({ path: '/lobby' })
 }
 
 form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
@@ -106,6 +140,7 @@ input {
   margin: 10px 0;
   border: none;
   border-radius: 5px;
+  text-align: center;
   background-color: #ffffff;
   box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
@@ -116,7 +151,7 @@ button {
   margin-top: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #4b92db;
+background-color: #0095b3;
   color: #ffffff;
   font-weight: bold;
   cursor: pointer;
@@ -130,7 +165,7 @@ button:hover {
 
 .buttons {
   position: absolute;
-  top: 53%;
+  top: 52.5%;
   right: -10px;
   display: flex;
   flex-direction: column;
@@ -140,9 +175,10 @@ button:hover {
 .buttons button {
   width: 40px;
   height: 40px;
-  border: 2px solid #ffffff;
+  border: 2px solid black;
   border-radius: 50%;
-  background-color: #cccccc;
+  background-color: #0095b3;
+  background-color: #068098;
   margin: 5px;
 }
 
@@ -170,11 +206,11 @@ button:hover {
 }
 
 .d-pad {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   background-color: transparent;
   position: relative;
-  transform: translate(15px, -200px);
+  transform: translate(-0px, -290px);
 }
 
 .d-pad::before,
