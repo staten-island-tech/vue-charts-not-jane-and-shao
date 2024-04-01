@@ -1,13 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <form>
-      <button v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
-      <button v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2','g3']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
-      <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3">
-      <p v-if="gameSettings.type == 'host'">{{ gameSettings.mode }}</p>
+      <button id="hostSelect" v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
+      <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2','g3']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
+      <p>Room Code:     <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3"></p>
+      <p v-if="gameSettings.type == 'host'">You are hosting: {{ gameSettings.mode }}</p>
       <button @click.prevent="gameStart()">Start Game</button>
-      <p>{{ gameSettings.type }}</p>
-      <p>{{ gameSettings.code }}</p>
+      <p>Your room code: {{ gameSettings.code }}</p>
       <p>{{ error }}</p>
     </form>
   </div>
@@ -113,5 +112,46 @@ else{
 </script>
 
 <style scoped>  
+  .container {
+    text-align: center;
+    font-family: 'VT323', monospace;
+  }
 
+  button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #007bff; 
+    color: #ffffff;
+    text-align: center;
+    font-family: 'VT323', monospace;
+  }
+
+  button:hover{
+    transform: scale(1.05);
+  }
+
+  #gameSelect {
+    background-color: #28a745;
+    font-family: 'VT323', monospace;
+  }
+
+  #hostSelect{
+    background-color: #007bff;
+    font-family: 'VT323', monospace;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 3px; 
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    text-align: center;
+    width: 100px;
+    font-family: 'VT323', monospace; 
+  }
 </style>
