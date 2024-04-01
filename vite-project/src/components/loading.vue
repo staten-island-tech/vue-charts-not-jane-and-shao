@@ -22,7 +22,7 @@ defineProps({
   game: String
 })
 info.audio.muted = true
-info.audio = new Audio(`https://vgmtreasurechest.com/soundtracks/omori-original-soundtrack-2020/jcyjvzwmpa/15.%20Tussle%20Among%20Trees.mp3`)
+info.audio = new Audio(`https://epsilon.vgmsite.com/soundtracks/portal/udjkwzrqhw/14.%20Still%20Alive%20%28Radio%20Mix%29.mp3`)
 info.audio.play()
 info.audio.loop = true
 </script>

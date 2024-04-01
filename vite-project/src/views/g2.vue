@@ -69,7 +69,7 @@ function startGame(){
     console.log('host')
     set(reference, {
         game: 'g2',
-        qList: [],
+        qList: [69],
         code: route.params.code,
         aop: 0,
         question: 'What are the odds Noah Abbas cries himself to sleep tonight?',

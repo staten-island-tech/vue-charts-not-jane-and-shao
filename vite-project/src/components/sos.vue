@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="gameInfo.players[selfNumber].health == 'limbo'">
       <p>{{ jackpot }}</p>
         <p>{{ timeTracker }}</p>
         <p>{{ ethicalChoice }}</p>
@@ -12,10 +12,10 @@
 import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
-let timeD = ref(21)//61
-let timeTracker = ref(21)//61
+let timeD = ref(11)//61
+let timeTracker = ref(11)//61
 const qt = getDatabase()
-let ethicalChoice = ref(false)
+let ethicalChoice = ref('pass')
 const route = useRoute()
 const props = defineProps({
         gameInfo: Object,

@@ -1,6 +1,6 @@
 <template>
     <div>
-<p>{{text}}</p>
+<p v-for="player in gameInfo.players">{{player.name}}: {{ player.subPoints }}</p>
     </div>
 </template>
 
@@ -39,23 +39,27 @@ get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapsho
             console.log(choices.value[player.subPoints])
         }
     });
-    if(choices.value.steal == 1){
         get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
     snapshot.val().forEach(player => {
-        update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive'}) 
-        if(player.subPoints == 'steal'){
-            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {points: props.gameInfo.players[player.pos].points + ((props.gameInfo.aop + 1) * 850)}) 
+        if(player.health == 'limbo' && player.subPoints != 'steal' || player.subPoints != 'defend'){
+            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead'}) 
         }
+        else{
+            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive'}) 
+        }
+        if(choices.value.steal == 1){
+        if(player.subPoints == 'steal'){
+            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {points: props.gameInfo.players[player.pos].points + ((props.gameInfo.aop + 1) * 850)}) }
         else if(player.subPoints == 'defend'){
             update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {points: props.gameInfo.players[player.pos].points - 550}) 
-        }
+        }        }
         if(choices.value.steal == 2){
         if(player.subPoints == 'steal'){
             update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead'}) 
         }
     }
     })})
-    }
+    
     console.log(choices)
     console.log(props.gameInfo.aop)
 })

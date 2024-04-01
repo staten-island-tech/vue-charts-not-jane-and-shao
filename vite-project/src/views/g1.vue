@@ -108,15 +108,16 @@ join()
 
 
 function startGame(){
-  let i = 0
+  let i = 0 
    orderList.value = []
   while(i <= gameInfo.value.aop){  
-    let ranNum = Math.round(Math.random() * gameInfo.value.aop  )
+    let ranNum = Math.round(Math.random() * gameInfo.value.aop  ) 
     if(orderList.value.includes(ranNum) == false){
       orderList.value.push(ranNum)
       i++
     }
   }
+  orderList.value = [...orderList.value, ...orderList.value]
   update(r(qt, `rooms/${route.params.code}`), {
     joinable: false,
      order: orderList.value.toString().replaceAll(',',''),
