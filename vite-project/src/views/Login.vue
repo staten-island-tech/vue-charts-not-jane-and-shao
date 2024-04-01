@@ -12,13 +12,9 @@ const router = useRouter()
 const route = useRoute()
 const qt = getDatabase()
 let name = ref('')
-
-function handleSpriteSelected(sprite){
-  info.sprite = sprite;
-}
+let sprite = ref('')
 
 async function LoginAttempt(){
-  console.log('ea')
 await get(r(qt), '/').then((snapshot) => { 
   if(!Object.keys(snapshot.val().playerlist).includes(name.value.toUpperCase())){
     info.name = name.value.toUpperCase().replaceAll(' ', '-')
@@ -45,7 +41,7 @@ router.replace({ path: '/lobby' })
   <div id="nintendo3DS">
     <div id="bar"></div>
     <div class="topScreen">
-      <selection @sprite-selected="handleSpriteSelected"></selection>
+      <selection></selection>
     </div>
     <div class="bottomScreen">
       <div id="infoBox">
@@ -55,7 +51,7 @@ router.replace({ path: '/lobby' })
           <h3 v-if="name">{{ name.toUpperCase().replaceAll(' ', '-') }}</h3>
           <h3 v-else>Username</h3>
           <input type="text" v-model="name" maxlength="15" placeholder="Enter your username">
-          <button @click.prevent="LoginAttempt()">tewewt</button>
+          <button @click.prevent="LoginAttempt" :disabled="name == ''">Submit</button>
         </form>
       </div>
     </div>
@@ -67,7 +63,8 @@ router.replace({ path: '/lobby' })
         <button class="right">A</button>
       </div>
     </div>
-    <img class="d-pad" src="https://static.thenounproject.com/png/1273647-200.png">
+    <div class="d-pad"></div>
+    <img src="https://static.thenounproject.com/png/1273647-200.png">
   </div>
 </div>
 </template>
@@ -193,12 +190,12 @@ button:hover {
 
 .buttons button.left {
   margin: 0 5px;
-  transform: translateX(20%)
+  transform: translateX(30%)
 }
 
 .buttons button.right {
   margin: 0 5px;
-  transform: translateX(-20%)
+  transform: translateX(-30%)
 }
 
 .buttons button.down {
@@ -211,11 +208,11 @@ button:hover {
 }
 
 .d-pad {
-  width: 144px;
+  width: 150px;
   height: 150px;
   background-color: transparent;
   position: relative;
-  transform: translate(-0px, -301px);
+  transform: translate(-0px, -290px);
 }
 
 .d-pad::before,
