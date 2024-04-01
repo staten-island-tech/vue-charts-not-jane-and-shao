@@ -70,13 +70,13 @@ let num = Math.floor((Math.random() * 23));
     }
 
 
-  }}
+  }}  
 
   async function otherFunction(){
   try{
     console.log('host only')
     timeD = 15
-  const response = await fetch(`https://theone-hofj.onrender.com/gp/${num}`)
+  const response = await fetch(`https://theone-1.onrender.com/gp/${num}`)
   const data = await response.json(); 
   console.log(data) 
   await update(r(qt, `rooms/${route.params.code}/question`), {
