@@ -18,6 +18,7 @@ function handleSpriteSelected(sprite){
 }
 
 async function LoginAttempt(){
+  console.log('ea')
 await get(r(qt), '/').then((snapshot) => { 
   if(!Object.keys(snapshot.val().playerlist).includes(name.value.toUpperCase())){
     info.name = name.value.toUpperCase().replaceAll(' ', '-')
@@ -54,7 +55,7 @@ router.replace({ path: '/lobby' })
           <h3 v-if="name">{{ name.toUpperCase().replaceAll(' ', '-') }}</h3>
           <h3 v-else>Username</h3>
           <input type="text" v-model="name" maxlength="15" placeholder="Enter your username">
-          <button @click.prevent="LoginAttempt" :disabled="name == '' || !info.sprite">Submit</button>
+          <button @click.prevent="LoginAttempt()">tewewt</button>
         </form>
       </div>
     </div>
