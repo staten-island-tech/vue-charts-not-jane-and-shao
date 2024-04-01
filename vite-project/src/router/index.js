@@ -3,6 +3,7 @@ import Login from '@/views/Login.vue'
 import Lobby from '@/views/lobby.vue'
 import g1 from '@/views/g1.vue'
 import g2 from '@/views/g2.vue'
+import g3 from '@/views/g3.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/g2/:code/:auth',
       name: 'gametwo',
       component: g2
+    },
+    {
+      path: '/g3/:code/:auth',
+      name: 'gamethree',
+      component: g3
     },
     {
       path: '/lobby',

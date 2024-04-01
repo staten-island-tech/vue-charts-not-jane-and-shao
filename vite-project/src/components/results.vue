@@ -69,7 +69,7 @@ async function nextGameTest(){
         if(player.health == 'limbo'){
           console.log(player.health)
           if(nextState.value != 'secondResults'){
-            gameArray = [...gameArray, 'chance']
+            gameArray = [...gameArray, 'sos']
           }
           nextState.value = gameArray[Math.floor(Math.random() * gameArray.length)]
         }
