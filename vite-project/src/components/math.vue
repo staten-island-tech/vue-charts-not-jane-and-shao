@@ -3,6 +3,7 @@
      <p>{{gameInfo}}</p>
      <p>{{ guess }}</p>
      <p>{{ points }}</p>
+     <h1>cutoff: {{ cutoff }}</h1>
      <p>{{ timeTracker }}</p>
      <h1>{{ num }} {{ valuesArray[sign] }} {{ num2 }}</h1>
      <input type='text' v-model="guess" v-on:keydown.enter.prevent="choiceCheck" />
@@ -13,7 +14,6 @@
 import { info } from "@/reactive";
 import { useRoute } from 'vue-router'
 import { ref,onMounted } from "vue";
-let potato = ["a","b","c","d"]
 import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
 import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
@@ -28,6 +28,7 @@ const props = defineProps({
 let timeD = ref(7 )//61
     let num = ref('')
 let num2 = ref('')
+let cutoff = (Math.floor(props.gameInfo.qList.length ** 1.45)) + 30
 let ans = ref('')
 let sign = ref('')
 let timeTracker = ref(7)//61

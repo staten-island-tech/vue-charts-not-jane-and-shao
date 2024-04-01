@@ -51,7 +51,7 @@ router.replace({ path: '/lobby' })
           <h3 v-if="name">{{ name.toUpperCase().replaceAll(' ', '-') }}</h3>
           <h3 v-else>Username</h3>
           <input type="text" v-model="name" maxlength="15" placeholder="Enter your username">
-          <button @click.prevent="LoginAttempt" :disabled="name == ''">Submit</button>
+          <button id="sButt" @click.prevent="LoginAttempt" :disabled="name == ''">Submit</button>
         </form>
       </div>
     </div>
@@ -101,7 +101,6 @@ router.replace({ path: '/lobby' })
 #nintendo3DS {
   width: 720px;
   height: 675px;
-  background-image: url('https://i.imgur.com/WHwJbon.png');
   background-color: #0095b3;
   border: black 2px solid;
   border-radius: 20px;
@@ -127,6 +126,12 @@ router.replace({ path: '/lobby' })
 #infoBox {
   padding: 20px;
   flex: 1;
+}
+
+#sButt{
+  background-color: silver;
+  color:whitesmoke;
+  text-shadow: #000000 1px 0 1px;;
 }
 
 form {
@@ -179,7 +184,6 @@ button:hover {
   height: 40px;
   border: 2px solid black;
   border-radius: 50%;
-  background-color: #0095b3;
   background-color: #068098;
   margin: 5px;
 }
