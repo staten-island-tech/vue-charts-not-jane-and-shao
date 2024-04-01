@@ -22,7 +22,7 @@ async function getQuestionInfo(){
   if(route.params.auth == 'host'){
     let num = Math.floor((Math.random() * 55)); 
   try{
-  const response = await fetch(`https://theone-hofj.onrender.com/dt/${num}`)
+  const response = await fetch(`https://theone-1.onrender.com/dt/${num}`)
   const data = await response.json(); 
   console.log(data) 
   update(r(qt, `rooms/${route.params.code}/question`), {

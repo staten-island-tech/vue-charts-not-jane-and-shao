@@ -1,18 +1,8 @@
-<template>
-    <div v-if="gameInfo.players[selfNumber].health == 'alive'">
-        <p>{{gameInfo.question.prompt}}</p>
-        <p>{{ selfNumber }}</p>
-        <p>{{ gameInfo.time }}</p>
-          <!-- <p>{{gameInfo.question.a}}</p>
-          <p>{{gameInfo.question.b}}</p>
-          <p>{{gameInfo.question.c}}</p>
-          <p>{{gameInfo.question.d}}</p> -->
-        <button v-for="i in potato" @click.prevent="choice(i)">{{gameInfo.question[i]}}</button>
-    </div>
+<template>        
+<p>{{ gameInfo }}</p>
 </template>
 
 <script setup>
-import { info } from "@/reactive";
 import { useRoute } from 'vue-router'
 import { ref,onMounted } from "vue";
 let potato = ["a","b","c","d"]
@@ -38,22 +28,6 @@ async function choice(choice){
  await update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
      choice: choice,
   });
-  // //  await get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
-  // //   console.log(snapshot.val())
-  // //   snapshot.val().forEach(player => {
-  // //     if(player.choice == false){
-  // //       allChecked = false
-  // //     } 
-  // //   })
-  // //   })
-  // //   console.log(allChecked)
-  // //   if(allChecked == true){
-  // //     timeD = 0
-  // //     stopInterval = true
-  // //     update(r(qt, `rooms/${route.params.code}/`), {
-  // //    state: 'firstResults',
-  // // });
-  //   }
 }
 let num = Math.floor((Math.random() * 23)); 
 
@@ -76,7 +50,7 @@ let num = Math.floor((Math.random() * 23));
   try{
     console.log('host only')
     timeD = 15
-  const response = await fetch(`https://theone-hofj.onrender.com/gp/${num}`)
+  const response = await fetch(`https://theone-1.onrender.com/ql/${num}`)
   const data = await response.json(); 
   console.log(data) 
   await update(r(qt, `rooms/${route.params.code}/question`), {

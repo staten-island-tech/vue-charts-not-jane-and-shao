@@ -1,22 +1,18 @@
 <template>
     <div v-if="info.name">
       <loading :game="'Quiplash'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
-      <p v-if="gameInfo.state == 'prompts'">wajio</p>
+      <prompts v-if="gameInfo.state == 'prompts'" :gameInfo="gameInfo" :selfNumber="selfNumber"></prompts>
     </div>
   </template>
   
   <script setup>
   import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
   import { useRoute } from 'vue-router'
-  import diceGame from "@/components/dice.vue"
+import prompts from "@/components/prompts.vue"
   import { ref } from "vue";
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
-  import question from "@/components/questionScreen.vue";
-  import results from "@/components/results.vue"
- import mathgame from "@/components/math.vue";
- import secondResults from "@/components/secondResults.vue"
-import endScreen from "@/components/endScreen.vue"
+
 
   const route = useRoute()
   console.log(route.params.auth)
@@ -46,7 +42,8 @@ import endScreen from "@/components/endScreen.vue"
   
     }
   
-function startGame(){
+async function startGame(){
+  
     update(r(qt, `rooms/${route.params.code}`), {
      state: 'prompts',  
      joinable: false,
@@ -58,21 +55,18 @@ function startGame(){
   async function host(){
     console.log('host')
     set(reference, {
-        game: 'g2',
+        game: 'g3',
         code: route.params.code,
         aop: 0,
-        question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
         joinable: true,
         time: 0,
+        qList: [999],
         players: {
           '0': {
               name: name,
               pos: 0,
-              subPoints: 0,
-              health: 'alive',
               points: 0,
               ready: false,
-              choice: false,
           }
         },
         state: 'start'
