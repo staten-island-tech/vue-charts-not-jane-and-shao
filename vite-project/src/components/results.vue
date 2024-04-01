@@ -1,7 +1,7 @@
 <template>
     <div>
       <p>the correct answer was choice {{ gameInfo.question.answer }}, {{ gameInfo.question[gameInfo.question.answer] }}</p>
-      
+      <p>Next Game Will Be {{ nextState }}</p>
       <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
     </div>
     <button @click.prevent="readyCheck()">OYASUMI</button>
@@ -23,7 +23,9 @@ const props = defineProps({
         selfNumber: Number,
     })
 
+
   onMounted(async () =>{
+    gameSelector()
       await get(child(r(getDatabase()), `rooms/${route.params.code}/players/${props.selfNumber}`)).then((snapshot) => {
         if(snapshot.val().choice == props.gameInfo.question.answer){
           console.log(snapshot.val())
@@ -61,30 +63,37 @@ async function readyCheck(){
 }
 
 async function nextGameTest(){
-  console.log(nextState.value)
      await get(child(r(getDatabase()), `rooms/${route.params.code}/players/`)).then((snapshot) => {
       snapshot.val().forEach(player => {
         update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {ready: false})
         console.log('player')
         if(player.health == 'limbo'){
           console.log(player.health)
-          if(nextState.value != 'secondResults'){
-            gameArray = [...gameArray]
-            // 'sos'
-          }
-          nextState.value = gameArray[Math.floor(Math.random() * gameArray.length)]
-
-
-            
-          nextState.value = 'sos'
         }
         else{
           console.log('alive' + player.health)
         }
       })
     })
-    console.log(nextState.value)
     await update(r(qt, `rooms/${route.params.code}`), {state: nextState.value})
+}
+
+async function gameSelector(){
+  let people = 0
+     await get(child(r(getDatabase()), `rooms/${route.params.code}/players/`)).then((snapshot) => {
+      snapshot.val().forEach(player => {
+        if(player.health == 'limbo'){
+          people++
+          if(people > 1){
+            gameArray = [...gameArray]
+            // 'sos'
+          }
+          // nextState.value = 'sos'
+        }
+      })
+    })
+    nextState.value = gameArray[Math.floor(Math.random() * gameArray.length)]
+    console.log(nextState.value)
 }
 </script>
 

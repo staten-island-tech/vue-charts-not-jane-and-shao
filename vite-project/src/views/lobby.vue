@@ -123,6 +123,9 @@ onMounted(() => {
   switch (event.key) {
     case 'Shift':
       if(3600000000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2)){
+        if(showGameSettings.value = true){
+          
+        }
         showGameSettings.value = true
       }
       break
