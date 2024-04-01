@@ -37,11 +37,9 @@ async function gameStart(){
   })
 })
 roomList.forEach(room => {
-  console.log(room)
   if(room.code == gameSettings.value.code){
       valid = false 
       joinable = room.joinable
-      gameSettings.value.mode = room.game
     }
 })
 // console.log( `room: ${valid} joinable ${joinable}`)
@@ -53,7 +51,7 @@ if(valid && gameSettings.value.type == 'host'){
 }
 else if(!valid && gameSettings.value.type == 'join' && joinable){
   await set(r(qt, 'players/' + info.name), null)
-  info.inLobby == false 
+  info.inLobby == false
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/join` })
 }
 else{

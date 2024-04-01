@@ -69,9 +69,10 @@ router.replace({ path: '/lobby' })
 
 #nintendo3DS {
   width: 720px;
-  height: 700px;
+  height: 675px;
   background-image: url('https://i.imgur.com/WHwJbon.png');
   background-color: #000000;
+  border: black 2px solid;
   border-radius: 20px;
   position: absolute;
   top: 50%;
@@ -130,7 +131,7 @@ button:hover {
 
 .buttons {
   position: absolute;
-  top: 50%;
+  top: 53%;
   right: -10px;
   display: flex;
   flex-direction: column;
