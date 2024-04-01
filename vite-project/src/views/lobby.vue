@@ -3,11 +3,12 @@ import { onMounted } from 'vue';
 import { db } from '@/fireSetup';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router'
-import { getDatabase, ref as r, set, onDisconnect,onValue, update   } from "firebase/database";
+import { getDatabase, ref as r, set, onDisconnect, onValue, update } from "firebase/database";
 import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
-
-
+import { collision } from '@/assets/collisions.js'
+import map from '@/assets/map.png'
+import knight from '@/assets/knight.png'
 const route = useRoute()
 let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
@@ -15,202 +16,322 @@ const qt = getDatabase()
 const reference = r(qt, selfRef);
 
 onDisconnect(reference).remove();
-onDisconnect(r(qt,`playerlist/${info.name}`)).remove();
+onDisconnect(r(qt, `playerlist/${info.name}`)).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
-if(Object.keys(route.params) + ''){
+if (Object.keys(route.params) + '') {
   console.log(Object.keys(route.params) + '')
+  console.log('ea')
 }
 
-if(!info.name){
+if (!info.name) {
   window.location = "http://localhost:5173/";
 }
 
-  info.audio.play()
-    info.audio.loop = true
+function test() {
 
-function test(){
-
-  let a = new Image()
-  a.src = 'https://static.wikia.nocookie.net/clubpenguin/images/4/46/Goofy_penguin_-_copia.webp/revision/latest/scale-to-width-down/250?cb=20231231150128&path-prefix=es'
-
-    set(reference, {
-      username: info.name,
-      xPos: 0,
-      yPos: 0,
-      sprite: a
-    })
-selfInfo.value = {
-      username: info.name,
-      xPos: 0,
-      yPos: 0,
-      sprite: a
-    }
-
-
-
-    onValue(r(qt, 'players/'), (snapshot) => {
-  let tempList = []
-try{
-  Object.keys(snapshot.val()).forEach((player)=> {
-      tempList.push(snapshot.val()[player])
+  let test = new Image()
+  test.src = knight
+  console.log(reference)
+  set(reference, {
+    username: info.name,
+    xPos: 0,
+    yPos: 0,
+    sprite: knight
   })
-  otherPlayers = tempList 
-}
-catch(error){
-  console.log('Take that, Obama')
-}
-});
+  selfInfo.value = {
+    username: info.name,
+    xPos: 0,
+    yPos: 0,
+    sprite: knight
   }
 
 
-  
+
+  onValue(r(qt, 'players/'), (snapshot) => {
+    let tempList = []
+    try {
+      console.log(info.inLobby)
+      Object.keys(snapshot.val()).forEach((player) => {
+        console.log()
+        tempList.push(snapshot.val()[player])
+      })
+      otherPlayers = tempList
+      console.log(otherPlayers)
+    }
+    catch (error) {
+      console.log('Take that, Obama')
+    }
+  });
+}
+
+let rows = []
+console.log(collision.length)
+for (let i = 0; i < collision.length; i += 128) {
+  rows.push(collision.slice(i, i + 128))
+}
+
+console.log(rows)
 
 onMounted(() => {
-  if(info.name){
+  console.log(otherPlayers)
+  if (info.name) {
+    console.log(info.name)
+    test()
 
-  test()
-
-
-
-
-  let bgtest = new Image()
-  bgtest.src = 'https://images.hdqwalls.com/wallpapers/8-bit-pixel-art-city-2o.jpg'
-  let playertest = new Image()
-  playertest.src = 'https://static.wikia.nocookie.net/75247b18-3456-4e12-a5fd-19b7d66b643e/scale-to-width/755'
-
-  const canvas = document.querySelector("canvas");
-  if (canvas.getContext) {
-    const c = canvas.getContext("2d");
-    class Sprite { 
-      constructor({ position, image }) {
-        this.position = position
-        this.image = image
-      }
-
-      draw() {
-        c.drawImage(this.image, this.position.x, this.position.y)
-      }
-    }
-
-
-
-    const background = new Sprite({
-      position: {
-        x: 0,
-        y: 0,
-      },
-      image: bgtest,
-    })
-
-    const player = new Sprite({
-      position: {
-        x: 50,
-        y: 50,
-      }, image: playertest,
-    })
-
-    const keys = {
-      up: false,
-      down: false,
-      left: false,
-      right: false,
-    }
-
-    
-    let lastKeyPressed = ''
-    window.addEventListener('keydown', (event) => {
-  switch (event.key) {
-    case 'Shift':
-      if(3600000000 > ((player.position.x - 250)**2 + (player.position.y - 150)**2)){
-        if(showGameSettings.value = true){
-          
+    const canvas = document.querySelector("canvas");
+    if (canvas.getContext) {
+      const c = canvas.getContext("2d");
+      class Sprite {
+        constructor({ pos, properties }) {
+          this.pos = pos
+          this.properties = properties
         }
-        showGameSettings.value = true
-      }
-      break
-    case 'ArrowDown':
-    case 's':
-      keys.down=true
-      lastKeyPressed = 'down'
-      break
-    case 'ArrowRight':
-    case 'd':
-      keys.right=true
-      lastKeyPressed = 'right'
-      break
-    case 'ArrowUp':
-    case 'w':
-      keys.up=true
-      lastKeyPressed = 'up'
-      break
-    case 'ArrowLeft':
-    case 'a':
-      keys.left=true
-      lastKeyPressed = 'left'
-      break
-  }
-})
-  
 
-  window.addEventListener('keyup', (event) => {
-  switch (event.key) {
-    case 'ArrowDown':
-    case 's':
-      keys.down=false
-      break
-    case 'ArrowRight':
-    case 'd':
-      keys.right=false
-      break
-    case 'ArrowUp':
-    case 'w':
-      keys.up=false
-      break
-    case 'ArrowLeft':
-    case 'a':
-      keys.left=false
-      break
-}
-})
-function animate() {
-      
-      window.requestAnimationFrame(animate)
-      background.draw()
-      c.font = "64px serif";
-       otherPlayers.forEach((plyaer)=>{
-        c.drawImage(playertest, plyaer.xPos+background.position.x, plyaer.yPos+background.position.y)
-        c.fillText(plyaer.username, plyaer.xPos+285+background.position.x, plyaer.yPos+background.position.y)
+        draw() {
+          c.drawImage(this.properties.image, this.pos.x, this.pos.y)
+        }
+      }
+
+      class boundary {
+        constructor({ pos }) {
+          this.pos = pos
+          this.w = 64
+          this.h = 64
+        }
+        draw() {
+          c.fillStyle = "rgba(0, 0, 0, 0)";
+          c.fillRect(this.pos.x, this.pos.y, this.w, this.h)
+        }
+      }
+      const bg = new Image()
+      bg.src = map
+
+      const background = new Sprite({
+        pos: {
+          x: -2500,
+          y: -2500
+        },
+        properties: {
+          image: bg
+        },
+      })
+      const plyr = new Image()
+      plyr.src = knight
+      const player = new Sprite({
+        pos: {
+          x: 3000 + background.pos.x,
+          y: 3000 + background.pos.y,
+          actualX: 3000,
+          actualY: 3000,
+        }, properties: {
+          image: plyr,
+          name: info.name
+        }
+      })
+      console.log(player.properties.name)
+
+      let boundList = []
+      rows.forEach((x, i) => {
+        x.forEach((tile, j) => {
+          if (tile == 397) {
+            boundList.push(new boundary({
+              pos: {
+                x: j * 64-2500,
+                y: i * 64-2500,
+              }
+            }))
+          }
+        })
       })
 
-      selfInfo.value.xPos = player.position.x
-      selfInfo.value.yPos = player.position.y
-      if(info.inLobby){
-      if (keys.up && lastKeyPressed == 'up') {
-        player.position.y -= 5
-        background.position.y += 5
-        update(reference, {yPos: selfInfo.value.yPos,})
+      const keys = {
+        up: false,
+        down: false,
+        left: false,
+        right: false,
       }
-      else if (keys.down && lastKeyPressed == 'down') {
-        player.position.y += 5
-        background.position.y -= 5
-        update(reference, {yPos: player.position.y,})
-      }
-      else if (keys.left && lastKeyPressed == 'left') {
-        player.position.x -= 5
-        background.position.x += 5
-        update(reference, {xPos: selfInfo.value.xPos,})
-      }
-      else if (keys.right && lastKeyPressed == 'right') {
-        player.position.x += 5
-        background.position.x -= 5
-        update(reference, {xPos: selfInfo.value.xPos,})
-      }}
-    }
-    animate()
-  }
 
-  }})
+
+      let lastKeyPressed = ''
+      window.addEventListener('keydown', (event) => {
+        switch (event.key) {
+          case 'Shift':
+            showGameSettings.value = true
+            break
+          case 'ArrowDown':
+          case 's':
+            keys.down = true
+            lastKeyPressed = 'down'
+            break
+          case 'ArrowRight':
+          case 'd':
+            keys.right = true
+            lastKeyPressed = 'right'
+            break
+          case 'ArrowUp':
+          case 'w':
+            keys.up = true
+            lastKeyPressed = 'up'
+            break
+          case 'ArrowLeft':
+          case 'a':
+            keys.left = true
+            lastKeyPressed = 'left'
+            break
+        }
+      })
+
+
+      window.addEventListener('keyup', (event) => {
+        switch (event.key) {
+          case 'ArrowDown':
+          case 's':
+            keys.down = false
+            break
+          case 'ArrowRight':
+          case 'd':
+            keys.right = false
+            break
+          case 'ArrowUp':
+          case 'w':
+            keys.up = false
+            break
+          case 'ArrowLeft':
+          case 'a':
+            keys.left = false
+            break
+        }
+      })
+
+      function colliding(obj1,obj2){
+        return(obj1.pos.x + 64 >= obj2.pos.x  &&  
+          obj1.pos.x <= obj2.pos.x +32
+          && obj1.pos.y <= obj2.pos.y + 32 
+          && obj1.pos.y + 64 >= obj2.pos.y)
+        }
+      function animate() {
+
+        window.requestAnimationFrame(animate)
+        background.draw()
+        boundList.forEach((bndry) => {
+          bndry.draw() 
+        })
+        c.font = "16px serif";
+        player.draw()
+        otherPlayers.forEach((plyaer) => {
+          if (plyaer.username != player.properties.name) {
+            c.drawImage(player.properties.image, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
+            c.fillText(plyaer.username, plyaer.xPos + 285 + background.pos.x, plyaer.yPos + background.pos.y)
+          }
+        })
+
+        selfInfo.value.xPos = player.pos.actualX
+        selfInfo.value.yPos = player.pos.actualY
+        if (info.inLobby) {
+
+          let moving=true
+          if (keys.up && lastKeyPressed == 'up') {
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x ,
+              y: boundList[i].pos.y+2,
+            },
+          }
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            moving=false
+            break
+          }
+            }if(moving==true){
+            player.pos.actualY -= 3
+            background.pos.y += 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.y+=3
+            })
+            update(reference, { yPos: selfInfo.value.yPos, })
+          }}
+          else if (keys.down && lastKeyPressed == 'down') {
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x ,
+              y: boundList[i].pos.y-2,
+            },
+          }
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            moving=false
+            break
+          }
+            }if(moving==true){
+            player.pos.actualY += 3
+            background.pos.y -= 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.y-=3
+            })
+            update(reference, { yPos: selfInfo.value.yPos, })
+          }}
+          else if (keys.left && lastKeyPressed == 'left') {
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x+2 ,
+              y: boundList[i].pos.y,
+            },
+          }
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            console.log(predictBndry.pos.x,predictBndry.pos.y,64,64,player)
+            moving=false
+            break
+          }
+            }if(moving==true){
+            player.pos.actualX -= 3
+            background.pos.x += 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.x+=3
+            })
+
+            update(reference, { xPos: selfInfo.value.xPos, })
+          }}
+          else if (keys.right && lastKeyPressed == 'right') {
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x-2 ,
+              y: boundList[i].pos.y,
+            },
+          }
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            console.log('!')
+            moving=false
+            break
+          }
+            }
+          if(moving==true){
+            player.pos.actualX += 3
+            background.pos.x -= 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.x-=3
+            })
+
+            update(reference, { xPos: selfInfo.value.xPos, })}
+          }
+        }
+      }
+
+      animate()
+    }
+
+  }
+})
 
 
 
@@ -219,42 +340,43 @@ function animate() {
 <template>
   <main>
     <div id="canvasBox">
-    <canvas width="1920" height="1080">
+      <canvas width="1920" height="1080">
 
-    </canvas>
-  </div>
+      </canvas>
+    </div>
     <gSet id="settings" v-if="showGameSettings"></gSet>
   </main>
 </template>
 
-<style scoped>  
-
-#settings{
+<style scoped>
+#settings {
   display: flexbox;
   border: 3px black solid;
   justify-content: center;
   background-color: white;
   position: fixed;
   width: 100%;
-    top: 100%;
-    left: 50%;
-    -webkit-transform: translate(50%, 0%);
-    transform: translate(-50%, -100%);
+  top: 100%;
+  left: 50%;
+  -webkit-transform: translate(50%, 0%);
+  transform: translate(-50%, -100%);
 }
-#canvasBox{
+
+#canvasBox {
   /* align-items: center; */
   justify-content: center;
   display: flex;
-  opacity:0.8;
-    background-image: url(https://i.pinimg.com/736x/fc/2b/2b/fc2b2b547b98582926b7e7c993987163.jpg);
-    position:fixed;
-    width:100%;
-    height:100%;
-    top:0px;
-    left:0px;
-    z-index:-1000;
+  opacity: 0.8;
+  background-image: url(https://i.pinimg.com/736x/fc/2b/2b/fc2b2b547b98582926b7e7c993987163.jpg);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: -1000;
 }
-canvas{
-  border: 5px solid black 
+
+canvas {
+  border: 5px solid black
 }
 </style>

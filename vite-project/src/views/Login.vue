@@ -101,7 +101,7 @@ router.replace({ path: '/lobby' })
 #nintendo3DS {
   width: 720px;
   height: 675px;
-  /* background-image: url('https://i.imgur.com/WHwJbon.png'); */
+  background-image: url('https://i.imgur.com/WHwJbon.png');
   background-color: #0095b3;
   border: black 2px solid;
   border-radius: 20px;
