@@ -35,13 +35,13 @@ function test(){
       username: info.name,
       xPos: 0,
       yPos: 0,
-      sprite: a
+      sprite: info.sprite
     })
 selfInfo.value = {
       username: info.name,
       xPos: 0,
       yPos: 0,
-      sprite: a
+      sprite: info.sprite
     }
 
 
@@ -74,7 +74,7 @@ onMounted(() => {
   let bgtest = new Image()
   bgtest.src = 'https://images.hdqwalls.com/wallpapers/8-bit-pixel-art-city-2o.jpg'
   let playertest = new Image()
-  playertest.src = 'https://static.wikia.nocookie.net/75247b18-3456-4e12-a5fd-19b7d66b643e/scale-to-width/755'
+  playertest.src = info.sprite
 
   const canvas = document.querySelector("canvas");
   if (canvas.getContext) {

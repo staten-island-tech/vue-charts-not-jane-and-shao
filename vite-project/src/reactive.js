@@ -4,7 +4,7 @@ const info = reactive({
     inLobby: true,
     name: false, 
     winner: false,
-    sprite: false,
+    sprite: '',
 })
 
 export{

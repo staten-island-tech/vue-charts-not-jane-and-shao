@@ -12,7 +12,10 @@ const router = useRouter()
 const route = useRoute()
 const qt = getDatabase()
 let name = ref('')
-let sprite = ref('')
+
+function handleSpriteSelected(sprite){
+  info.sprite = sprite;
+}
 
 async function LoginAttempt(){
 await get(r(qt), '/').then((snapshot) => { 
@@ -39,7 +42,7 @@ router.replace({ path: '/lobby' })
 <template>
   <div id="nintendo3DS">
     <div class="topScreen">
-      <selection></selection>
+      <selection @sprite-selected="handleSpriteSelected"></selection>
     </div>
     <div class="bottomScreen">
       <div id="infoBox">
@@ -48,7 +51,7 @@ router.replace({ path: '/lobby' })
           <h2>Login</h2>
           <h3>{{ name }}</h3>
           <input type="text" v-model="name" maxlength="15" placeholder="Enter your username">
-          <button @click.prevent="LoginAttempt" :disabled="name == ''">Submit</button>
+          <button @click.prevent="LoginAttempt" :disabled="name == '' || !info.sprite">Submit</button>
         </form>
       </div>
     </div>
