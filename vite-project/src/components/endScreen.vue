@@ -3,6 +3,7 @@
 <p>{{ winner  }}</p>
 <p>{{ winnerPoints  }}</p>
     </div>
+    <button @click.prevent="window.location = `http://localhost:5173/`">Return To Login</button>
 </template>
 
 <script setup>
