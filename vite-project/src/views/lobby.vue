@@ -8,14 +8,12 @@ import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
 import { collision } from '@/assets/collisions.js'
 
-console.log(collision)
 const route = useRoute()
 let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
 const qt = getDatabase()
 const reference = r(qt, selfRef);
 
-console.log(reference)
 onDisconnect(reference).remove();
 onDisconnect(r(qt, `playerlist/${info.name}`)).remove();
 let otherPlayers = []
@@ -93,13 +91,13 @@ onMounted(() => {
     if (canvas.getContext) {
       const c = canvas.getContext("2d");
       class Sprite {
-        constructor({ position, properties }) {
-          this.position = position
+        constructor({ pos, properties }) {
+          this.pos = pos
           this.properties = properties
         }
 
         draw() {
-          c.drawImage(this.properties.image, this.position.x, this.position.y)
+          c.drawImage(this.properties.image, this.pos.x, this.pos.y)
         }
       }
 
@@ -109,15 +107,15 @@ onMounted(() => {
           this.w = 64
           this.h = 64
         }
-        draw(offX, offY) {
-          c.fillStyle = 'red'
-          c.fillRect(this.pos.x + offX, this.pos.y + offY, this.w, this.h)
+        draw() {
+          c.fillStyle = "rgba(0, 0, 0, 0)";
+          c.fillRect(this.pos.x, this.pos.y, this.w, this.h)
         }
       }
 
 
       const background = new Sprite({
-        position: {
+        pos: {
           x: -2500,
           y: -2500
         },
@@ -127,11 +125,11 @@ onMounted(() => {
       })
 
       const player = new Sprite({
-        position: {
-          x: 3340 + background.position.x,
-          y: 3000 + background.position.y,
-          actualX: 3240,
-          actualY: 2900,
+        pos: {
+          x: 3000 + background.pos.x,
+          y: 3000 + background.pos.y,
+          actualX: 3000,
+          actualY: 3000,
         }, properties: {
           image: playertest,
           name: info.name
@@ -145,8 +143,8 @@ onMounted(() => {
           if (tile == 397) {
             boundList.push(new boundary({
               pos: {
-                x: j * 64,
-                y: i * 64,
+                x: j * 64-2500,
+                y: i * 64-2500,
               }
             }))
           }
@@ -212,55 +210,125 @@ onMounted(() => {
         }
       })
 
-      function colliding(obj1,obj2, offset){
-        return(obj1.position.x + 128 >= obj2.pos.x + offset.position.x &&  
-        obj1.position.x <= obj2.pos.x + offset.position.x + obj2.w
-          && obj1.position.y <= obj2.pos.y + offset.position.y + obj2.h 
-          && obj1.position.y + 128 >= obj2.pos.y + offset.position.y)
-      }
+      function colliding(obj1,obj2){
+        return(obj1.pos.x + 64 >= obj2.pos.x  &&  
+          obj1.pos.x <= obj2.pos.x +32
+          && obj1.pos.y <= obj2.pos.y + 32 
+          && obj1.pos.y + 64 >= obj2.pos.y)
+        }
       function animate() {
 
         window.requestAnimationFrame(animate)
         background.draw()
         boundList.forEach((bndry) => {
-          bndry.draw(background.position.x, background.position.y) 
-          if(colliding(player,bndry,background)==false){
-            console.log('samkdfasl')
-          }
+          bndry.draw() 
         })
         c.font = "16px serif";
         player.draw()
         otherPlayers.forEach((plyaer) => {
           if (plyaer.username != player.properties.name) {
-            c.drawImage(player.properties.image, plyaer.xPos + background.position.x + 100, plyaer.yPos + background.position.y + 100)
-            c.fillText(plyaer.username, plyaer.xPos + 285 + background.position.x, plyaer.yPos + background.position.y)
+            c.drawImage(player.properties.image, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
+            c.fillText(plyaer.username, plyaer.xPos + 285 + background.pos.x, plyaer.yPos + background.pos.y)
           }
         })
 
-        selfInfo.value.xPos = player.position.actualX
-        selfInfo.value.yPos = player.position.actualY
+        selfInfo.value.xPos = player.pos.actualX
+        selfInfo.value.yPos = player.pos.actualY
         if (info.inLobby) {
 
-          
+          let moving=true
           if (keys.up && lastKeyPressed == 'up') {
-            player.position.actualY -= 5
-            background.position.y += 5
-            update(reference, { yPos: selfInfo.value.yPos, })
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x ,
+              y: boundList[i].pos.y+2,
+            },
           }
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            moving=false
+            break
+          }
+            }if(moving==true){
+            player.pos.actualY -= 3
+            background.pos.y += 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.y+=3
+            })
+            update(reference, { yPos: selfInfo.value.yPos, })
+          }}
           else if (keys.down && lastKeyPressed == 'down') {
-            player.position.actualY += 5
-            background.position.y -= 5
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x ,
+              y: boundList[i].pos.y-2,
+            },
+          }
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            moving=false
+            break
+          }
+            }if(moving==true){
+            player.pos.actualY += 3
+            background.pos.y -= 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.y-=3
+            })
             update(reference, { yPos: selfInfo.value.yPos, })
-          }
+          }}
           else if (keys.left && lastKeyPressed == 'left') {
-            player.position.actualX -= 5
-            background.position.x += 5
-            update(reference, { xPos: selfInfo.value.xPos, })
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x+2 ,
+              y: boundList[i].pos.y,
+            },
           }
-          else if (keys.right && lastKeyPressed == 'right') {
-            player.position.actualX += 5
-            background.position.x -= 5
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            console.log(predictBndry.pos.x,predictBndry.pos.y,64,64,player)
+            moving=false
+            break
+          }
+            }if(moving==true){
+            player.pos.actualX -= 3
+            background.pos.x += 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.x+=3
+            })
+
             update(reference, { xPos: selfInfo.value.xPos, })
+          }}
+          else if (keys.right && lastKeyPressed == 'right') {
+            for (let i =0; i<boundList.length;i++){
+              let predictBndry = {
+            pos: {
+              x: boundList[i].pos.x-2 ,
+              y: boundList[i].pos.y,
+            },
+          }
+          if(colliding(player,predictBndry)==true){
+            c.fillStyle='blue'
+            c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
+            console.log('!')
+            moving=false
+            break
+          }
+            }
+          if(moving==true){
+            player.pos.actualX += 3
+            background.pos.x -= 3
+            boundList.forEach((boundary)=>{
+              boundary.pos.x-=3
+            })
+
+            update(reference, { xPos: selfInfo.value.xPos, })}
           }
         }
       }
