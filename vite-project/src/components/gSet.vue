@@ -1,17 +1,10 @@
 <template>
   <div class="container">
     <form>
-<<<<<<< HEAD
-      <button v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
-      <button v-if="gameSettings.type == 'host'" v-for="x in ['g2','g3','g1']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
-      <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3">
-      <p v-if="gameSettings.type == 'host'">{{ gameSettings.mode }}</p>
-=======
       <button id="hostSelect" v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
       <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2','g3']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
       <p>Room Code:     <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3"></p>
       <p v-if="gameSettings.type == 'host'">You are hosting: {{ gameSettings.mode }}</p>
->>>>>>> iorqwe
       <button @click.prevent="gameStart()">Start Game</button>
       <p>Your room code: {{ gameSettings.code }}</p>
       <p>{{ error }}</p>
@@ -28,7 +21,7 @@ const router = useRouter()
 let error = ref('')
 const route = useRoute()
 let gameSettings = ref({
-  mode: 'g2',
+  mode: 'g1',
   type: 'join',
   code: 'OPE1'
 })
@@ -44,11 +37,9 @@ async function gameStart(){
   })
 })
 roomList.forEach(room => {
-  console.log(room)
   if(room.code == gameSettings.value.code){
       valid = false 
       joinable = room.joinable
-      gameSettings.value.mode = room.game
     }
 })
 // console.log( `room: ${valid} joinable ${joinable}`)
@@ -60,7 +51,7 @@ if(valid && gameSettings.value.type == 'host'){
 }
 else if(!valid && gameSettings.value.type == 'join' && joinable){
   await set(r(qt, 'players/' + info.name), null)
-  info.inLobby == false 
+  info.inLobby == false
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/join` })
 }
 else{
