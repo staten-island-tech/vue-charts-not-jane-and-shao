@@ -1,28 +1,31 @@
 <script setup>
 import { ref } from 'vue'
-//import business from '@/assets/business-idle.png'
+import { info } from '@/reactive'
+import business from '@/assets/business-idle.png'
+import construction from '@/assets/construction-idle.png'
+import knight from '@/assets/knight.png'
+import poop from '@/assets/poop-idle.png'
+import soldier from '@/assets/soldier-idle.png'
+import trainer from '@/assets/trainer-idle.png'
 
 const sprites = [
     {
-        img: "img link here",
+        img: business,
     },
     {
-        img: "img link here",
+        img: construction,
     },
     {
-        img: "img link here",
+        img: knight,
     },
     {
-        img: "img link here",
+        img: poop,
     },
     {
-        img: "img link here",
+        img: soldier,
     },
     {
-        img: "img link here",
-    },
-    {
-        img: "img link here",
+        img: trainer,
     },
 ]
 
@@ -32,7 +35,7 @@ const selectedSprite = ref(null)
 
 function cycleF(){
     show.value++
-    if(show.value > sprites.length){
+    if(show.value > sprites.length - 1){
         show.value = 0
     }
     console.log(show.value)
@@ -41,15 +44,16 @@ function cycleF(){
 function cycleB(){
     show.value--
     if(show.value < 0){
-        show.value = sprites.length
+        show.value = sprites.length - 1
     }
     console.log(show.value)
 }
 
 function setCharacter(){
     selectedSprite.value = sprites[show.value].img;
-    console.log(selectedSprite.value)
     disabledButtons()
+    info.sprite = selectedSprite.value
+    console.log(info.sprite)
 }
 
 function disabledButtons(){
@@ -64,11 +68,11 @@ function disabledButtons(){
 
 <template>
     <div id="app">
-        <br>
         <h2>Select Character!</h2>
         <button id="lastButton" @click.prevent="cycleB()" >last</button>
         <img class="sprites" :src="sprites[show].img" @click="setCharacter()">
         <button id="nextButton" @click.prevent="cycleF()" >next</button>
+        <h3 v-if="selectedSprite !== null">You've chosen this sprite.</h3>
     </div>
 </template>
 
@@ -80,7 +84,7 @@ function disabledButtons(){
     max-height:300px;
     padding: 20px;
 }
-h2 {
+h2, h3 {
     text-align:center;
 }
 button {
