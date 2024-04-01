@@ -5,12 +5,14 @@ import { getDatabase, ref as r, onValue,get, set } from "firebase/database";
 import { doc, setDoc, collection, getDoc,query,getDocs  } from "firebase/firestore"; 
 import { info } from '@/reactive.js'
 import { useRoute, useRouter } from 'vue-router'
+import selection from '@/components/selection.vue'
 
 
 const router = useRouter()
 const route = useRoute()
 const qt = getDatabase()
 let name = ref('')
+let sprite = ref('')
 
 async function LoginAttempt(){
 await get(r(qt), '/').then((snapshot) => { 
@@ -39,7 +41,7 @@ router.replace({ path: '/lobby' })
   <div id="nintendo3DS">
     <div id="bar"></div>
     <div class="topScreen">
-      <!-- Placeholder for the top screen -->
+      <selection></selection>
     </div>
     <div class="bottomScreen">
       <div id="infoBox">
@@ -156,7 +158,6 @@ background-color: #0095b3;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
 }
 
 button:hover {
