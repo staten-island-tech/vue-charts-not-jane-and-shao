@@ -26,6 +26,9 @@ if(!info.name){
   window.location = "http://localhost:5173/";
 }
 
+  info.audio.play()
+    info.audio.loop = true
+
 function test(){
 
   let a = new Image()

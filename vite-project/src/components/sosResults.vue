@@ -1,0 +1,77 @@
+<template>
+    <div>
+<p>{{text}}</p>
+    </div>
+</template>
+
+<script setup>
+import { ref,onMounted } from "vue";
+import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
+import { useRoute } from 'vue-router'
+const qt = getDatabase()
+const route = useRoute()
+let text = ref('lorbum isupo')
+const props = defineProps({
+        gameInfo: Object,
+        selfNumber: Number,
+    })  
+
+let choices = ref({
+    steal:0,
+    defend:0,
+})
+
+setTimeout(potato, 5000)
+
+
+function potato(){
+    update(r(qt, `rooms/${route.params.code}/`), {state: 'secondResults'})
+}
+get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
+    snapshot.val().forEach(player => {
+        console.log(player.subPoints)
+        if(player.subPoints != 'steal' && player.subPoints != 'defend'){
+            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead'}) 
+        }
+        else{
+            console.log('eawe')
+            choices.value[player.subPoints]++
+            console.log(choices.value[player.subPoints])
+        }
+    });
+    if(choices.value.steal == 1){
+        get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
+    snapshot.val().forEach(player => {
+        update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive'}) 
+        if(player.subPoints == 'steal'){
+            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {points: props.gameInfo.players[player.pos].points + ((props.gameInfo.aop + 1) * 850)}) 
+        }
+        else if(player.subPoints == 'defend'){
+            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {points: props.gameInfo.players[player.pos].points - 550}) 
+        }
+        if(choices.value.steal == 2){
+        if(player.subPoints == 'steal'){
+            update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead'}) 
+        }
+    }
+    })})
+    }
+    console.log(choices)
+    console.log(props.gameInfo.aop)
+})
+//     get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
+// snapshot.val().forEach(player => {  
+//   if(player.subPoints < 1 && player.health == 'limbo' ||player.health == 'dead'){
+//     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead',})
+//   }
+//   else{
+//     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive', points: props.gameInfo.players[player.pos].points + (Math.abs(otherDie.value.sum - die.value.sum) * 150)})
+//   } 
+// })
+// update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
+//      })
+</script>
+
+<style lang="scss" scoped>
+
+</style>

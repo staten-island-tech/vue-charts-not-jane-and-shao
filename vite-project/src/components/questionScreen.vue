@@ -55,12 +55,24 @@ async function choice(choice){
   // // });
   //   }
 }
+let num = Math.floor((Math.random() * 23)); 
 
-
-async function getQuestionInfo(){
+ function getQuestionInfo(){
   if(route.params.auth == 'host'){
     console.log(route.params.auth)
-    let num = Math.floor((Math.random() * 23)); 
+    if(props.gameInfo.qList.includes(num)){
+      num = Math.floor((Math.random() * 23)); 
+      getQuestionInfo()
+    }
+    else{
+       update(r(qt, `rooms/${route.params.code}/`), {qList: [...props.gameInfo.qList, num]})
+      otherFunction()
+    }
+
+
+  }}
+
+  async function otherFunction(){
   try{
     console.log('host only')
     timeD = 15
@@ -75,14 +87,14 @@ async function getQuestionInfo(){
      d: data.d,
      answer: data.answer,
   });
+  get(child(r(getDatabase()), `rooms/${route.params.code}`)).then((snapshot) => {console.log(snapshot.val().qList)})
+  // update(r(qt, `rooms/${route.params.code}/`), {
+  //   qList: props.gameInfo.qList 
+  // });
   intFunction()
 }
 catch(error){
   console.log(error)
-}
-}
-else{
-  console.log('j')
 }
 }
     onMounted(() => {

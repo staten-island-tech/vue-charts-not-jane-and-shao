@@ -1,14 +1,8 @@
 <template>
     <div v-if="info.name">
-      <loading :game="'Trivia Murder Party'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
+      <loading :game="'Quiplash'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
+      <p v-if="gameInfo.state == 'prompts'">wajio</p>
     </div>
-    <question v-if="gameInfo.state == 'question'" :gameInfo="gameInfo" :selfNumber="selfNumber"></question>
-    <results v-if="gameInfo.state == 'firstResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></results>
-    <mathgame v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber"></mathgame>
-    <p v-if="gameInfo.state == 'math'">ea</p>
-    <secondResults v-if="gameInfo.state == 'secondResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></secondResults>
-    <endScreen v-if="gameInfo.state == 'endResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></endScreen>
-    <diceGame v-if="gameInfo.state == 'dice'" :gameInfo="gameInfo" :selfNumber="selfNumber"></diceGame>
   </template>
   
   <script setup>
@@ -54,7 +48,7 @@ import endScreen from "@/components/endScreen.vue"
   
 function startGame(){
     update(r(qt, `rooms/${route.params.code}`), {
-     state: 'question',
+     state: 'prompts',  
      joinable: false,
   });
 }

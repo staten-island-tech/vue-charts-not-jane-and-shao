@@ -9,15 +9,19 @@
     <secondResults v-if="gameInfo.state == 'secondResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></secondResults>
     <endScreen v-if="gameInfo.state == 'endResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></endScreen>
     <diceGame v-if="gameInfo.state == 'dice'" :gameInfo="gameInfo" :selfNumber="selfNumber"></diceGame>
+    <spOrSt v-if="gameInfo.state == 'sos'" :gameInfo="gameInfo" :selfNumber="selfNumber"></spOrSt>
+    <sosResults v-if="gameInfo.state == 'sosResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></sosResults>
   </template>
   
   <script setup>
   import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
   import { useRoute } from 'vue-router'
+  import sosResults from "@/components/sosResults.vue";
   import diceGame from "@/components/dice.vue"
   import { ref } from "vue";
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
+  import spOrSt from "@/components/sos.vue"
   import question from "@/components/questionScreen.vue";
   import results from "@/components/results.vue"
  import mathgame from "@/components/math.vue";
@@ -65,6 +69,7 @@ function startGame(){
     console.log('host')
     set(reference, {
         game: 'g2',
+        qList: [],
         code: route.params.code,
         aop: 0,
         question: 'What are the odds Noah Abbas cries himself to sleep tonight?',

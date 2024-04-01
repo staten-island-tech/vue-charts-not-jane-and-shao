@@ -63,7 +63,7 @@ router.replace({ path: '/lobby' })
         <button class="right">A</button>
       </div>
     </div>
-    <div class="d-pad"></div>
+    <img class="d-pad" src="https://static.thenounproject.com/png/1273647-200.png">
   </div>
 </div>
 </template>
@@ -189,12 +189,12 @@ button:hover {
 
 .buttons button.left {
   margin: 0 5px;
-  transform: translateX(30%)
+  transform: translateX(20%)
 }
 
 .buttons button.right {
   margin: 0 5px;
-  transform: translateX(-30%)
+  transform: translateX(-20%)
 }
 
 .buttons button.down {
@@ -207,11 +207,11 @@ button:hover {
 }
 
 .d-pad {
-  width: 150px;
+  width: 144px;
   height: 150px;
   background-color: transparent;
   position: relative;
-  transform: translate(-0px, -290px);
+  transform: translate(-0px, -301px);
 }
 
 .d-pad::before,

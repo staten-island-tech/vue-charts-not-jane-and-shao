@@ -39,6 +39,7 @@ async function gameStart(){
 roomList.forEach(room => {
   if(room.code == gameSettings.value.code){
       valid = false 
+      gameSettings.value.mode = room.game
       joinable = room.joinable
     }
 })
