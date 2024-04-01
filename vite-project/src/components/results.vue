@@ -17,6 +17,7 @@ import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
 let nextState = ref('secondResults')
+let gameArray = ['math','dice']
 const props = defineProps({
         gameInfo: Object, 
         selfNumber: Number,
@@ -67,7 +68,7 @@ async function nextGameTest(){
         console.log('player')
         if(player.health == 'limbo'){
           console.log(player.health)
-          nextState.value = 'dice'
+          nextState.value = gameArray[Math.floor(Math.random() * 2)]
         }
         else{
           console.log('alive' + player.health)
