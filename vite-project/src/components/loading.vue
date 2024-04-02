@@ -128,12 +128,14 @@ text-align: center;
 .players-list {
   width: 100%;
   margin-top: 20px;
+  font-family: 'DotGothic16', sans-serif
 }
 
-.player-item {
+.player-item, h3 {
   font-size: 22px;
   margin-bottom: 20px;
-  color: ffffff;
+  color: #000000;
+  font-family: 'DotGothic16', sans-serif
 }
 
 
