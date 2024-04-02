@@ -53,6 +53,9 @@ console.log(props)
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="css" scoped>
+body {
+    background-color: black;
+    color:white;
+  }
 </style>

@@ -1,12 +1,14 @@
 <template>
+  <div class="container">
 <div v-if="selfNumber == gameInfo.up"><h2>{{gameInfo.question.prompt}}</h2> 
 <form>
   <p>{{ guessValue }}%</p>
 	<input @input="$emit('valUp',guessValue)" type='range' v-model="guessValue"/>
-  <button @click.prevent="$emit('valueGuess')">Submit</button>
+  <button class="btn" @click.prevent="$emit('valueGuess')">Submit</button>
 </form></div>
 <div v-else><p>you are not up</p><p>{{ gameInfo.guess }}</p></div>
 <div id="graphC"><graph :guess="gameInfo.guess"></graph></div>
+</div>
 </template>
 
 <script setup>
@@ -32,8 +34,6 @@ async function getQuestionInfo(){
 
 }
 
-
-
 catch(error){
   console.log(error)
 }
@@ -56,4 +56,33 @@ defineProps({
 #graphC{
   height: 20vh;
 }
+.container{
+  text-align: center;
+  margin: 0 auto;
+  background-color: black;
+    color:white;
+    font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif
+}
+
+button{
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 12px;
+  line-height: 20px;
+  height: 30px;
+  max-height: 30px;
+  background: #fff;
+  font-weight: 700;
+  border: 2px solid #DAE3F3;
+  border-radius: 0;
+  color: #272C34;
+  transition-timing-function: ease-in-out;
+  transition-property: box-shadow;
+  transition-duration: 150ms;
+  font: 'DoTGothic16';
+  font-family: 'DotGothic16', sans-serif
+  }
 </style>

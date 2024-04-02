@@ -1,14 +1,14 @@
 <template>
-    <div>
-  
+    <div class="container">
 <p>{{ info.name }}</p>
 <p>{{ gameInfo.guess }}</p>
 <p>{{ gameInfo.question.prompt }}</p>
 <p>{{ gameInfo.question.ans }}%</p>
 <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
-    </div>
 
     <button v-if="route.params.auth == 'host'" @click.prevent="$emit('newRound')">OYASUMI</button>
+  </div>
+
 </template>
 
 <script setup>
@@ -62,5 +62,35 @@ async function exlAdd(){
 </script>
 
 <style scoped>
+     .container{
+  text-align: center;
+  margin: 0 auto;
+  background-color: black;
+    color:white;
+    font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif;
+    margin-top: 10vh;
+}
 
+button{
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 12px;
+  line-height: 20px;
+  height: 30px;
+  max-height: 30px;
+  background: #fff;
+  font-weight: 700;
+  border: 2px solid #DAE3F3;
+  border-radius: 0;
+  color: #272C34;
+  transition-timing-function: ease-in-out;
+  transition-property: box-shadow;
+  transition-duration: 150ms;
+  margin-top: 5vh;
+  font: 'DoTGothic16';
+  font-family: 'DotGothic16', sans-serif
+  }
 </style>

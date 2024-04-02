@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
   <div v-if="info.name">
     <!-- v-if="gameInfo.aop + 2 >= gameInfo.peopleNeeded && role == 'host'" -->
     <loading :game="'Guesspionage'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
@@ -12,6 +13,7 @@
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
 </div>
 <roundResults v-if="gameInfo.state == 'roundResults'" :gameInfo="gameInfo" :selfNumber="selfNumber" @newRound="newRound()"></roundResults>
+</div>
 </div>
 </template>
 
@@ -207,6 +209,15 @@ onDisconnect(reference).update({
 
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="css">
+  @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+body{
+  background-color: black;
+}
+.container {
+    background-color: black;
+    color:white;
+    font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif
+  }
 </style>
