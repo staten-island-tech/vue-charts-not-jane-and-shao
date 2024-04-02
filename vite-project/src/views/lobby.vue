@@ -37,13 +37,13 @@ function test() {
     username: info.name,
     xPos: 0,
     yPos: 0,
-    sprite: knight
+    sprite: info.sprite
   })
   selfInfo.value = {
     username: info.name,
     xPos: 0,
     yPos: 0,
-    sprite: knight
+    sprite: info.sprite
   }
 
 
@@ -119,7 +119,7 @@ onMounted(() => {
         }
       })
       const plyr = new Image()
-      plyr.src = knight
+      plyr.src = info.sprite
       const player = new Sprite({
         pos: {
           x: 3000 + background.pos.x,
@@ -248,7 +248,7 @@ onMounted(() => {
               let predictBndry = {
             pos: {
               x: boundList[i].pos.x ,
-              y: boundList[i].pos.y+2,
+              y: boundList[i].pos.y+12,
             },
           }
           if(colliding(player,predictBndry)==true){
@@ -258,11 +258,11 @@ onMounted(() => {
             break
           }
             }if(moving==true){
-            player.pos.actualY -= 3
-            background.pos.y += 3
-            fore.pos.y +=3
+            player.pos.actualY -= 12
+            background.pos.y += 12
+            fore.pos.y +=12
             boundList.forEach((boundary)=>{
-              boundary.pos.y+=3
+              boundary.pos.y+=12
             })
             update(reference, { yPos: selfInfo.value.yPos, })
           }}
@@ -271,7 +271,7 @@ onMounted(() => {
               let predictBndry = {
             pos: {
               x: boundList[i].pos.x ,
-              y: boundList[i].pos.y-2,
+              y: boundList[i].pos.y-12,
             },
           }
           if(colliding(player,predictBndry)==true){
@@ -281,11 +281,11 @@ onMounted(() => {
             break
           }
             }if(moving==true){
-            player.pos.actualY += 3
-            background.pos.y -= 3
-            fore.pos.y -=3
+            player.pos.actualY += 12
+            background.pos.y -= 12
+            fore.pos.y -= 12
             boundList.forEach((boundary)=>{
-              boundary.pos.y-=3
+              boundary.pos.y-=12
             })
             update(reference, { yPos: selfInfo.value.yPos, })
           }}
@@ -293,7 +293,7 @@ onMounted(() => {
             for (let i =0; i<boundList.length;i++){
               let predictBndry = {
             pos: {
-              x: boundList[i].pos.x+2 ,
+              x: boundList[i].pos.x+12 ,
               y: boundList[i].pos.y,
             },
           }
@@ -304,11 +304,11 @@ onMounted(() => {
             break
           }
             }if(moving==true){
-            player.pos.actualX -= 3
-            background.pos.x += 3
-            fore.pos.x +=3
+            player.pos.actualX -= 12
+            background.pos.x += 12
+            fore.pos.x +=12
             boundList.forEach((boundary)=>{
-              boundary.pos.x+=3
+              boundary.pos.x+=12
             })
 
             update(reference, { xPos: selfInfo.value.xPos, })
@@ -317,7 +317,7 @@ onMounted(() => {
             for (let i =0; i<boundList.length;i++){
               let predictBndry = {
             pos: {
-              x: boundList[i].pos.x-2 ,
+              x: boundList[i].pos.x-12 ,
               y: boundList[i].pos.y,
             },
           }
@@ -329,11 +329,11 @@ onMounted(() => {
           }
             }
           if(moving==true){
-            player.pos.actualX += 3
-            background.pos.x -= 3
-            fore.pos.x -= 3
+            player.pos.actualX += 12
+            background.pos.x -= 12
+            fore.pos.x -= 12
             boundList.forEach((boundary)=>{
-              boundary.pos.x-=3
+              boundary.pos.x-=12
             })
 
             update(reference, { xPos: selfInfo.value.xPos, })}

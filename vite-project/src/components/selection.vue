@@ -38,6 +38,8 @@ function cycleF(){
     if(show.value > sprites.length - 1){
         show.value = 0
     }
+    selectedSprite.value = sprites[show.value].img;
+    info.sprite = selectedSprite.value
     console.log(show.value)
 }
 
@@ -46,6 +48,8 @@ function cycleB(){
     if(show.value < 0){
         show.value = sprites.length - 1
     }
+    selectedSprite.value = sprites[show.value].img;
+    info.sprite = selectedSprite.value
     console.log(show.value)
 }
 
