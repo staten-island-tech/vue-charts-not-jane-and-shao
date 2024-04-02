@@ -1,13 +1,10 @@
 <template>
-  <form v-if="gameInfo.players[selfNumber].health == 'limbo'">
-     <p>{{gameInfo}}</p>
-     <p>{{ guess }}</p>
-     <p>{{ points }}</p>
-     <h1>cutoff: {{ cutoff }}</h1>
-     <p>{{ timeTracker }}</p>
-     <h1>{{ num }} {{ valuesArray[sign] }} {{ num2 }}</h1>
+  <form v-if="gameInfo.players[selfNumber].health == 'limbo'" id="container">  
+    <h1>Goal: {{ cutoff }} | Points: {{ points }}</h1>
+     <h1 id="equation">{{ num }} {{ valuesArray[sign] }} {{ num2 }}</h1>
      <input type='text' v-model="guess" v-on:keydown.enter.prevent="choiceCheck" />
     </form>
+    <div id="clock">    <p>{{ timeTracker }}</p></div>
 </template>
 
 <script setup>
@@ -104,6 +101,58 @@ update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
 </script>
 
 
-<style lang="scss" scoped>
+<style  scoped>
+text{
+  margin: 0px;
+}
 
+input{
+  font-size: 50px;
+  text-align: center;
+  font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif;
+  height: 10%;
+  width: 20%;
+}
+#clock {
+  display: flex;
+  border: 2px black solid;
+  border-radius: 500px;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  position: absolute;
+  min-height: 10%;
+  max-height: 10%;
+  font-size: 50px;
+  max-width: 10%;
+  bottom: 95%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  background: rgb(255,255,255); /* Just to visualize the extent */
+}
+
+#container{
+  margin: 0px;
+  text-align: center;
+  display: flex;
+  background-color: #4b5057;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+    color:white;
+    font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif;
+    position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+}
+
+#equation{
+  margin: 5%;
+  font-size: 150px;
+}
 </style>
