@@ -35,6 +35,8 @@ import prompts from "@/components/prompts.vue"
   let name = info.name
   let reference = r(qt, `rooms/${route.params.code}/`);
 
+  const emojis = ["✌","😂","😝","😁","😱","👉","🙌","🍻","🔥","🌈","☀","🎈","🌹","💄","🎀","⚽","🎾","🏁","😡","👿","🐻","🐶","🐬","🐟","🍀","👀","🚗","🍎","💝","💙","👌","❤","😍","😉","😓","😳","💪","💩","🍸","🔑","💖","🌟","🎉","🌺","🎶","👠","🏈","⚾","🏆","👽","💀","🐵","🐮","🐩","🐎","💣","👃","👂","🍓","💘","💜","👊","💋","😘","😜","😵","🙏","👋","🚽","💃","💎","🚀","🌙","🎁","⛄","🌊","⛵","🏀","🎱","💰","👶","👸","🐰","🐷","🐍","🐫","🔫","👄","🚲","🍉","💛","💚"]
+
       onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
         if(gameInfo.value == null && route.params.auth != 'host'){
           console.log('host left')
@@ -55,7 +57,12 @@ import prompts from "@/components/prompts.vue"
   message.value = ''
 }
 
+  function sendEmoji(){
+    update(r(qt, `rooms/${route.params.code}/`), {
+   messages: [ `${info.name}: ${message.value}`, ...gameInfo.value.messages]
+  });
 
+  }
   
   async function host(){
     console.log('host')
@@ -129,6 +136,7 @@ font-size: 4px;
 
   #title{
     text-align: center;
+    font-family: 'VT323', monospace;
   }
   .msg{
 border-bottom: 1px black solid;
@@ -141,22 +149,38 @@ border-bottom: 1px black solid;
     align-items: center;
   }
   #formInput{
-
     font-size: 14px;
-                border-radius: 6px;
-                padding: 5px 10px;
-                border: 2px solid #b4b4b4;
-                color: rgb(14, 14, 16);
-                background: #dee1e2;
-                display: block;
-                height: 20px;
-                :hover {
-                    border-color: #ccc;
-                }
-                :focus{
-                    border-color: #9147ff;
-                    background: #fff;
-                }
+    border-radius: 6px;
+    padding: 5px 10px;
+    border: 2px solid #b4b4b4;
+    color: rgb(14, 14, 16);
+    background: #dee1e2;
+    display: block;
+    height: 20px;
+    :hover {
+      border-color: #cccccc;
+    }
+    :focus{
+      border-color: #9147ff;
+      background: #ffffff;
+    }
                 
   }
+
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #2a7308; 
+  color: #ffffff;
+  text-align: center;
+  font-family: 'VT323', monospace;
+}
+
+button:hover{
+  transform: scale(1.05);
+}
   </style>
