@@ -1,11 +1,10 @@
 <template>
     <div v-if="info.name">
-      <p>{{ message }}</p>
-      <div v-for="i in 10">
-      <p>bananas!</p></div>
+      <div v-for="i in gameInfo.messages">
+      <p>{{ i }}</p></div>
       <form>
         <input type="text" v-model="message">
-        <button @click.prevent="sendMessage()">submit</button>
+        <button v-if="gameInfo" @click.prevent="sendMessage()">submit</button>
         <p></p>
       </form>
     </div>
@@ -19,21 +18,31 @@ import prompts from "@/components/prompts.vue"
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
 
-  let gameInfo = ref('false')
+  let gameInfo = ref({
+    messages: 'izzy is cool'
+  })
   const route = useRoute()
   let message = ref('text')
   console.log(route.params.auth)
   const qt = getDatabase()
   let name = info.name
-  let reference = r(qt, `rooms/${route.params.code}`);
+  let reference = r(qt, `rooms/${route.params.code}/`);
 
-
+   get(child(r(getDatabase()), `rooms/${route.params.code}/`)).then((snapshot) => {
+  gameInfo.value = snapshot.val()
+  if(gameInfo.value == null){
+    location.replace(`https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_loc_reload`);
+  }
+ })
+      onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
+    gameInfo.value = snapshot.val()
+  });
   console.log(gameInfo.value)
   
 
   function sendMessage(){
     update(r(qt, `rooms/${route.params.code}/`), {
-   messages:7
+   messages: [...gameInfo.value.messages, `${info.name}: ${message.value}`]
   });
 }
 
@@ -41,9 +50,9 @@ import prompts from "@/components/prompts.vue"
   
   async function host(){
     console.log('host')
-    set(reference, {
+    set(r(qt, `rooms/${route.params.code}`), {
         game: 'g3',
-        messages: ['test'],
+        messages: ['Console: Lobby Created. Waiting On Player To Join To Send Messages'],
         code: route.params.code,
         joinable: true,
         players: {
@@ -51,20 +60,12 @@ import prompts from "@/components/prompts.vue"
               name: name,
           }
         },
-        state: 'start'
       })      
-      onDisconnect(reference).update({
-  state: 'error',
-});
-onDisconnect(reference).remove()
+      await onDisconnect(r(qt, `rooms/${route.params.code}/`)).updates({messages: ['host has disconnected']});
+      await onDisconnect(r(qt, `rooms/${route.params.code}`)).remove();
 
-await get(child(r(getDatabase()), `rooms/${route.params.code}/`)).then((snapshot) => {
-  gameInfo.value = snapshot.val()
- })
-      onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
-    gameInfo.value = snapshot.val()
-  });
   }
+
   
   if(!info.name){
     window.location = "http://localhost:5173/";
@@ -77,10 +78,10 @@ await get(child(r(getDatabase()), `rooms/${route.params.code}/`)).then((snapshot
   }
   
   
-  if(route.params.auth == 'join'){
-  join()
+  // if(route.params.auth == 'join'){
+  // join()
   
-    }
+  //   }
   
   
   </script>
