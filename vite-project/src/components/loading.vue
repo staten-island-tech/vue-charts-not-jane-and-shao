@@ -2,8 +2,8 @@
   <div id="loadingContainer" :class="game" v-if="gameInfo.state === 'start'">
     <div id="mainContent">
       <div id="coolBox">
-      <h2 class="game-title">{{ game }}</h2>
-      <h2>A SITHS Data-Based Game</h2>
+      <h2 class="game-title shadows-into">{{ game }}</h2>
+      <h2 id="filler">A SITHS Data-Based Game</h2>
       <p class="room-code">Room Code: {{ gameInfo.code }}</p>
     </div>
     <button id="startButton" v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
@@ -38,15 +38,26 @@ info.audio.loop = true
 <style scoped>
 
 #coolBox{
-  border: 2px black solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0px;
+  font-family:fantasy;
   border-radius: 5px;
-background-color: rgba(255,255,255,1  );
+  height: 65%;
+background-image: url(https://upload.wikimedia.org/wikipedia/commons/e/e5/Post-it-note-transparent.png);
+background-position: center;
+background-repeat:no-repeat;
+
 color: black;
 padding: 5%;
 
 text-align: center;
 }
 
+#filler{
+  margin-right: 15px;
+}
 #loadingContainer {
   position: absolute;
   border: 2px black solid;
@@ -57,7 +68,7 @@ text-align: center;
   display: flex;
   justify-content: space-between;
   height: calc(100vh - 15px);
-  background-image: url(https://imagescdn.homes.com/i2/cC42khoU2L7BWVUEP3WHCOXqwBllYuTdNGMJScBc5gc/117/staten-island-technical-high-school-staten-island-ny.jpg?p=1);
+  background-image: url(https://wallpapers.com/images/featured/lined-paper-background-16f0avgoxi7t0rc9.jpg);
   background-size: cover;
  background-repeat: no-repeat;
 }
@@ -86,15 +97,27 @@ text-align: center;
  background-repeat: no-repeat;
 }
 
+.shadows-into light-regular {
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .game-title {
-  font-size: 65px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 45px;
   margin-bottom: 0px;
-  margin-top: 0px;
+  margin-right: 15px;
   color: #525CEB;
   -webkit-text-stroke: .01px black;
 }
 
+
+
+
+
 .room-code {
+  margin-right: 15px;
   font-size: 25px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -127,7 +150,7 @@ text-align: center;
   cursor: pointer;
   display: inline-flex;
 
-  margin-top: 5%;
+margin-top: 0px;
   display: inline-block;
   outline: none;
   cursor: pointer;
