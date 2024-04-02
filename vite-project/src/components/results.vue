@@ -13,13 +13,11 @@ import { useRoute } from 'vue-router'
 import { ref,onMounted } from "vue";
 let potato = ["a","b","c","d"]
 import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
-import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
 let nextState = ref('secondResults')
-let gameArray = ['clicker']
 let people = 0
-// let gameArray = ['math','dice']
+let gameArray = ['math','dice','clicker']
 const props = defineProps({
         gameInfo: Object, 
         selfNumber: Number,
@@ -91,10 +89,8 @@ async function gameSelector(){
           console.log(player)
           people++
           if(people > 231 ){
-            gameArray = [ 'sos']
-            // 'sos'
+            gameArray = [...gameArray, 'sos','sos']
           }
-          // nextState.value = 'sos'
         }
       })
     })

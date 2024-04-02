@@ -1,7 +1,5 @@
 <template>
-  <div class="popup-container">
-    <div class="popup">
-    <button class="exit-button" @click="$emit('close-popup')">X</button>
+  <div class="container">
     <form>
       <button id="hostSelect" v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
       <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
@@ -11,16 +9,14 @@
       <p>Your room code: {{ gameSettings.code }}</p>
       <p>{{ error }}</p>
     </form>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child,  } from "firebase/database";
+import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { info } from "@/reactive";
-
 const router = useRouter()
 let error = ref('')
 const route = useRoute()
@@ -41,10 +37,10 @@ async function gameStart(){
   })
 })
 roomList.forEach(room => {
-  if(room.code == gameSettings.value.code){
+  if(room.code == gameSettings.value.code.toUpperCase()){
       valid = false 
       gameSettings.value.mode = room.game
-      joinable = room.joinable
+      joinable = room.joinables
     }
 })
 // console.log( `room: ${valid} joinable ${joinable}`)
@@ -52,12 +48,12 @@ if(valid && gameSettings.value.type == 'host'){
   // console.log(`hosting game ${gameSettings.value.code}`)
   await set(r(qt, 'players/' + info.name), null)
   info.inLobby == false
-  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/host` })
+  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code.toUpperCase()}/host` })
 }
 else if(!valid && gameSettings.value.type == 'join' && joinable){
   await set(r(qt, 'players/' + info.name), null)
   info.inLobby == false
-  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code}/join` })
+  router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code.toUpperCase()}/join` })
 }
 else{
   error.value = 'joining/hosting invalid game'
@@ -65,6 +61,9 @@ else{
 }
 
 }
+
+
+
 
 
 // async function gameStart(){
@@ -114,79 +113,46 @@ else{
 </script>
 
 <style scoped>  
-.popup-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .container {
+    text-align: center;
+    font-family: 'VT323', monospace;
+  }
 
-.popup {
-  width: 90%;
-  max-width: 600px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  position: relative;
-}
+  button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #007bff; 
+    color: #ffffff;
+    text-align: center;
+    font-family: 'VT323', monospace;
+  }
 
-.exit-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #000000
-}
+  button:hover{
+    transform: scale(1.05);
+  }
 
-form {
-  text-align: center;
-  font-family: 'VT323', monospace;
-}
+  #gameSelect {
+    background-color: #28a745;
+    font-family: 'VT323', monospace;
+  }
 
-button {
-  margin: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  background-color: #007bff; 
-  color: #ffffff;
-  text-align: center;
-  font-family: 'VT323', monospace;
-}
+  #hostSelect{
+    background-color: #007bff;
+    font-family: 'VT323', monospace;
+  }
 
-button:hover{
-  transform: scale(1.05);
-}
-
-#gameSelect {
-  background-color: #28a745;
-  font-family: 'VT323', monospace;
-}
-
-#hostSelect{
-  background-color: #007bff;
-  font-family: 'VT323', monospace;
-}
-
-input {
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 3px; 
-  border: 1px solid #ccc;
-  margin-top: 10px;
-  text-align: center;
-  width: 100px;
-  font-family: 'VT323', monospace; 
-}
+  input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 3px; 
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    text-align: center;
+    width: 100px;
+    font-family: 'VT323', monospace; 
+  }
 </style>

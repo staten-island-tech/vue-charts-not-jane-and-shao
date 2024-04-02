@@ -211,9 +211,7 @@ onDisconnect(reference).update({
 
 <style lang="css">
   @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
-body{
-  background-color: black;
-}
+
 .container {
     background-color: black;
     color:white;
