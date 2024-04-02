@@ -101,7 +101,7 @@ update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
 </script>
 
 
-<style scoped>
+<style  scoped>
 text{
   margin: 0px;
 }

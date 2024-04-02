@@ -39,9 +39,7 @@ function cycleF(){
     if(show.value > sprites.length - 1){
         show.value = 0
     }
-    selectedSprite.value = sprites[show.value].img;
-    info.sprite = selectedSprite.value
-    console.log(show.value)
+    info.sprite = show.value
 }
 
 function cycleB(){
@@ -49,16 +47,13 @@ function cycleB(){
     if(show.value < 0){
         show.value = sprites.length - 1
     }
-    selectedSprite.value = sprites[show.value].img;
-    info.sprite = selectedSprite.value
-    console.log(show.value)
+    info.sprite = show.value
 }
 
 function setCharacter(){
     selectedSprite.value = sprites[show.value].img;
     disabledButtons()
-    info.sprite = selectedSprite.value
-    console.log(info.sprite)
+    info.sprite = show.value
 }
 
 function disabledButtons(){
