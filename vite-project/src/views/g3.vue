@@ -1,11 +1,11 @@
 <template>
     <div v-if="info.name">
       <p>{{ message }}</p>
-      <p>'e'</p>
       <div v-for="i in 10">
       <p>bananas!</p></div>
       <form>
         <input type="text" v-model="message">
+        <button @click.prevent="sendMessage()">submit</button>
         <p></p>
       </form>
     </div>
@@ -19,7 +19,7 @@ import prompts from "@/components/prompts.vue"
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
 
-
+  let gameInfo = ref('false')
   const route = useRoute()
   let message = ref('text')
   console.log(route.params.auth)
@@ -27,12 +27,13 @@ import prompts from "@/components/prompts.vue"
   let name = info.name
   let reference = r(qt, `rooms/${route.params.code}`);
 
-  let gameInfo = ref(false)
+
+  console.log(gameInfo.value)
   
-  function startGame(){
-    update(r(qt, `rooms/${route.params.code}`), {
-     state: 'question',
-     joinable: false,
+
+  function sendMessage(){
+    update(r(qt, `rooms/${route.params.code}/`), {
+   messages:7
   });
 }
 
@@ -56,6 +57,10 @@ import prompts from "@/components/prompts.vue"
   state: 'error',
 });
 onDisconnect(reference).remove()
+
+await get(child(r(getDatabase()), `rooms/${route.params.code}/`)).then((snapshot) => {
+  gameInfo.value = snapshot.val()
+ })
       onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
     gameInfo.value = snapshot.val()
   });
