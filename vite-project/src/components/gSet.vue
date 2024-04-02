@@ -1,14 +1,17 @@
 <template>
-  <div class="container">
-    <form>
-      <button id="hostSelect" v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
-      <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
-      <p>Room Code:     <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3"></p>
-      <p v-if="gameSettings.type == 'host'">You are hosting: {{ gameSettings.mode }}</p>
-      <button @click.prevent="gameStart()">Start Game</button>
-      <p>Your room code: {{ gameSettings.code }}</p>
-      <p>{{ error }}</p>
-    </form>
+  <div class="popup-container">
+    <div class="popup">
+      <button class="exit-button" @click="$emit('close-popup')">X</button>
+      <form>
+        <button id="hostSelect" v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
+        <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
+        <p>Room Code: <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3"></p>
+        <p v-if="gameSettings.type == 'host'">You are hosting: {{ gameSettings.mode }}</p>
+        <button @click.prevent="gameStart()">Start Game</button>
+        <p>Your room code: {{ gameSettings.code }}</p>
+        <p>{{ error }}</p>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -65,9 +68,6 @@ else{
 }
 
 
-
-
-
 // async function gameStart(){
 //   const qt = getDatabase();
 //   await get(r(qt), '/').then((snapshot) => { 
@@ -115,46 +115,80 @@ else{
 </script>
 
 <style scoped>  
-  .container {
-    text-align: center;
-    font-family: 'VT323', monospace;
-  }
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure it's on top of other content */
+}
 
-  button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    background-color: #007bff; 
-    color: #ffffff;
-    text-align: center;
-    font-family: 'VT323', monospace;
-  }
+.popup {
+  width: 90%; /* Adjusted width */
+  max-width: 600px; /* Maximum width */
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+  position: relative; /* Required for positioning the exit button */
+}
 
-  button:hover{
-    transform: scale(1.05);
-  }
+.exit-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #000; /* Set the color to ensure visibility */
+}
 
-  #gameSelect {
-    background-color: #28a745;
-    font-family: 'VT323', monospace;
-  }
+form {
+  text-align: center;
+  font-family: 'VT323', monospace;
+}
 
-  #hostSelect{
-    background-color: #007bff;
-    font-family: 'VT323', monospace;
-  }
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #007bff; 
+  color: #ffffff;
+  text-align: center;
+  font-family: 'VT323', monospace;
+}
 
-  input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 3px; 
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    text-align: center;
-    width: 100px;
-    font-family: 'VT323', monospace; 
-  }
+button:hover{
+  transform: scale(1.05);
+}
+
+#gameSelect {
+  background-color: #28a745;
+  font-family: 'VT323', monospace;
+}
+
+#hostSelect{
+  background-color: #007bff;
+  font-family: 'VT323', monospace;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 3px; 
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  text-align: center;
+  width: 100px;
+  font-family: 'VT323', monospace; 
+}
 </style>
