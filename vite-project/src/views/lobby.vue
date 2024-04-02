@@ -3,7 +3,7 @@ import { onMounted } from 'vue';
 import { db } from '@/fireSetup';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router'
-import { getDatabase, ref as r, set, onDisconnect, onValue, update } from "firebase/database";
+import { getDatabase, ref as r, set, onDisconnect, onValue, update, get, child } from "firebase/database";
 import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
 import { collision } from '@/assets/collisions.js'
@@ -14,15 +14,14 @@ let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
 const qt = getDatabase()
 const reference = r(qt, selfRef);
-
 onDisconnect(reference).remove();
 onDisconnect(r(qt, `playerlist/${info.name}`)).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
-if (Object.keys(route.params) + '') {
-  console.log(Object.keys(route.params) + '')
-  console.log('ea')
-}
+// if (Object.keys(route.params) + '') {
+//   console.log(Object.keys(route.params) + '')
+//   console.log('ea')
+// }
 
 if (!info.name) {
   window.location = "http://localhost:5173/";
@@ -51,13 +50,10 @@ function test() {
   onValue(r(qt, 'players/'), (snapshot) => {
     let tempList = []
     try {
-      console.log(info.inLobby)
       Object.keys(snapshot.val()).forEach((player) => {
-        console.log()
         tempList.push(snapshot.val()[player])
       })
       otherPlayers = tempList
-      console.log(otherPlayers)
     }
     catch (error) {
       console.log('Take that, Obama')
@@ -333,37 +329,57 @@ onMounted(() => {
   }
 })
 
+function closePopup(){
+  showGameSettings.value = false;
+}
 
+/* const playerxPos = ref(null)
+const playeryPos = ref(null)
+
+function getPosition(){
+  get(child(r(getDatabase()), `players/${info.name}`)).then((snapshot) => {
+    console.log(snapshot.val())
+    playerxPos = snapshot.val().xPos
+    playeryPos = snapshot.val().yPos
+  })
+} */
 
 </script>
 
 <template>
   <main>
+    <div class="player-menu">
+      <p>Username: {{ info.name }}</p>
+      <p>X: {{ playerxPos }}</p>
+      <p>Y: {{ playeryPos }}</p>
+      <p>Please click "Shift" to access our Game Menu.</p>
+    </div>
     <div id="canvasBox">
-      <canvas width="1920" height="1080">
+      <canvas width="2225px" height="940">
 
       </canvas>
     </div>
-    <gSet id="settings" v-if="showGameSettings"></gSet>
+    <gSet v-if="showGameSettings" @close-popup="closePopup"></gSet>
   </main>
 </template>
 
 <style scoped>
-#settings {
-  display: flexbox;
-  border: 3px black solid;
-  justify-content: center;
-  background-color: white;
-  position: fixed;
-  width: 100%;
-  top: 100%;
-  left: 50%;
-  -webkit-transform: translate(50%, 0%);
-  transform: translate(-50%, -100%);
+p {
+  text-align: center;
+  font-family: 'VT323', monospace;
+}
+
+.player-menu {
+  position: absolute;
+  top: 20px;
+  right: 8vw;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #canvasBox {
-  /* align-items: center; */
   justify-content: center;
   display: flex;
   opacity: 0.8;
@@ -376,7 +392,7 @@ onMounted(() => {
   z-index: -1000;
 }
 
-canvas {
+/* canvas {
   border: 5px solid black
-}
+} */
 </style>

@@ -3,7 +3,10 @@
         <p>{{ timeTracker }}</p>
 <p>{{die}}</p>
 <p>{{ otherDie }}</p>
-<button v-if="showButtons" v-for="x in ['over','under']" @click.prevent="i = 0; choice = x; ou()">{{ x }}</button>
+<div v-if="showButtons">
+  <p>Your Dice:</p>
+<button  v-for="x in ['over','under']" @click.prevent="i = 0; choice = x; ou()">{{ x }}</button>
+</div>
     </div>
 </template>
 
@@ -40,8 +43,8 @@ const props = defineProps({
  dUpdate()
 
 function ou(){
+  showButtons.value = false
     if(i < 150){
-        console.log(i)
         otherDie.value[`d${i%3 + 1}`] = Math.floor(Math.random() * 6) + 1
     otherDie.value.sum = otherDie.value.d1 + otherDie.value.d2 + otherDie.value.d3
     i++
@@ -108,7 +111,7 @@ snapshot.val().forEach(player => {
     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead',})
   }
   else{
-    update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive', points: props.gameInfo.players[player.pos].points + (Math.abs(otherDie.value.sum - die.value.sum) * 150)})
+    update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive', points: props.gameInfo.players[player.pos].points + (Math.floor(Math.random() * 10) * 150)})
   } 
 })
 update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
