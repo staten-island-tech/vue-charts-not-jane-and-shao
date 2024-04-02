@@ -2,7 +2,7 @@
     <div class="container">
       <br>
       <p>The correct answer was choice {{ gameInfo.question.answer.toUpperCase() }}, {{ gameInfo.question[gameInfo.question.answer] }}.</p>
-      <p>The minigame will be {{ gameInfo.nextGame }}!</p>
+      <p>Get ready for a possible game!</p>
       <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
       <button @click.prevent="readyCheck()">Continue!</button>
     </div>
@@ -44,7 +44,7 @@ const props = defineProps({
           })
         }
       })
-      gameSelector()
+      await get(child(r(getDatabase()), `rooms/${route.params.code}/players/${props.selfNumber}`)).then((snapshot) => {console.log(snapshot)})
   })
 
 
@@ -59,6 +59,7 @@ async function readyCheck(){
     }
   })  
    if(startGame){
+    gameSelector()
     nextGameTest()
   }
 })

@@ -68,7 +68,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: calc(100vh - 15px);
+    background-color: white;
+    position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
   }
   
   .winner-info {
@@ -84,7 +89,7 @@
   }
   
   .return-button {
-    background-color: #007bff;
+    background-color: #00356d;
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -92,7 +97,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     transform: translateY(-100px)
-  }
+  } 
   
   .return-button:hover {
     background-color: #0056b3;

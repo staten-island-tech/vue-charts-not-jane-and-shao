@@ -4,7 +4,7 @@
       <button class="exit-button" @click="$emit('close-popup')">X</button>
       <form>
         <button id="hostSelect" v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
-        <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['guesspionage','TMP','chatrooms']"  @click.prevent="gameSettings.mode = games[x]; console.log(games[x])">{{ x }}</button><br> 
+        <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['guesspionage','chatrooms']"  @click.prevent="gameSettings.mode = games[x]; console.log(games[x])">{{ x }}</button><br> 
         <p>Room Code: <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3"></p>
         <p v-if="gameSettings.type == 'host'">You are hosting: {{ gameSettings.mode }}</p>
         <button @click.prevent="gameStart()">Start Game</button>

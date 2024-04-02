@@ -31,11 +31,12 @@ const props = defineProps({
 .container{
   text-align: center;
   display: flex;
-  background-color: #4b5057;
+  background-color: #5468ff;
   justify-content: center;
   align-items: center;
     color:white;
     font: 'DoTGothic16';
+    border: 6px black solid;
     font-family: 'DotGothic16', sans-serif;
   height: calc(100vh - 20px);
 }

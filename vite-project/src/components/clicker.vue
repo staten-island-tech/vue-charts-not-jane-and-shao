@@ -1,10 +1,12 @@
 <template>
+  <div v-if="gameInfo.players[selfNumber].health == 'limbo'">
   <p>{{ timeTracker }}</p>
   <p>{{ gameInfo.players[selfNumber].subPoints }}</p>
     <div v-if="gameInfo.players[selfNumber].health == 'limbo'">
         <button class="red-button" @click.prevent="clickingTime()"></button>
         <p>Click me!</p>
     </div>
+  </div>
 </template>
 
 <script setup>

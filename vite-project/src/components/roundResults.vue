@@ -1,7 +1,6 @@
 <template>
     <div class="container">
-<p>{{ info.name }}</p>
-<p>{{ gameInfo.question.prompt }}</p>
+<h1>{{ gameInfo.question.prompt }}</h1>
 <p>The guesser chose {{ gameInfo.guess }}%.</p>
 <p>The real answer is {{ gameInfo.question.ans }}%.</p>
 <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
@@ -62,16 +61,21 @@ async function exlAdd(){
 
 <style scoped>
 .container{
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  align-items: center;
   margin: 0 auto;
-  background-color: #4b5057;;
+  background-color: #5468ff;;
     color:white;
+    border: 6px black solid;
     font: 'DoTGothic16';
     font-family: 'DotGothic16', sans-serif;
   height: calc(100vh - 20px);
 }
 
 button{
+  width: 20%;
   display: inline-block;
   outline: none;
   cursor: pointer;
