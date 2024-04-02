@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-
+<div id="hue">
 <div id="myTurn" v-if="selfNumber == gameInfo.up">
   <h4>You're Up!</h4>
       <h2>{{gameInfo.question.prompt}}</h2>
@@ -13,7 +13,7 @@
  
         </div>
     <div v-else id="yourTurn">
-      <h4>{{ gameInfo.players[gameInfo.up].name}} is currently guessing.</h4>
+      <h4>{{ gameInfo.players[gameInfo.up].name }} is currently guessing.</h4>
       <h2>{{gameInfo.question.prompt}}</h2>
     <h3 id="otherPercent"><p>{{ gameInfo.guess }}%</p></h3>
     <graph :guess="gameInfo.guess" id="graph2 "></graph></div>
@@ -32,6 +32,7 @@
 
 
  <div v-else><p>you are not up</p><p>{{ gameInfo.guess }}</p></div> -->
+</div>
 </div> 
 </template>
 
@@ -139,15 +140,32 @@ flex-direction: column;
 #graph2{
 max-width: 50%;
 }
+
 .container{
   display: flex;
+  position: fixed;
+    width: 100%;
+    height: 120vh;
+    left: 0;
+    top: 0;
   text-align: left;
   margin: 0 auto;
-  background-color: #4b5057;;
+  background-image: url(https://www.eff.org/files/banner_library/locationdata_v2.mov1_.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
     color:white;
     font: 'DoTGothic16';
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   height: calc(100vh - 20px);
+}
+
+#hue{
+  width: 100%;
+  background-image: radial-gradient(rgba(0,0,196,.35  ), rgba(0,0,196,.75)); 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 #top{

@@ -3,11 +3,15 @@
     <div>
     </div>
      <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
-        <p>"{{ gameInfo.question.prompt }}"</p>
-        <p>{{ gameInfo.players[gameInfo.up].name }} guessed {{ gameInfo.guess }}%. Choose if you think it is over or under.</p>
+        <div id="ou">
+        <h2>"{{ gameInfo.question.prompt }}"</h2>
+        <p>{{ gameInfo.players[gameInfo.up].name }} guessed <b>{{ gameInfo.guess }}%</b>. Choose if you think it is over or under.</p>
         <div id="graphC"><graph :guess="gameInfo.guess"></graph></div>
-<button @click.prevent="$emit('ou','over')">Over</button>
+        <div id="buttons">
+        <button @click.prevent="$emit('ou','over')">Over</button>
  <button @click.prevent="$emit('ou','under')">Under</button>
+</div>
+    </div>
      </div>
      <div id="waiting" v-else><h2>Waiting For Other Players...</h2>
     <img id="loading" src="https://cdn.pixabay.com/animation/2023/05/02/04/29/04-29-06-428_512.gif"></div>
@@ -26,7 +30,6 @@ const props = defineProps({
 <style scoped>
 .container{
   text-align: center;
-  margin: 0 auto;
   display: flex;
   background-color: #4b5057;
   justify-content: center;
@@ -43,6 +46,17 @@ const props = defineProps({
 }
 #graphC{
   height: 20vh;
+}
+
+#buttons{
+    margin-top: 50px;
+}
+
+#ou{
+    flex-direction: column;
+    height: 500px;
+    width: 100%;
+    display: flex;
 }
 
 button{
