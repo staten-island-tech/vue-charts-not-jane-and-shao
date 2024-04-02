@@ -42,7 +42,7 @@ onMounted(() => {
         }
     });
 });
-
+  
 watch(() => props.guess, (newValue) => {
     if (myChart) {
         myChart.data.datasets[0].data[0] = newValue;

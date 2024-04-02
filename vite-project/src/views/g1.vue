@@ -9,7 +9,7 @@
 
 
     <p v-if="gameInfo.state == 'error'">lmao someone left</p>
-<div v-if="gameInfo.state == 'firstGuess'">
+<div v-if="gameInfo.state == 'firstGuess'"> 
   <mainGuess :selfNumber="selfNumber" :gameInfo="gameInfo" @valueGuess="valueGuess()" @valUp="(i) => update(r(qt, `rooms/${route.params.code}`), {guess: i,})"></mainGuess>
 </div>
 <roundResults v-if="gameInfo.state == 'roundResults'" :gameInfo="gameInfo" :selfNumber="selfNumber" @newRound="newRound()"></roundResults>
