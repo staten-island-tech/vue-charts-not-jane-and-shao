@@ -50,7 +50,7 @@ let num = Math.floor((Math.random() * 23));
   try{
     console.log('host only')
     timeD = 15
-  const response = await fetch(`https://theone-1.onrender.com/ql/${num}`)
+  const response = await fetch(`https://sithsbox.onrender.com/ql/${num}`)
   const data = await response.json(); 
   console.log(data) 
   await update(r(qt, `rooms/${route.params.code}/question`), {
