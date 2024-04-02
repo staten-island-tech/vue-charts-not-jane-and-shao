@@ -31,9 +31,7 @@ const sprites = [
 
 
 const show = ref(0)
-const selectedSprite = ref(null)
-selectedSprite.value = business
-info.sprite = selectedSprite.value
+info.sprite = show.value
 function cycleF(){
     show.value++
     if(show.value > sprites.length - 1){

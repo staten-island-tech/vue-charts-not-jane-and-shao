@@ -24,29 +24,34 @@ let showGameSettings = ref(false)
 //   console.log(Object.keys(route.params) + '')
 //   console.log('ea')
 // }
-switch (event.key) {
-  case 0:
-    let myChara= characters.
-    break
-  case 1:
-    keys.right = false
-    break
-  case 2:
-    keys.up = false
-    break
-  case 3:
-    keys.left = false
-    break
-  case 4:
-    keys.left = false
-    break
-  case 5:
-    keys.left = false
-    break
-}
+
 if (!info.name) {
   window.location = "http://localhost:5173/";
 }
+console.log(info.sprite)
+console.log(characters)
+switch (info.sprite) {
+  case 0:
+    info.sprite= characters.businessman
+    break
+  case 1:
+  info.sprite= characters.builder
+    break
+  case 2:
+  info.sprite= characters.knight
+    break
+  case 3:
+  info.sprite= characters.poop
+    break
+  case 4:
+  info.sprite= characters.soldier
+    break
+  case 5:
+  info.sprite= characters.trainer
+    break
+}
+
+console.log(info.sprite)
 let playerxPos = 3000
 let playeryPos = 3000
 function test() {
@@ -140,7 +145,8 @@ onMounted(() => {
         }
       })
       const plyr = new Image()
-      plyr.src = knight
+      plyr.src = info.sprite.idle
+      console.log(plyr)
       const player = new Sprite({
         pos: {
           x: 3000 + background.pos.x,
@@ -152,7 +158,6 @@ onMounted(() => {
           name: info.name
         }
       })
-
       let boundList = []
       rows.forEach((x, i) => {
         x.forEach((tile, j) => {
@@ -239,7 +244,7 @@ onMounted(() => {
 
         window.requestAnimationFrame(animate)
         playerxPos = player.pos.actualX
-        playeryPos = player.pos.actualY
+        playeryPos = player.pos.actualY      
         background.draw()
         boundList.forEach((bndry) => {
           bndry.draw() 
@@ -281,6 +286,7 @@ onMounted(() => {
             break
           }
             }if(moving==true){
+            plyr.src = info.sprite.back
             player.pos.actualY -= 12
             background.pos.y += 12
             fore.pos.y +=12
@@ -304,6 +310,7 @@ onMounted(() => {
             break
           }
             }if(moving==true){
+              plyr.src = info.sprite.front
             player.pos.actualY += 12
             background.pos.y -= 12
             fore.pos.y -= 12
@@ -327,6 +334,7 @@ onMounted(() => {
             break
           }
             }if(moving==true){
+            plyr.src = info.sprite.left
             player.pos.actualX -= 12
             background.pos.x += 12
             fore.pos.x +=12
@@ -352,6 +360,7 @@ onMounted(() => {
           }
             }
           if(moving==true){
+            plyr.src = info.sprite.right
             player.pos.actualX += 12
             background.pos.x -= 12
             fore.pos.x -= 12
@@ -359,7 +368,9 @@ onMounted(() => {
               boundary.pos.x-=12
             })
 
-            update(reference, { xPos: selfInfo.value.xPos, })}
+            update(reference, { xPos: selfInfo.value.xPos,sprite:info.sprite })}
+          } else{
+            plyr.src = info.sprite.idle
           }
         }
       }
