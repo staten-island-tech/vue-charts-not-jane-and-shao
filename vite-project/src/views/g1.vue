@@ -4,7 +4,7 @@
     <!-- v-if="gameInfo.aop + 2 >= gameInfo.peopleNeeded && role == 'host'" -->
     <loading :game="'Guesspionage'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
 
-
+    <endScreen v-if="gameInfo.state == 'endResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></endScreen>
     <secondGuess v-if="gameInfo.state == 'secondGuess'" :selfNumber="selfNumber" :gameInfo="gameInfo" @ou="(i) => ou(i)"></secondGuess>
 
 
@@ -25,6 +25,7 @@ import loading from "@/components/loading.vue";
 import secondGuess from "@/components/secondGuess.vue"
 import roundResults from "@/components/roundResults.vue"
 import { info } from "@/reactive"; 
+import endScreen from "@/components/endScreen.vue";
 import mainGuess from "@/components/mainGuess.vue"
 const route = useRoute()
 const qt = getDatabase()
@@ -56,7 +57,9 @@ function newRound(){
 }
 
 function gameEnd(){
-  console.log('end')
+  update(r(qt, `rooms/${route.params.code}/`), {
+     state: 'endResults',
+  });
 }
 
 if(!info.name){
