@@ -40,24 +40,26 @@ roomList.forEach(room => {
   if(room.code == gameSettings.value.code.toUpperCase()){
       valid = false 
       gameSettings.value.mode = room.game
-      joinable = room.joinables
+      joinable = room.joinable
     }
 })
 // console.log( `room: ${valid} joinable ${joinable}`)
+console.log(gameSettings.value)
 if(valid && gameSettings.value.type == 'host'){
   // console.log(`hosting game ${gameSettings.value.code}`)
   await set(r(qt, 'players/' + info.name), null)
   info.inLobby == false
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code.toUpperCase()}/host` })
 }
+
 else if(!valid && gameSettings.value.type == 'join' && joinable){
   await set(r(qt, 'players/' + info.name), null)
   info.inLobby == false
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code.toUpperCase()}/join` })
 }
 else{
-  error.value = 'joining/hosting invalid game'
-  console.log(`joining/hosting invalid game`)
+  error.value = 'joining/hosting invalid game'  
+  console.log(`joining/hosting invalid game DEPLOY UPDATE TEST`)
 }
 
 }
