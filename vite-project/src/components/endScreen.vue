@@ -1,58 +1,98 @@
 <template>
-    <div>
-<p>{{ winner  }}</p>
-<p>{{ winnerPoints  }}</p>
+    <div class="container">
+      <div class="winner-info">
+        <h2>Your winner is: {{ winner }}</h2>
+        <p>Points: {{ winnerPoints }}</p>
+      </div>
+      <div class="chart-container">
+        <canvas ref="chartCanvas" class="chart"></canvas>
+      </div>
+      <button @click.prevent="returnToLobby" class="return-button">Return To Lobby</button>
     </div>
-    <button @click.prevent="window.location = `http://localhost:5173/`">Return To Login</button>
-</template>
-
-<script setup>
-import { ref, onMounted } from 'vue';
-let winner = ref('')
-let winnerPoints = ref(0)
-const props = defineProps({
-    selfNumber: Number,
+  </template>
+  
+  <script setup>
+  import { ref, onMounted } from 'vue';
+  import { defineProps } from 'vue';
+  import { Chart } from 'chart.js/auto';
+  
+  const props = defineProps({
     gameInfo: Object,
-})
-const chartCanvas = ref(null);
-    onMounted(async () => {
-    console.log(props.gameInfo.players)
+  });
+  
+  const chartCanvas = ref(null);
+  let winner = ref('');
+  let winnerPoints = ref(0);
+  
+  const returnToLobby = () => {
+    window.location = `http://localhost:5173/`;
+  };
+  
+  onMounted(async () => {
     props.gameInfo.players.forEach(player => {
-        if(player.points > winnerPoints.value){
-            winnerPoints.value = player.points
-            winner.value = player.name
-        }
-        else if(player.points == winnerPoints.value){
-            winnerPoints.value = player.points
-            winner.value = `${winner.value} and ${player.name}`
-        }
+      if (player.points > winnerPoints.value) {
+        winnerPoints.value = player.points;
+        winner.value = player.name;
+      } else if (player.points === winnerPoints.value) {
+        winner.value += ` and ${player.name}`;
+      }
     });
+  
+    // Create chart
     const ctx = chartCanvas.value.getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: [winner.value],
-      datasets: [{
-        label: 'Points',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-        data: [winnerPoints.value],
-      }],
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: props.gameInfo.players.map(player => player.name),
+        datasets: [{
+          label: 'Points',
+          backgroundColor: 'rgba(0, 123, 255, 0.2)',
+          borderColor: 'rgba(0, 123, 255, 1)',
+          borderWidth: 1,
+          data: props.gameInfo.players.map(player => player.points),
         }],
       },
-    },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
   });
-})
-</script>
-
-<style lang="scss" scoped>
-
-</style>
+  </script>
+  
+  <style scoped>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .winner-info {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .chart-container {
+    height: 730px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+  .return-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .return-button:hover {
+    background-color: #0056b3;
+  }
+  </style>
