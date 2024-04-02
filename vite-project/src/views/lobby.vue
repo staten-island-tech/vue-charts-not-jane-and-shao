@@ -10,6 +10,7 @@ import { collision } from '@/assets/collisions.js'
 import map from '@/assets/map.png'
 import foreground from "@/assets/foreground.png"
 import knight from '@/assets/knight.png'
+import { characters } from '@/assets/characters.js'
 const route = useRoute()
 let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
@@ -23,7 +24,26 @@ let showGameSettings = ref(false)
 //   console.log(Object.keys(route.params) + '')
 //   console.log('ea')
 // }
-
+switch (event.key) {
+  case 0:
+    let myChara= characters.
+    break
+  case 1:
+    keys.right = false
+    break
+  case 2:
+    keys.up = false
+    break
+  case 3:
+    keys.left = false
+    break
+  case 4:
+    keys.left = false
+    break
+  case 5:
+    keys.left = false
+    break
+}
 if (!info.name) {
   window.location = "http://localhost:5173/";
 }
@@ -39,6 +59,7 @@ function test() {
     yPos: 0,
     sprite: info.sprite
   })
+
   selfInfo.value = {
     username: info.name,
     xPos: 0,
