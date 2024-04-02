@@ -1,8 +1,11 @@
 <template>
+  <div id="cont">
+  <h1>POINTS</h1>
     <div v-for="player in gameInfo.players">
-        <p v-if="player.health == 'alive'">{{ player }}</p>
+        <p v-if="player.health == 'alive'">{{ player.name }}: {{ player.points }}</p>
     </div>
-    <button @click.prevent="readyCheck()">Close your eyes and you'll leave this dream</button>
+    <button @click.prevent="readyCheck()">Next Round</button>
+  </div>
 </template>
 
 <script setup>
@@ -54,6 +57,25 @@ console.log(props)
 </script>
 
 <style lang="css" scoped>
+
+p{
+  margin: 5px;
+}
+
+#cont{
+  background-color: azure;
+  position: fixed;
+  align-items: center;
+  top: 50%;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 body {
     background-color: black;
     color:white;

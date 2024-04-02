@@ -31,7 +31,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-      timeD.value = 11 //61
+      timeD.value = 1100 //61
   if(route.params.auth == 'host'){
     console.log('uncomment this')
     setTimeout(intFunction, 1000)
