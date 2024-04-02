@@ -231,7 +231,9 @@ onMounted(() => {
         }
         otherPlayers.forEach((plyaer) => {
           if (plyaer.username != player.properties.name) {
-            c.drawImage(player.properties.image, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
+            let otherSprite = new Image()
+            otherSprite.src = plyaer.sprite
+            c.drawImage(otherSprite, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
             if(plyaer.username != undefined){
               c.fillText(plyaer.username, plyaer.xPos + 16 + background.pos.x, 32 + plyaer.yPos + background.pos.y)
             }
