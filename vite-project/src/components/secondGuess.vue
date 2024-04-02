@@ -4,8 +4,9 @@
 <p>{{ selfNumber }}</p>
     </div>
      <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
-        <p>choose</p>
-        <p>The Over Under Is {{ gameInfo.guess }}</p>
+        <p>{{ gameInfo.question.prompt }}</p>
+        <p>The Over Under Is {{ gameInfo.guess }}. Choose if you think it is over or under.</p>
+        <div id="graphC"><graph :guess="gameInfo.guess"></graph></div>
 <button @click.prevent="$emit('ou','over')">Over</button>
  <button @click.prevent="$emit('ou','under')">Under</button>
      </div>
@@ -14,7 +15,7 @@
 </template>
 
 <script setup>
-
+import graph from "@/components/graph.vue";
 
 const props = defineProps({
         selfNumber: Number,
@@ -23,13 +24,18 @@ const props = defineProps({
 </script>
 
 <style scoped>
-    .container{
+.container{
   text-align: center;
-  margin: 0 auto 0 autos;
-  background-color: black;
+  margin: 0 auto;
+  background-color: #4b5057;;
     color:white;
     font: 'DoTGothic16';
-    font-family: 'DotGothic16', sans-serif
+    font-family: 'DotGothic16', sans-serif;
+  height: calc(100vh - 20px);
+}
+
+#graphC{
+  height: 20vh;
 }
 
 button{
@@ -41,7 +47,7 @@ button{
   line-height: 20px;
   height: 30px;
   max-height: 30px;
-  background: #fff;
+  background: #fffff;
   font-weight: 700;
   border: 2px solid #DAE3F3;
   border-radius: 0;
@@ -50,6 +56,7 @@ button{
   transition-property: box-shadow;
   transition-duration: 150ms;
   font: 'DoTGothic16';
-  font-family: 'DotGothic16', sans-serif
-  }
+  font-family: 'DotGothic16', sans-serif;
+  transform: translateY(150px)
+}
 </style>
