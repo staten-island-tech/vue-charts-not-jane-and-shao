@@ -8,6 +8,7 @@ import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
 import { collision } from '@/assets/collisions.js'
 import map from '@/assets/map.png'
+import foreground from "@/assets/foreground.png"
 import knight from '@/assets/knight.png'
 const route = useRoute()
 let selfInfo = ref('teset')
