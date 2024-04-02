@@ -1,19 +1,23 @@
 <template>
   <div id="bigBoy" v-if="gameInfo.players[selfNumber].health == 'alive'">
     <div id="cont" >
-        <p>{{gameInfo.question.prompt}}</p>
+        <div id="prompt"><h1>{{gameInfo.question.prompt}}</h1>
+        <h2>{{ ansChoice }}</h2></div>
         <div id="clock">
-        <p>{{ gameInfo.time }}</p>
-
+        <h2>{{ gameInfo.time }}</h2>
     </div>
     <div id="choices" >
-      <button v-for="i in potato" @click.prevent="choice(i)">{{gameInfo.question[i]}}</button>
+      <div id="buttonBox" v-for="i in potato">
+      <button :class="`choicebutt`"  @click.prevent="choice(i)">{{i}}: {{gameInfo.question[i]}}</button>
     </div>
+    </div>
+    
           <!-- <p>{{gameInfo.question.a}}</p>
           <p>{{gameInfo.question.b}}</p>
           <p>{{gameInfo.question.c}}</p>
           <p>{{gameInfo.question.d}}</p> -->
     </div>
+
   </div>
 </template>
 
@@ -25,15 +29,16 @@ let potato = ["a","b","c","d"]
 import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
 import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
+let ansChoice = ref('pass')
 const qt = getDatabase()
-let timeD = 5000 //CHANGE
+let timeD = 15 //CHANGE
 let stopInterval = false  
 const props = defineProps({
         gameInfo: Object,
         selfNumber: Number
     })
 let interval
-let timeTracker = ref(5000) //CHANGE
+let timeTracker = ref(15) //CHANGE
 
 onValue(r(qt, `rooms/${route.params.code}/time`), (snapshot) => {
   timeTracker.value = snapshot.val()
@@ -41,6 +46,7 @@ onValue(r(qt, `rooms/${route.params.code}/time`), (snapshot) => {
 
 
 async function choice(choice){
+  ansChoice.value = `${props.gameInfo.question[choice]}`.toUpperCase()
  await update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {
      choice: choice,
   });
@@ -81,7 +87,7 @@ let num = Math.floor((Math.random() * 23));
   async function otherFunction(){
   try{
     console.log('host only')
-    timeD = 50000 // CHANGE
+    timeD = 15 // CHANGE
   const response = await fetch(`https://theone-1.onrender.com/gp/${num}`)
   const data = await response.json(); 
   console.log(data) 
@@ -137,15 +143,26 @@ async function intFunction(){
 
 <style  scoped>
 
+h2{
+  text-align: center;
+}
+#choices{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 65%;
+}
 
 #cont {
-  width: 66%;
+  width: 100%;
   justify-self: center;
   align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 20px;
-  background-image: radial-gradient(rgba(182,187,196,.95  ), rgba(182,187,196,.85));
+  background-image: radial-gradient(rgba(182,187,196,.75  ), rgba(182,187,196,.55));
 }
 
 #left{
@@ -153,14 +170,28 @@ async function intFunction(){
 }
 
 #clock {
-  width: 50%;
+  display: flex;
+  border: 2px black solid;
+  border-radius: 500px;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
   position: absolute;
+  min-height: 10%;
+  max-height: 10%;
+  max-width: 10%;
+  bottom: 0%;
+  left: 5%;
+  background: rgb(255,234,255); /* Just to visualize the extent */
+}
+#buttonBox{
   height: 50%;
-  bottom: 10%;
-  left: 10%;
-  background: rgb(255,234,194); /* Just to visualize the extent */
+  width: 50%;
 }
 
+#prompt{
+  font-family: "JetBrains Mono",monospace;
+}
 #bigBoy{
   position: absolute;
   border: 2px black solid;
@@ -171,6 +202,57 @@ async function intFunction(){
   display: flex;
   justify-content: space-between;
   height: calc(100vh - 15px);
-  background-image: url(https://livingnewdeal.org/wp-content/uploads/2014/07/Staten-Island-Technical-HS.jpg);
+  background-image: url(https://i.pinimg.com/originals/eb/1b/31/eb1b317c006f401887eefc50afcd6e84.gif);
+}
+
+
+
+
+
+.choicebutt {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 18px;
+}
+
+.choicebutt:focus {
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.choicebutt:hover {
+  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.choicebutt:active {
+  box-shadow: #3c4fe0 0 3px 7px inset;
+  transform: translateY(2px);
 }
 </style>
+

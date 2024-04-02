@@ -9,7 +9,8 @@
 <button @click.prevent="$emit('ou','over')">Over</button>
  <button @click.prevent="$emit('ou','under')">Under</button>
      </div>
-     <div v-else><p>waiting</p></div>
+     <div id="waiting" v-else><h2>Waiting For Other Players...</h2>
+    <img id="loading" src="https://cdn.pixabay.com/animation/2023/05/02/04/29/04-29-06-428_512.gif"></div>
     </div>
 </template>
 
@@ -26,13 +27,20 @@ const props = defineProps({
 .container{
   text-align: center;
   margin: 0 auto;
-  background-color: #4b5057;;
+  display: flex;
+  background-color: #4b5057;
+  justify-content: center;
+  align-items: center;
     color:white;
     font: 'DoTGothic16';
     font-family: 'DotGothic16', sans-serif;
   height: calc(100vh - 20px);
 }
 
+#loading{
+    margin-top: 50px;
+    height: 200px;
+}
 #graphC{
   height: 20vh;
 }
@@ -57,5 +65,11 @@ button{
   font: 'DoTGothic16';
   font-family: 'DotGothic16', sans-serif;
   transform: translateY(150px)
+}
+
+#waiting{
+align-self: center;
+justify-self: center;
+flex-direction: column;
 }
 </style>

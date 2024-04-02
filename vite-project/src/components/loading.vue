@@ -9,7 +9,7 @@
     <button id="startButton" v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
     </div>
     <div id="sidebar">
-      <h3>Players:</h3>
+      <h3>Players</h3>
       <div class="players-list">
         <div v-for="player in gameInfo.players" :key="player.id" class="player-item">
           {{ player.name }}
@@ -40,7 +40,7 @@ info.audio.loop = true
 #coolBox{
   border: 2px black solid;
   border-radius: 5px;
-background-color: rgba(255,255,255,0.75);
+background-color: rgba(255,255,255,1  );
 color: black;
 padding: 5%;
 
@@ -57,7 +57,9 @@ text-align: center;
   display: flex;
   justify-content: space-between;
   height: calc(100vh - 15px);
-  background-image: url(https://livingnewdeal.org/wp-content/uploads/2014/07/Staten-Island-Technical-HS.jpg);
+  background-image: url(https://imagescdn.homes.com/i2/cC42khoU2L7BWVUEP3WHCOXqwBllYuTdNGMJScBc5gc/117/staten-island-technical-high-school-staten-island-ny.jpg?p=1);
+  background-size: cover;
+ background-repeat: no-repeat;
 }
 
 
@@ -69,16 +71,19 @@ text-align: center;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background-image: radial-gradient(rgba(182,187,196,.95  ), rgba(182,187,196,.85));
+  /* background-image: radial-gradient(rgba(182,187,196,.95  ), rgba(182,187,196,.85)); */
   /* background-color: rgba(182, 187, 196,0.85); */
 }
 
 #sidebar {
+  text-align: center;
   border: 2px black solid;
   border-left: 5px black solid;
   width: 15%;
   padding: 20px;
-  background-color: #525CEB;
+  background-color: rgba(250,250,250,0.8);
+   background-size: cover;
+ background-repeat: no-repeat;
 }
 
 .game-title {
@@ -102,10 +107,48 @@ text-align: center;
 }
 
 .player-item {
-  margin-bottom: 5px;
+  font-size: 22px;
+  margin-bottom: 20px;
   color: ffffff;
 }
 
+
+
+/* CSS */
+.button {
+  align-items: center;
+  appearance: none;
+  background-color: #FCFCFD;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #36395A;
+  cursor: pointer;
+  display: inline-flex;
+
+  margin-top: 5%;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0;
+  font: 'DoTGothic16';
+  font-family: 'DotGothic16', sans-serif
+}
+
+.button:focus {
+  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+}
+
+.button:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button:active {
+  box-shadow: #D6D6E7 0 3px 7px inset;
+  transform: translateY(2px);
+}
 button{
   margin-top: 5%;
   display: inline-block;

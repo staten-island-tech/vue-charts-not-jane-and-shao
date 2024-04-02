@@ -12,7 +12,8 @@
     <graph :guess="gameInfo.guess" id="graph2 "></graph>
  
         </div>
-    <div v-else id="yourTurn"><h4>{{ gameInfo.players[gameInfo.up].name}} is currently guessing.</h4>
+    <div v-else id="yourTurn">
+      <h4>{{ gameInfo.players[gameInfo.up].name}} is currently guessing.</h4>
       <h2>{{gameInfo.question.prompt}}</h2>
     <h3 id="otherPercent"><p>{{ gameInfo.guess }}%</p></h3>
     <graph :guess="gameInfo.guess" id="graph2 "></graph></div>
@@ -69,7 +70,7 @@ onMounted(() => {
 })
 
 let guessValue = ref(50)
-defineProps({
+const props = defineProps({
   selfNumber: Number,
   gameInfo: Object,
 })

@@ -19,7 +19,7 @@
   import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
   import { useRoute } from 'vue-router'
 import prompts from "@/components/prompts.vue"
-  import { ref } from "vue";
+  import { ref,onMounted, onBeforeUnmount } from "vue";
   import loading from "@/components/loading.vue";
   import { info } from "@/reactive"; 
 
@@ -42,6 +42,9 @@ import prompts from "@/components/prompts.vue"
   });
   console.log(gameInfo.value)
   
+
+
+
 
   function sendMessage(){
     update(r(qt, `rooms/${route.params.code}/`), {

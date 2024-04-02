@@ -25,13 +25,13 @@ const props = defineProps({
         gameInfo: Object,
         selfNumber: Number,
     })  
-let timeD = ref(7 )//61
+let timeD = ref(61)//61
     let num = ref('')
 let num2 = ref('')
 let cutoff = (Math.floor(props.gameInfo.qList.length ** 1.45)) + 30
 let ans = ref('')
 let sign = ref('')
-let timeTracker = ref(7)//61
+let timeTracker = ref(61)//61
     let guess = ref('')
 function choiceCheck(){
   if(ans.value == guess.value){
@@ -65,7 +65,7 @@ onValue(r(qt, `rooms/${route.params.code}/time`), (snapshot) => {
 });
 
 onMounted(() => {
-      timeD.value = 7 //61
+      timeD.value = 61 //61
   if(route.params.auth == 'host'){
     setTimeout(intFunction, 1000)
   }
