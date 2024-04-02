@@ -4,7 +4,7 @@
       <button class="exit-button" @click="$emit('close-popup')">X</button>
       <form>
         <button id="hostSelect" v-for="x in ['join','host']" @click.prevent="gameSettings.type = x">{{ x }}</button><br>
-        <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['g1','g2','g3']"  @click.prevent="gameSettings.mode = x">{{ x }}</button><br> 
+        <button id="gameSelect" v-if="gameSettings.type == 'host'" v-for="x in ['guesspionage','TMP','chatrooms']"  @click.prevent="gameSettings.mode = games[x]; console.log(games[x])">{{ x }}</button><br> 
         <p>Room Code: <input type="text" v-model="gameSettings.code" maxlength="4" minlength="3"></p>
         <p v-if="gameSettings.type == 'host'">You are hosting: {{ gameSettings.mode }}</p>
         <button @click.prevent="gameStart()">Start Game</button>
@@ -20,6 +20,15 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  }
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { info } from "@/reactive";
+import G2 from "@/views/g2.vue";
+import G3 from "@/views/g3.vue";
+
+let games = {
+  guesspionage: 'g1',
+  TMP: 'g2',
+  chatrooms: 'g3',
+}
+
 const router = useRouter()
 let error = ref('')
 const route = useRoute()
