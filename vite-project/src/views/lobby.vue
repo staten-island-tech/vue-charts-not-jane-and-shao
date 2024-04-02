@@ -29,7 +29,7 @@ if (!info.name) {
 }
 
 function test() {
-
+  console.log(info)
   let test = new Image()
   test.src = knight
   console.log(reference)
@@ -231,10 +231,10 @@ onMounted(() => {
         otherPlayers.forEach((plyaer) => {
           if (plyaer.username != player.properties.name) {
             c.drawImage(player.properties.image, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
-            c.fillText(plyaer.username, plyaer.xPos + 285 + background.pos.x, plyaer.yPos + background.pos.y)
+            c.fillText(plyaer.username, plyaer.xPos + 64 + background.pos.x, 64 + plyaer.yPos + background.pos.y)
           }
         })
-
+        fore.draw()
         selfInfo.value.xPos = player.pos.actualX
         selfInfo.value.yPos = player.pos.actualY
         if (info.inLobby) {
@@ -257,6 +257,7 @@ onMounted(() => {
             }if(moving==true){
             player.pos.actualY -= 3
             background.pos.y += 3
+            fore.pos.y +=3
             boundList.forEach((boundary)=>{
               boundary.pos.y+=3
             })
@@ -279,6 +280,7 @@ onMounted(() => {
             }if(moving==true){
             player.pos.actualY += 3
             background.pos.y -= 3
+            fore.pos.y -=3
             boundList.forEach((boundary)=>{
               boundary.pos.y-=3
             })
@@ -302,6 +304,7 @@ onMounted(() => {
             }if(moving==true){
             player.pos.actualX -= 3
             background.pos.x += 3
+            fore.pos.x +=3
             boundList.forEach((boundary)=>{
               boundary.pos.x+=3
             })
@@ -327,6 +330,7 @@ onMounted(() => {
           if(moving==true){
             player.pos.actualX += 3
             background.pos.x -= 3
+            fore.pos.x -= 3
             boundList.forEach((boundary)=>{
               boundary.pos.x-=3
             })
