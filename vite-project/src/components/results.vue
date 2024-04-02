@@ -90,7 +90,7 @@ async function gameSelector(){
         if(player.health == 'limbo'){
           console.log(player)
           people++
-          if(people > 1 ){
+          if(people > 231 ){
             gameArray = [ 'sos']
             // 'sos'
           }
