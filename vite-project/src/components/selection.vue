@@ -98,7 +98,6 @@ button {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
 }
 
 button:hover {
