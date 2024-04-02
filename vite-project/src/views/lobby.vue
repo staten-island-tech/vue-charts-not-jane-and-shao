@@ -115,7 +115,7 @@ onMounted(() => {
       })
 
       const fg = new Image()
-      bg.src = foreground
+      fg.src = foreground
       const fore = new Sprite({
         pos: {
           x: -2500,
