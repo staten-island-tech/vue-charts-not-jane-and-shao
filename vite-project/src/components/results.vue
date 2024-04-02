@@ -1,10 +1,11 @@
 <template>
-    <div>
-      <p>the correct answer was choice {{ gameInfo.question.answer }}, {{ gameInfo.question[gameInfo.question.answer] }}</p>
-      <p>Next Game Will Be {{ gameInfo.nextGame }}</p>
+    <div class="container">
+      <br>
+      <p>The correct answer was choice {{ gameInfo.question.answer.toUpperCase() }}, {{ gameInfo.question[gameInfo.question.answer] }}.</p>
+      <p>The minigame will be {{ gameInfo.nextGame }}!</p>
       <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
+      <button @click.prevent="readyCheck()">Continue!</button>
     </div>
-    <button @click.prevent="readyCheck()">OYASUMI</button>
 </template>
 
 <script setup>
@@ -107,6 +108,36 @@ async function gameSelector(){
 </script>
 
 
-<style lang="scss" scoped>
+<style scoped>
+.container{
+  text-align: center;
+  margin: 0 auto;
+  background-color: #4b5057;;
+    color:white;
+    font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif;
+  height: calc(100vh - 30px);
+}
 
+button{
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 12px;
+  line-height: 20px;
+  height: 30px;
+  max-height: 30px;
+  background: #ffffff;
+  font-weight: 700;
+  border: 2px solid #DAE3F3;
+  border-radius: 0;
+  color: #272C34;
+  transition-timing-function: ease-in-out;
+  transition-property: box-shadow;
+  transition-duration: 150ms;
+  font: 'DoTGothic16';
+  font-family: 'DotGothic16', sans-serif;
+  transform: translateY(20px)
+}
 </style>

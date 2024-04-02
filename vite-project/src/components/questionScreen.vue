@@ -1,7 +1,7 @@
 <template>
   <div id="bigBoy" v-if="gameInfo.players[selfNumber].health == 'alive'">
     <div id="cont" >
-        <div id="prompt"><h1>{{gameInfo.question.prompt}}</h1>
+        <div id="prompt"><h1>{{gameInfo.question.prompt}}?</h1>
         <h2>{{ ansChoice }}</h2></div>
         <div id="clock">
         <h2>{{ gameInfo.time }}</h2>
@@ -67,7 +67,7 @@ async function choice(choice){
   // // });
   //   }
 }
-let num = Math.floor((Math.random() * 23)); 
+let num = Math.floor((Math.random() * 39)); 
 
  function getQuestionInfo(){
   if(route.params.auth == 'host'){
@@ -88,7 +88,7 @@ let num = Math.floor((Math.random() * 23));
   try{
     console.log('host only')
     timeD = 15 // CHANGE
-  const response = await fetch(`https://theone-1.onrender.com/gp/${num}`)
+  const response = await fetch(`https://sithsbox.onrender.com/gp/${num}`)
   const data = await response.json(); 
   console.log(data) 
   await update(r(qt, `rooms/${route.params.code}/question`), {

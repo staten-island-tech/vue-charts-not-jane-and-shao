@@ -68,7 +68,7 @@ button{
   line-height: 20px;
   height: 30px;
   max-height: 30px;
-  background: #fffff;
+  background: #ffffff;
   font-weight: 700;
   border: 2px solid #DAE3F3;
   border-radius: 0;

@@ -119,7 +119,7 @@ onMounted(() => {
         }
       })
       const plyr = new Image()
-      plyr.src = info.sprite
+      plyr.src = knight
       const player = new Sprite({
         pos: {
           x: 3000 + background.pos.x,

@@ -46,7 +46,7 @@
         labels: props.gameInfo.players.map(player => player.name),
         datasets: [{
           label: 'Points',
-          backgroundColor: 'rgba(0, 123, 255, 0.2)',
+          backgroundColor: 'rgba(255, 123, 255, 0.2)',
           borderColor: 'rgba(0, 123, 255, 1)',
           borderWidth: 1,
           data: props.gameInfo.players.map(player => player.points),
@@ -68,6 +68,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: calc(100vh - 15px);
   }
   
   .winner-info {
@@ -90,6 +91,7 @@
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    transform: translateY(-100px)
   }
   
   .return-button:hover {
