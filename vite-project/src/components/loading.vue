@@ -1,14 +1,19 @@
 <template>
-    <div id="loadingBox" v-if="gameInfo.state == 'start'">    <h1>{{ game }}</h1>
- <p v-for="player in gameInfo.players">{{ player.name }}</p>
- <form>
-    <!-- v-if="gameInfo.aop + 2 >= gameInfo.peopleNeeded && role == 'host'" -->
-   <button v-if="role == 'host' && gameInfo.aop > 0"   @click.prevent="$emit('startGame')">start</button>
-   
-</form>
-</div>
-
-
+  <div id="loadingContainer" v-if="gameInfo.state === 'start'">
+    <div id="mainContent">
+      <h2 class="game-title">{{ game }}</h2>
+      <p class="room-code">Room Code: {{ gameInfo.roomCode }}</p>
+      <button v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
+    </div>
+    <div id="sidebar">
+      <h3>Players:</h3>
+      <div class="players-list">
+        <div v-for="player in gameInfo.players" :key="player.id" class="player-item">
+          {{ player.name }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 
@@ -27,14 +32,41 @@ info.audio.play()
 info.audio.loop = true
 </script>
 
-<style  scoped>
-#loadingBox{
-    background-color: rgb(155, 235, 135);
-    border: 1px solid black;
-    display: flex;  
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+<style scoped>
+#loadingContainer {
+  display: flex;
+  justify-content: space-between; /* Separate main content and sidebar */
+}
+
+#mainContent {
+  flex: 1; /* Main content takes up remaining space */
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+#sidebar {
+  width: 200px;
+  padding: 20px;
+  background-color: #e0e0e0;
+}
+
+.game-title {
+  margin-bottom: 10px;
+  color: #333; /* Darker text color for better contrast */
+}
+
+.room-code {
+  margin-bottom: 10px;
+  color: #555; /* Slightly lighter text color for room code */
+}
+
+.players-list {
+  margin-top: 20px;
+}
+
+.player-item {
+  margin-bottom: 5px;
+  color: black;
 }
 
 button{
