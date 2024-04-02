@@ -91,10 +91,8 @@ async function gameSelector(){
           console.log(player)
           people++
           if(people > 231 ){
-            gameArray = [ 'sos']
-            // 'sos'
+            gameArray = [...gameArray, 'sos']
           }
-          // nextState.value = 'sos'
         }
       })
     })
