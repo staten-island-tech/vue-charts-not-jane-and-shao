@@ -58,3 +58,7 @@ watch(() => props.guess, (newValue) => {
         <canvas ref="chartCanvas"></canvas>
     </div>
 </template>
+
+<style scoped>
+
+</style>

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="info.name">
+    <div v-if="info.name && gameInfo != null">
       <div v-for="i in gameInfo.messages">
       <p>{{ i }}</p></div>
       <form>
@@ -8,6 +8,7 @@
         <p></p>
       </form>
     </div>
+    <p v-else>L</p>
   </template>
   
   <script setup>
@@ -28,13 +29,11 @@ import prompts from "@/components/prompts.vue"
   let name = info.name
   let reference = r(qt, `rooms/${route.params.code}/`);
 
-   get(child(r(getDatabase()), `rooms/${route.params.code}/`)).then((snapshot) => {
-  gameInfo.value = snapshot.val()
-  if(gameInfo.value == null){
+      onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
+        if(gameInfo.value == null && route.params.auth != 'host'){
+          console.log('host left')
     location.replace(`https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_loc_reload`);
   }
- })
-      onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
     gameInfo.value = snapshot.val()
   });
   console.log(gameInfo.value)
@@ -60,9 +59,8 @@ import prompts from "@/components/prompts.vue"
               name: name,
           }
         },
-      })      
-      await onDisconnect(r(qt, `rooms/${route.params.code}/`)).updates({messages: ['host has disconnected']});
-      await onDisconnect(r(qt, `rooms/${route.params.code}`)).remove();
+      })    
+       onDisconnect(r(qt, `rooms/${route.params.code}`)).remove();
 
   }
 

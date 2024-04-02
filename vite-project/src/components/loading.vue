@@ -3,7 +3,8 @@
     <div id="mainContent">
       <h2 class="game-title">{{ game }}</h2>
       <p class="room-code">Room Code: {{ gameInfo.code }}</p>
-      <button v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
+      <button id="startButton" v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
+      
     </div>
     <div id="sidebar">
       <h3>Players:</h3>
@@ -40,28 +41,36 @@ info.audio.loop = true
 }
 
 #mainContent {
-  flex: 1;
+  width: 85%;
+  justify-self: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  background-color: #4b5057;
+  background-color: #B6BBC4;
 }
 
 #sidebar {
-  width: 200px;
+  width: 15%;
   padding: 20px;
-  background-color: #007bff;
+  background-color: #525CEB;
 }
 
 .game-title {
+  font-size: 65px;
   margin-bottom: 10px;
-  color: #007bff;
+  color: #525CEB;
+  -webkit-text-stroke: .01px black;
 }
 
 .room-code {
+  font-size: 35px;
   margin-bottom: 10px;
   color: #ffffff;
 }
 
 .players-list {
+  width: 100%;
   margin-top: 20px;
 }
 
@@ -89,5 +98,11 @@ button{
   transition-duration: 150ms;
   font: 'DoTGothic16';
   font-family: 'DotGothic16', sans-serif
+  }
+
+  #startButton{
+    height: 10%;
+    width: auto;
+    font-size: 30px;
   }
 </style>

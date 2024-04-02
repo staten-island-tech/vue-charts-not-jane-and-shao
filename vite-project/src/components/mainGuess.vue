@@ -1,15 +1,31 @@
 <template>
   <div class="container">
-    <br>
-<div v-if="selfNumber == gameInfo.up"><h2>{{gameInfo.question.prompt}}</h2> 
-<form>
+
+<div id="myTurn" v-if="selfNumber == gameInfo.up">
+      <div class="left"><p>Question: </p><h2 id="top">{{gameInfo.question.prompt}}</h2> 
+        <form id="bottom">
+  <h2>{{ guessValue }}%</h2>
+	<input @input="$emit('valUp',guessValue)" type='range' v-model="guessValue"/>
+  <button class="btn" @click.prevent="$emit('valueGuess')">Submit</button>
+</form>
+        </div>
+        </div>
+    
+<!-- 
+    <div id="myTurn" v-if="selfNumber == gameInfo.up">
+      <div class="left"><h2>{{gameInfo.question.prompt}}</h2> 
+    <form>
   <p>{{ guessValue }}%</p>
 	<input @input="$emit('valUp',guessValue)" type='range' v-model="guessValue"/>
-  <div id="graphC"><graph :guess="gameInfo.guess"></graph></div>
   <button class="btn" @click.prevent="$emit('valueGuess')">Submit</button>
-</form></div>
-<div v-else><p>you are not up</p><p>{{ gameInfo.guess }}</p></div>
+</form>
+  </div>
+      <div id="right"><graph :guess="gameInfo.guess" id="graph"></graph></div>
 </div>
+
+
+ <div v-else><p>you are not up</p><p>{{ gameInfo.guess }}</p></div> -->
+</div> 
 </template>
 
 <script setup>
@@ -54,42 +70,56 @@ defineProps({
 </script>
 
 <style  scoped>
-#graphC{
-  height: 20vh;
+
+
+.left{
+  width: 70%;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  border-right: 2px black solid;
+}
+.right{
+  max-width: 20px;
+  width:200%;
+}
+
+#graph{
+  max-width: 10%;
+  background-color: yellow;
 }
 .container{
-  text-align: center;
+  display: flex;
+  text-align: left;
   margin: 0 auto;
   background-color: #4b5057;;
     color:white;
     font: 'DoTGothic16';
-    font-family: 'DotGothic16', sans-serif;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   height: calc(100vh - 20px);
 }
 
-h2 {
-  font-size: 28px;
+#top{
+  margin-left: 1%;
+  height: 25%;
+  font-size: 38 px;
+}
+
+h2{
+  font-size: 35px
 }
 
 button{
-  display: inline-block;
-  outline: none;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 0 12px;
-  line-height: 20px;
-  height: 30px;
-  max-height: 30px;
-  background: #fffff;
-  font-weight: 700;
-  border: 2px solid #DAE3F3;
-  border-radius: 0;
-  color: #272C34;
-  transition-timing-function: ease-in-out;
-  transition-property: box-shadow;
-  transition-duration: 150ms;
-  font: 'DoTGothic16';
-  font-family: 'DotGothic16', sans-serif;
-  transform: translateY(150px)
+color:black
+  }
+
+  form{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    height: 75%;
+    width: 100%;
+    flex-direction: column;
   }
 </style>
