@@ -7,7 +7,7 @@
       <div class="chart-container">
         <canvas ref="chartCanvas" class="chart"></canvas>
       </div>
-      <button @click.prevent="returnToLobby" class="return-button">Return To Lobby</button>
+      <button @click.prevent="returnToLobby" class="return-button">Return To Login</button>
     </div>
   </template>
   
