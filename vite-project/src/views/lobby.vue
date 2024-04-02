@@ -86,6 +86,7 @@ function test() {
     }
   });
 }
+console.log(otherPlayers)
 
 let rows = []
 for (let i = 0; i < collision.length; i += 128) {
@@ -258,7 +259,8 @@ onMounted(() => {
         otherPlayers.forEach((plyaer) => {
           if (plyaer.username != player.properties.name) {
             let otherSprite = new Image()
-            otherSprite.src = plyaer.sprite
+            otherSprite.src = characters.poop.idle
+            console.log(otherPlayers)
             c.drawImage(otherSprite, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
             if(plyaer.username != undefined){
               c.fillText(plyaer.username, plyaer.xPos + 16 + background.pos.x, 32 + plyaer.yPos + background.pos.y)
