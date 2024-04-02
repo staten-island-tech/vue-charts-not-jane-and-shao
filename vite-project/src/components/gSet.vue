@@ -61,7 +61,7 @@ else if(!valid && gameSettings.value.type == 'join' && joinable){
   router.replace({ path: `/${gameSettings.value.mode}/${gameSettings.value.code.toUpperCase()}/join` })
 }
 else{
-  error.value = 'joining/hosting invalid game'  
+  error.value = 'joining/hosting invalid game DEPLOY UPDATE TEST'  
   console.log(`joining/hosting invalid game DEPLOY UPDATE TEST`)
 }
 
