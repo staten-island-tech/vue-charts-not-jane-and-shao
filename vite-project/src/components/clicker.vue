@@ -11,7 +11,6 @@ import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
 let timeD = ref(11)//61
-let cutoff = (Math.floor(props.gameInfo.qList.length ** 1.45)) + 80
 let timeTracker = ref(11)//61
 const qt = getDatabase()
 const route = useRoute()
@@ -20,7 +19,7 @@ const props = defineProps({
         selfNumber: Number,
     })  
     let clacks = ref(0)
-
+    let cutoff = (Math.floor(props.gameInfo.qList.length ** 1.45)) + 80
     function clickingTime(){
       clacks.value++; 
       console.log(clacks.value)

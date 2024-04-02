@@ -13,7 +13,7 @@
  
         </div>
     <div v-else id="yourTurn">
-      <h4>{{ gameInfo.players[gameInfo.up].name }} is currently guessing.</h4>
+      <h4>Someone else is currently guessing.</h4>
       <h2>{{gameInfo.question.prompt}}</h2>
     <h3 id="otherPercent"><p>{{ gameInfo.guess }}%</p></h3>
     <graph :guess="gameInfo.guess" id="graph2 "></graph></div>
@@ -49,7 +49,7 @@ async function getQuestionInfo(){
   if(route.params.auth == 'host'){
     let num = Math.floor((Math.random() * 55)); 
   try{
-    const response = await fetch(`https://sithsbox.onrender.com/dt/${num}`)
+  const response = await fetch(`https://theone-1.onrender.com/dt/${num}`)
   const data = await response.json(); 
   console.log(data) 
   update(r(qt, `rooms/${route.params.code}/question`), {

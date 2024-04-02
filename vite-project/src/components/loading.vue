@@ -87,6 +87,7 @@ text-align: center;
 }
 
 #sidebar {
+  color:#000000;
   text-align: center;
   border: 2px black solid;
   border-left: 5px black solid;

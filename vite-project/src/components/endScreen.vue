@@ -46,7 +46,7 @@
         labels: props.gameInfo.players.map(player => player.name),
         datasets: [{
           label: 'Points',
-          backgroundColor: 'rgba(0, 123, 255, 0.2)',
+          backgroundColor: 'rgba(255, 123, 255, 0.2)',
           borderColor: 'rgba(0, 123, 255, 1)',
           borderWidth: 1,
           data: props.gameInfo.players.map(player => player.points),
