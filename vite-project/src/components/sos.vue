@@ -1,8 +1,8 @@
 <template>
-    <div v-if="gameInfo.players[selfNumber].health == 'limbo'">
-      <p>{{ jackpot }}</p>
-        <p>{{ timeTracker }}</p>
-        <p>{{ ethicalChoice }}</p>
+    <div v-if="gameInfo.players[selfNumber].health == 'limbo'" class="container">
+      <p>The jackpot to be won is {{ jackpot }} points!</p>
+        <p class="timeTracker">{{ timeTracker }}</p>
+        <p>You've chosen: {{ ethicalChoice }}</p>
         <p>Split Or Steal?</p>
         <button v-for="i in ['defend','steal']" @click.prevent="ethicsTest(i)">{{ i }}</button>
     </div>
@@ -62,6 +62,40 @@ async function intFunction(){
   }}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.container{
+  text-align: center;
+  margin: 0 auto;
+  background-color: #4b5057;;
+    color:white;
+    font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif;
+  height: calc(100vh - 30px);
+}
 
+.timeTracker{
+  font-size: 24px;
+}
+
+button{
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 12px;
+  line-height: 20px;
+  height: 30px;
+  max-height: 30px;
+  background: #ffffff;
+  font-weight: 700;
+  border: 2px solid #DAE3F3;
+  border-radius: 0;
+  color: #272C34;
+  transition-timing-function: ease-in-out;
+  transition-property: box-shadow;
+  transition-duration: 150ms;
+  font: 'DoTGothic16';
+  font-family: 'DotGothic16', sans-serif;
+  transform: translateY(20px)
+}
 </style>
