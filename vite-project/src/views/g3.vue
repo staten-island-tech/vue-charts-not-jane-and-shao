@@ -1,14 +1,18 @@
 <template>
-    <div v-if="info.name && gameInfo != null">
+    <div id="cont" v-if="info.name && gameInfo != null">
+      <div id="chatBox">
+        <h2 id="title">Chat Room {{ gameInfo.code }}</h2>
       <div v-for="i in gameInfo.messages">
-      <p>{{ i }}</p></div>
+      <p class="msg">{{ i }}</p></div></div>
       <form>
-        <input type="text" v-model="message">
+        <input id="formInput" type="text" v-model="message">
         <button v-if="gameInfo" @click.prevent="sendMessage()">submit</button>
         <p></p>
       </form>
     </div>
-    <p v-else>L</p>
+    <p v-else>Host has disconnected. I'm going to do something with my life in the time I saved from not making this end screen</p>
+    <h6>jk im just going to code || play pokemon </h6>
+    <h6>-Noah Abbas</h6>
   </template>
   
   <script setup>
@@ -41,8 +45,9 @@ import prompts from "@/components/prompts.vue"
 
   function sendMessage(){
     update(r(qt, `rooms/${route.params.code}/`), {
-   messages: [...gameInfo.value.messages, `${info.name}: ${message.value}`]
+   messages: [ `${info.name}: ${message.value}`, ...gameInfo.value.messages]
   });
+  message.value = ''
 }
 
 
@@ -84,6 +89,66 @@ import prompts from "@/components/prompts.vue"
   
   </script>
   
-  <style lang="scss" scoped>
-  
+  <style  scoped>
+
+ h6{
+font-size: 4px;
+ }
+  #cont{  
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+    background-color: #171e27;
+  }
+  #chatBox{
+    margin: 1%;
+    padding: 1%;
+    width: 75%;
+    overflow: auto;
+    background: rgba(243,243,243,0.9);
+    height: 90%;  
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border: 5px solid black
+  }
+
+  #title{
+    text-align: center;
+  }
+  .msg{
+border-bottom: 1px black solid;
+  }
+
+
+  form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #formInput{
+
+    font-size: 14px;
+                border-radius: 6px;
+                padding: 5px 10px;
+                border: 2px solid #b4b4b4;
+                color: rgb(14, 14, 16);
+                background: #dee1e2;
+                display: block;
+                height: 20px;
+                :hover {
+                    border-color: #ccc;
+                }
+                :focus{
+                    border-color: #9147ff;
+                    background: #fff;
+                }
+                
+  }
   </style>

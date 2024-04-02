@@ -1,10 +1,12 @@
 <template>
   <div id="loadingContainer" :class="game" v-if="gameInfo.state === 'start'">
     <div id="mainContent">
+      <div id="coolBox">
       <h2 class="game-title">{{ game }}</h2>
+      <h2>A SITHS Data-Based Game</h2>
       <p class="room-code">Room Code: {{ gameInfo.code }}</p>
-      <button id="startButton" v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
-      
+    </div>
+    <button id="startButton" v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
     </div>
     <div id="sidebar">
       <h3>Players:</h3>
@@ -34,11 +36,31 @@ info.audio.loop = true
 </script>
 
 <style scoped>
+
+#coolBox{
+  border: 2px black solid;
+  border-radius: 5px;
+background-color: rgba(255,255,255,0.75);
+color: black;
+padding: 5%;
+
+text-align: center;
+}
+
 #loadingContainer {
+  position: absolute;
+  border: 2px black solid;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
   display: flex;
   justify-content: space-between;
-  height: calc(100vh - 15px);;
+  height: calc(100vh - 15px);
+  background-image: url(https://livingnewdeal.org/wp-content/uploads/2014/07/Staten-Island-Technical-HS.jpg);
 }
+
+
 
 #mainContent {
   width: 85%;
@@ -47,10 +69,13 @@ info.audio.loop = true
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background-color: #B6BBC4;
+  background-image: radial-gradient(rgba(182,187,196,.95  ), rgba(182,187,196,.85));
+  /* background-color: rgba(182, 187, 196,0.85); */
 }
 
 #sidebar {
+  border: 2px black solid;
+  border-left: 5px black solid;
   width: 15%;
   padding: 20px;
   background-color: #525CEB;
@@ -58,15 +83,17 @@ info.audio.loop = true
 
 .game-title {
   font-size: 65px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   color: #525CEB;
   -webkit-text-stroke: .01px black;
 }
 
 .room-code {
-  font-size: 35px;
-  margin-bottom: 10px;
-  color: #ffffff;
+  font-size: 25px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #000000;
 }
 
 .players-list {
@@ -80,22 +107,11 @@ info.audio.loop = true
 }
 
 button{
+  margin-top: 5%;
   display: inline-block;
   outline: none;
   cursor: pointer;
-  font-size: 14px;
-  padding: 0 12px;
-  line-height: 20px;
-  height: 30px;
-  max-height: 30px;
-  background: #fff;
-  font-weight: 700;
-  border: 2px solid #DAE3F3;
   border-radius: 0;
-  color: #272C34;
-  transition-timing-function: ease-in-out;
-  transition-property: box-shadow;
-  transition-duration: 150ms;
   font: 'DoTGothic16';
   font-family: 'DotGothic16', sans-serif
   }

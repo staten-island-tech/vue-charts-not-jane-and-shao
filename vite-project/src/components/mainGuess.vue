@@ -2,14 +2,20 @@
   <div class="container">
 
 <div id="myTurn" v-if="selfNumber == gameInfo.up">
-      <div class="left"><p>Question: </p><h2 id="top">{{gameInfo.question.prompt}}</h2> 
-        <form id="bottom">
+  <h4>You're Up!</h4>
+      <h2>{{gameInfo.question.prompt}}</h2>
+      <form id="bottom">
   <h2>{{ guessValue }}%</h2>
-	<input @input="$emit('valUp',guessValue)" type='range' v-model="guessValue"/>
+	<input @input="$emit('valUp',guessValue)" type='range' id="range" v-model="guessValue"/>
   <button class="btn" @click.prevent="$emit('valueGuess')">Submit</button>
 </form>
+    <graph :guess="gameInfo.guess" id="graph2 "></graph>
+ 
         </div>
-        </div>
+    <div v-else id="yourTurn"><h4>{{ gameInfo.players[gameInfo.up].name}} is currently guessing.</h4>
+      <h2>{{gameInfo.question.prompt}}</h2>
+    <h3 id="otherPercent"><p>{{ gameInfo.guess }}%</p></h3>
+    <graph :guess="gameInfo.guess" id="graph2 "></graph></div>
     
 <!-- 
     <div id="myTurn" v-if="selfNumber == gameInfo.up">
@@ -71,23 +77,66 @@ defineProps({
 
 <style  scoped>
 
+#imTired{
+  display: flex;
+}
+
+#align{
+  display: flex;
+  height: 33%;
+  width: 100%;
+}
+#yourTurn{
+  width: 100%;
+  display: flex;
+  align-items: center;
+flex-direction: column;
+}
 
 .left{
-  width: 70%;
+  width: 100%;
   display: flex;
   height: 100%;
   flex-direction: column;
   align-items: center;
-  border-right: 2px black solid;
 }
-.right{
-  max-width: 20px;
-  width:200%;
+
+#scallion{
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+#myTurn{
+  width: 100%;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#range{
+  width: 70%;
+}
+
+#other{
+  height: 100%;
+  width: 50%;
+  justify-self: left;
+}
+#otherPercent{
+  font-size: 25px;
+  margin: 1%;
 }
 
 #graph{
-  max-width: 10%;
-  background-color: yellow;
+  justify-content: center;
+  display: flex;
+  width: auto;
+}
+#graph2{
+max-width: 50%;
 }
 .container{
   display: flex;
@@ -105,6 +154,11 @@ defineProps({
   height: 25%;
   font-size: 38 px;
 }
+h4{
+  font-size: 20px;
+  margin: 0px;
+  margin-top: 1%;
+}
 
 h2{
   font-size: 35px
@@ -118,8 +172,7 @@ color:black
     display: flex;
     text-align: center;
     align-items: center;
-    height: 75%;
-    width: 100%;
+    width: 50%;
     flex-direction: column;
   }
 </style>

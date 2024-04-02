@@ -1,14 +1,20 @@
 <template>
-    <div v-if="gameInfo.players[selfNumber].health == 'alive'">
+  <div id="bigBoy" v-if="gameInfo.players[selfNumber].health == 'alive'">
+    <div id="cont" >
         <p>{{gameInfo.question.prompt}}</p>
-        <p>{{ selfNumber }}</p>
+        <div id="clock">
         <p>{{ gameInfo.time }}</p>
+
+    </div>
+    <div id="choices" >
+      <button v-for="i in potato" @click.prevent="choice(i)">{{gameInfo.question[i]}}</button>
+    </div>
           <!-- <p>{{gameInfo.question.a}}</p>
           <p>{{gameInfo.question.b}}</p>
           <p>{{gameInfo.question.c}}</p>
           <p>{{gameInfo.question.d}}</p> -->
-        <button v-for="i in potato" @click.prevent="choice(i)">{{gameInfo.question[i]}}</button>
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -20,14 +26,14 @@ import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  }
 import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
-let timeD = 15
+let timeD = 5000 //CHANGE
 let stopInterval = false  
 const props = defineProps({
         gameInfo: Object,
         selfNumber: Number
     })
 let interval
-let timeTracker = ref(15)
+let timeTracker = ref(5000) //CHANGE
 
 onValue(r(qt, `rooms/${route.params.code}/time`), (snapshot) => {
   timeTracker.value = snapshot.val()
@@ -75,7 +81,7 @@ let num = Math.floor((Math.random() * 23));
   async function otherFunction(){
   try{
     console.log('host only')
-    timeD = 15
+    timeD = 50000 // CHANGE
   const response = await fetch(`https://theone-1.onrender.com/gp/${num}`)
   const data = await response.json(); 
   console.log(data) 
@@ -129,6 +135,42 @@ async function intFunction(){
 // }
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
 
+
+#cont {
+  width: 66%;
+  justify-self: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-image: radial-gradient(rgba(182,187,196,.95  ), rgba(182,187,196,.85));
+}
+
+#left{
+  background-color: tan;
+}
+
+#clock {
+  width: 50%;
+  position: absolute;
+  height: 50%;
+  bottom: 10%;
+  left: 10%;
+  background: rgb(255,234,194); /* Just to visualize the extent */
+}
+
+#bigBoy{
+  position: absolute;
+  border: 2px black solid;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+  display: flex;
+  justify-content: space-between;
+  height: calc(100vh - 15px);
+  background-image: url(https://livingnewdeal.org/wp-content/uploads/2014/07/Staten-Island-Technical-HS.jpg);
+}
 </style>

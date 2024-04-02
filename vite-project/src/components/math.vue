@@ -84,7 +84,7 @@ async function intFunction(){
     })
     get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
 snapshot.val().forEach(player => {
-  if(player.subPoints < 35 && player.health == 'limbo' ||player.health == 'dead'){
+  if(player.subPoints < cutoff && player.health == 'limbo' ||player.health == 'dead'){
     console.log( props.gameInfo.players[player.pos].points)
     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead'})
   }

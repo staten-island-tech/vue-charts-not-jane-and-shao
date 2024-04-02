@@ -1,11 +1,10 @@
 <template>
     <div class="container">
     <div>
-<p>{{ selfNumber }}</p>
     </div>
      <div v-if="gameInfo.state == 'secondGuess' && gameInfo.excluded != selfNumber">
-        <p>{{ gameInfo.question.prompt }}</p>
-        <p>The Over Under Is {{ gameInfo.guess }}. Choose if you think it is over or under.</p>
+        <p>"{{ gameInfo.question.prompt }}"</p>
+        <p>{{ gameInfo.players[gameInfo.up].name }} guessed {{ gameInfo.guess }}%. Choose if you think it is over or under.</p>
         <div id="graphC"><graph :guess="gameInfo.guess"></graph></div>
 <button @click.prevent="$emit('ou','over')">Over</button>
  <button @click.prevent="$emit('ou','under')">Under</button>

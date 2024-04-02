@@ -60,5 +60,9 @@ watch(() => props.guess, (newValue) => {
 </template>
 
 <style scoped>
-
+canvas{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

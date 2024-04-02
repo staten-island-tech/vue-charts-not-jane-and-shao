@@ -226,11 +226,15 @@ onMounted(() => {
         player.draw()
         c.font = "16px DotGothic16";
         c.fillStyle = "rgb(0,0,0)";
-        c.fillText(`${player.properties.name}`,player.pos.x+16,player.pos.y+32)
+        if(player.properties.name != undefined){
+          c.fillText(`${player.properties.name}`,player.pos.x+16,player.pos.y+32)
+        }
         otherPlayers.forEach((plyaer) => {
           if (plyaer.username != player.properties.name) {
             c.drawImage(player.properties.image, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
-            c.fillText(plyaer.username, plyaer.xPos + 16 + background.pos.x, 32 + plyaer.yPos + background.pos.y)
+            if(plyaer.username != undefined){
+              c.fillText(plyaer.username, plyaer.xPos + 16 + background.pos.x, 32 + plyaer.yPos + background.pos.y)
+            }
           }
         })
         fore.draw()

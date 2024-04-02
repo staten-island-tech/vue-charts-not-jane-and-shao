@@ -1,4 +1,6 @@
 <template>
+  <p>{{ timeTracker }}</p>
+  <p>{{ gameInfo.players[selfNumber].subPoints }}</p>
     <div v-if="gameInfo.players[selfNumber].health == 'limbo'">
         <button @click.prevent="clickingTime()">Click Me Quick!</button>
     </div>
@@ -9,6 +11,7 @@ import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
 let timeD = ref(11)//61
+let cutoff = (Math.floor(props.gameInfo.qList.length ** 1.45)) + 80
 let timeTracker = ref(11)//61
 const qt = getDatabase()
 const route = useRoute()
@@ -16,9 +19,12 @@ const props = defineProps({
         gameInfo: Object,
         selfNumber: Number,
     })  
+    let clacks = ref(0)
 
     function clickingTime(){
-        update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {subPoints: props.gameInfo.players[props.selfNumber].subPoints++})
+      clacks.value++; 
+      console.log(clacks.value)
+       update(r(qt, `rooms/${route.params.code}/players/${props.selfNumber}`), {subPoints: clacks.value})
     }
 
  onValue(r(qt, `rooms/${route.params.code}/time`), (snapshot) => {
@@ -47,11 +53,11 @@ async function intFunction(){
     })
     get(child(r(getDatabase()), `rooms/${route.params.code}/players`)).then((snapshot) => {
 snapshot.val().forEach(player => {
-  if(player.subPoints < 35 && player.health == 'limbo' ||player.health == 'dead'){
+  if(player.subPoints < cutoff && player.health == 'limbo' ||player.health == 'dead'){
     update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'dead'})
   }
   else{
-    update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive'})
+    update(r(qt, `rooms/${route.params.code}/players/${player.pos}`), {health: 'alive', points: props.gameInfo.players[player.pos].points + (clacks.value * 5)})
   } 
 })
 update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})

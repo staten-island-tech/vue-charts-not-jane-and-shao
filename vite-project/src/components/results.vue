@@ -17,9 +17,8 @@ import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
 let nextState = ref('secondResults')
-let gameArray = ['clicker']
-let people = 0
-// let gameArray = ['math','dice']
+let people = ref(0)
+let gameArray = ['math','dice','clicker']
 const props = defineProps({
         gameInfo: Object, 
         selfNumber: Number,
@@ -27,7 +26,6 @@ const props = defineProps({
 
 
   onMounted(async () =>{
-    gameSelector()
       await get(child(r(getDatabase()), `rooms/${route.params.code}/players/${props.selfNumber}`)).then((snapshot) => {
         if(snapshot.val().choice == props.gameInfo.question.answer){
           console.log(snapshot.val())
@@ -45,6 +43,7 @@ const props = defineProps({
           })
         }
       })
+      gameSelector()
   })
 
 
@@ -89,16 +88,19 @@ async function gameSelector(){
         console.log(player)
         if(player.health == 'limbo'){
           console.log(player)
-          people++
-          if(people > 231 ){
+          people.value = people.value + 1
+          console.log(people.value)
+          if(people.value > 1){
             gameArray = [...gameArray, 'sos']
           }
         }
       })
     })
-    console.log(people)
-    let next = gameArray[Math.floor(Math.random() * gameArray.length)]
-    update(r(qt, `rooms/${route.params.code}`), {nextGame: next})
+    console.log(people.value)
+    if(people.value > 0){
+      nextState.value = gameArray[Math.floor(Math.random() * gameArray.length)]
+    }
+    update(r(qt, `rooms/${route.params.code}`), {nextGame: nextState.value})
     console.log(nextState.value)
 }
 }
