@@ -32,8 +32,6 @@ router.replace({ path: '/lobby' })
 
 } 
 
-
-
 </script>
 
 <template>
@@ -129,9 +127,15 @@ router.replace({ path: '/lobby' })
 }
 
 #sButt{
-  background-color: silver;
+  background-color: black;
   color:whitesmoke;
   text-shadow: #000000 1px 0 1px;;
+}
+
+#sButt:disabled{
+  background-color: silver;
+  color:whitesmoke;
+  text-shadow: #000000 1px 0 1px;
 }
 
 form {
