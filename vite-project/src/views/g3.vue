@@ -1,7 +1,13 @@
 <template>
     <div v-if="info.name">
-      <loading :game="'Quiplash'" :role="route.params.auth" :gameInfo="gameInfo" @startGame="startGame()"></loading>
-      <prompts v-if="gameInfo.state == 'prompts'" :gameInfo="gameInfo" :selfNumber="selfNumber"></prompts>
+      <p>{{ message }}</p>
+      <p>'e'</p>
+      <div v-for="i in 10">
+      <p>bananas!</p></div>
+      <form>
+        <input type="text" v-model="message">
+        <p></p>
+      </form>
     </div>
   </template>
   
@@ -15,37 +21,17 @@ import prompts from "@/components/prompts.vue"
 
 
   const route = useRoute()
+  let message = ref('text')
   console.log(route.params.auth)
   const qt = getDatabase()
   let name = info.name
   let reference = r(qt, `rooms/${route.params.code}`);
+
   let gameInfo = ref(false)
-  let first = true
-  let selfNumber = ref(1000)
   
-  
-  if(!info.name){
-    window.location = "http://localhost:5173/";
-  }
-  else{
-    console.log(info.name)
-  }
-  
-  
-  if(route.params.auth == 'host'){
-     host()
-  }
-  
-  
-  if(route.params.auth == 'join'){
-  join()
-  
-    }
-  
-async function startGame(){
-  
+  function startGame(){
     update(r(qt, `rooms/${route.params.code}`), {
-     state: 'prompts',  
+     state: 'question',
      joinable: false,
   });
 }
@@ -56,17 +42,12 @@ async function startGame(){
     console.log('host')
     set(reference, {
         game: 'g3',
+        messages: ['test'],
         code: route.params.code,
-        aop: 0,
         joinable: true,
-        time: 0,
-        qList: [999],
         players: {
           '0': {
               name: name,
-              pos: 0,
-              points: 0,
-              ready: false,
           }
         },
         state: 'start'
@@ -75,38 +56,25 @@ async function startGame(){
   state: 'error',
 });
 onDisconnect(reference).remove()
-      selfNumber.value = 0
       onValue(r(qt, `rooms/${route.params.code}`), (snapshot) => {
     gameInfo.value = snapshot.val()
   });
   }
   
-    async function join(){
-      console.log('join')
-      await onValue(r(qt, `rooms/${route.params.code}/`), (snapshot) => {
-    gameInfo.value = snapshot.val()
-    if(first){
-      first = false
-      selfNumber.value = gameInfo.value.aop + 1
-      set(r(qt, `rooms/${route.params.code}/players/${gameInfo.value.aop + 1}`), {
-        pos: gameInfo.value.aop + 1,
-                name: name,
-              points: 0,
-              health: 'alive',
-              ready: false,
-              subPoints: 0,
-              choice: false
-    });
-    update(r(qt, `rooms/${route.params.code}`), {
-       aop: gameInfo.value.aop + 1
-    });
-    }
-  });
+  if(!info.name){
+    window.location = "http://localhost:5173/";
+  }
+  else{
+    console.log(info.name)
+  }
+  if(route.params.auth == 'host'){
+     host()
+  }
   
-  onDisconnect(reference).update({
-  state: 'error',
-});
-onDisconnect(reference).remove()
+  
+  if(route.params.auth == 'join'){
+  join()
+  
     }
   
   
