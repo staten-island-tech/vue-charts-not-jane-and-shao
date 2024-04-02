@@ -72,6 +72,7 @@ function disabledButtons(){
         <button id="lastButton" @click.prevent="cycleB()" >last</button>
         <img class="sprites" :src="sprites[show].img" @click="setCharacter()">
         <button id="nextButton" @click.prevent="cycleF()" >next</button>
+        <h3 v-if="selectedSprite == null">Click on the sprite to select it!</h3>
         <h3 v-if="selectedSprite !== null">You've chosen this sprite.</h3>
     </div>
 </template>
