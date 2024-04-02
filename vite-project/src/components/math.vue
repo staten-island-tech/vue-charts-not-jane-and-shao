@@ -1,10 +1,10 @@
 <template>
-  <form v-if="gameInfo.players[selfNumber].health == 'limbo'">
+  <form v-if="gameInfo.players[selfNumber].health == 'limbo'" class="container">
      <p>{{gameInfo}}</p>
      <p>{{ guess }}</p>
      <p>{{ points }}</p>
      <h1>cutoff: {{ cutoff }}</h1>
-     <p>{{ timeTracker }}</p>
+     <p class="timeTracker">{{ timeTracker }}</p>
      <h1>{{ num }} {{ valuesArray[sign] }} {{ num2 }}</h1>
      <input type='text' v-model="guess" v-on:keydown.enter.prevent="choiceCheck" />
     </form>
@@ -104,6 +104,40 @@ update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
 </script>
 
 
-<style lang="scss" scoped>
+<style scoped>
+.container{
+  text-align: center;
+  margin: 0 auto;
+  background-color: #4b5057;;
+    color:white;
+    font: 'DoTGothic16';
+    font-family: 'DotGothic16', sans-serif;
+  height: calc(100vh - 30px);
+}
 
+.timeTracker{
+  font-size: 24px;
+}
+
+button{
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 12px;
+  line-height: 20px;
+  height: 30px;
+  max-height: 30px;
+  background: #ffffff;
+  font-weight: 700;
+  border: 2px solid #DAE3F3;
+  border-radius: 0;
+  color: #272C34;
+  transition-timing-function: ease-in-out;
+  transition-property: box-shadow;
+  transition-duration: 150ms;
+  font: 'DoTGothic16';
+  font-family: 'DotGothic16', sans-serif;
+  transform: translateY(20px)
+}
 </style>
