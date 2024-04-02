@@ -5,18 +5,20 @@
     <question v-if="gameInfo.state == 'question'" :gameInfo="gameInfo" :selfNumber="selfNumber"></question>
     <results v-if="gameInfo.state == 'firstResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></results>
     <mathgame v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber"></mathgame>
-    <p v-if="gameInfo.state == 'math'">ea</p>
+    <p v-if="gameInfo.state == 'math'" :gameInfo="gameInfo" :selfNumber="selfNumber">ea</p>
     <secondResults v-if="gameInfo.state == 'secondResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></secondResults>
     <endScreen v-if="gameInfo.state == 'endResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></endScreen>
     <diceGame v-if="gameInfo.state == 'dice'" :gameInfo="gameInfo" :selfNumber="selfNumber"></diceGame>
     <spOrSt v-if="gameInfo.state == 'sos'" :gameInfo="gameInfo" :selfNumber="selfNumber"></spOrSt>
     <sosResults v-if="gameInfo.state == 'sosResults'" :gameInfo="gameInfo" :selfNumber="selfNumber"></sosResults>
+    <clicker v-if="gameInfo.state == 'clicker'" :gameInfo="gameInfo" :selfNumber="selfNumber"></clicker>
   </template>
   
   <script setup>
   import { getDatabase, ref as r, set, onDisconnect,onValue, update, get, child  } from "firebase/database";
   import { useRoute } from 'vue-router'
   import sosResults from "@/components/sosResults.vue";
+  import clicker from "@/components/clicker.vue"
   import diceGame from "@/components/dice.vue"
   import { ref } from "vue";
   import loading from "@/components/loading.vue";
@@ -75,6 +77,7 @@ function startGame(){
         question: 'What are the odds Noah Abbas cries himself to sleep tonight?',
         joinable: true,
         time: 0,
+        nextGame: false,
         players: {
           '0': {
               name: name,
