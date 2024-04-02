@@ -3,7 +3,8 @@
   <p>{{ timeTracker }}</p>
   <p>{{ gameInfo.players[selfNumber].subPoints }}</p>
     <div v-if="gameInfo.players[selfNumber].health == 'limbo'">
-        <button @click.prevent="clickingTime()">Click Me Quick!</button>
+        <button class="red-button" @click.prevent="clickingTime()"></button>
+        <p>Click me!</p>
     </div>
   </div>
 </template>
@@ -73,57 +74,16 @@ update(r(qt, `rooms/${route.params.code}`), {state: 'secondResults'})
 
 <style scoped>
 
-html, body{
-	height: 100%;
-	width: 100%;
+.red-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
 }
-
-body{
-	background-color: #eee;
-	position: relative;
-	margin: 0;
-}
-
-.button{
-  box-shadow: 0px 15px 0 20px #352d2d, 0px 40px 0 30px #000000;
-	cursor: pointer;
-	background-color: #c0392b;
-	position: absolute;
-	border-radius: 50%;
-	top: 50%;
-	left: 50%;
-	width: 480px;
-	height: 80px;
-	transform: translateX(-50%);
-	
-	&::before{
-		content: '';
-		z-index: 1;
-		border-radius: 50%;
-		background-color: #e74c3c;
-		position: absolute;
-		bottom: 100%;
-		left: 0%;
-		transition: bottom .4s;
-		width: 480px;
-		height: 80px;
-	}
-
-	&::after{
-		content: '';
-		background-color: #c0392b;
-		position: absolute;
-		bottom: 50%;
-		left: 0%;
-		width: 480px;
-		height: 80px;
-		transition: height .4s;
-	}
-
-	&:active{
-		&::before{ bottom: 10%; }
-		&::after{ height: 10%; }
-	}
-
+.red-button:hover {
+  background-color: darkred;
 }
 </style>
