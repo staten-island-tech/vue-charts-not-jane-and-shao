@@ -17,7 +17,9 @@ import { connectFirestoreEmulator } from "firebase/firestore";
 const route = useRoute()
 const qt = getDatabase()
 let nextState = ref('secondResults')
-let gameArray = ['math','dice']
+let gameArray = ['clicker']
+let people = 0
+// let gameArray = ['math','dice']
 const props = defineProps({
         gameInfo: Object, 
         selfNumber: Number,
@@ -82,12 +84,13 @@ async function nextGameTest(){
 
 async function gameSelector(){
   if(route.params.auth == 'host'){
-  let people = 0
      await get(child(r(getDatabase()), `rooms/${route.params.code}/players/`)).then((snapshot) => {
       snapshot.val().forEach(player => {
+        console.log(player)
         if(player.health == 'limbo'){
+          console.log(player)
           people++
-          if(people > 1){
+          if(people > 1 ){
             gameArray = [ 'sos']
             // 'sos'
           }
@@ -95,6 +98,7 @@ async function gameSelector(){
         }
       })
     })
+    console.log(people)
     let next = gameArray[Math.floor(Math.random() * gameArray.length)]
     update(r(qt, `rooms/${route.params.code}`), {nextGame: next})
     console.log(nextState.value)

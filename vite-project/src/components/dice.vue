@@ -43,6 +43,7 @@ const props = defineProps({
  dUpdate()
 
 function ou(){
+  showButtons.value = false
     if(i < 150){
         otherDie.value[`d${i%3 + 1}`] = Math.floor(Math.random() * 6) + 1
     otherDie.value.sum = otherDie.value.d1 + otherDie.value.d2 + otherDie.value.d3

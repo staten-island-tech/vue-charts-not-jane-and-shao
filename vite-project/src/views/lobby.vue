@@ -14,15 +14,14 @@ let selfInfo = ref('teset')
 let selfRef = 'players/' + info.name
 const qt = getDatabase()
 const reference = r(qt, selfRef);
-
 onDisconnect(reference).remove();
 onDisconnect(r(qt, `playerlist/${info.name}`)).remove();
 let otherPlayers = []
 let showGameSettings = ref(false)
-if (Object.keys(route.params) + '') {
-  console.log(Object.keys(route.params) + '')
-  console.log('ea')
-}
+// if (Object.keys(route.params) + '') {
+//   console.log(Object.keys(route.params) + '')
+//   console.log('ea')
+// }
 
 if (!info.name) {
   window.location = "http://localhost:5173/";
@@ -51,13 +50,10 @@ function test() {
   onValue(r(qt, 'players/'), (snapshot) => {
     let tempList = []
     try {
-      console.log(info.inLobby)
       Object.keys(snapshot.val()).forEach((player) => {
-        console.log()
         tempList.push(snapshot.val()[player])
       })
       otherPlayers = tempList
-      console.log(otherPlayers)
     }
     catch (error) {
       console.log('Take that, Obama')
@@ -340,7 +336,7 @@ onMounted(() => {
 <template>
   <main>
     <div id="canvasBox">
-      <canvas width="1920" height="1080">
+      <canvas width="2225px" height="940">
 
       </canvas>
     </div>
@@ -376,7 +372,7 @@ onMounted(() => {
   z-index: -1000;
 }
 
-canvas {
+/* canvas {
   border: 5px solid black
-}
+} */
 </style>
