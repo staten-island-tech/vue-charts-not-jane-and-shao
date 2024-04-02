@@ -1,12 +1,11 @@
 <template>
     <div class="container">
 <p>{{ info.name }}</p>
-<p>{{ gameInfo.guess }}</p>
 <p>{{ gameInfo.question.prompt }}</p>
-<p>{{ gameInfo.question.ans }}%</p>
+<p>The guesser chose {{ gameInfo.guess }}%.</p>
+<p>The real answer is {{ gameInfo.question.ans }}%.</p>
 <div v-for="players in gameInfo.players">{{ players.name }}: {{ players.points }}</div>
-
-    <button v-if="route.params.auth == 'host'" @click.prevent="$emit('newRound')">OYASUMI</button>
+    <button v-if="route.params.auth == 'host'" @click.prevent="$emit('newRound')">Next!</button>
   </div>
 
 </template>
@@ -62,14 +61,14 @@ async function exlAdd(){
 </script>
 
 <style scoped>
-     .container{
+.container{
   text-align: center;
   margin: 0 auto;
-  background-color: black;
+  background-color: #4b5057;;
     color:white;
     font: 'DoTGothic16';
     font-family: 'DotGothic16', sans-serif;
-    margin-top: 10vh;
+  height: calc(100vh - 20px);
 }
 
 button{
@@ -81,7 +80,7 @@ button{
   line-height: 20px;
   height: 30px;
   max-height: 30px;
-  background: #fff;
+  background: #fffff;
   font-weight: 700;
   border: 2px solid #DAE3F3;
   border-radius: 0;
@@ -89,8 +88,8 @@ button{
   transition-timing-function: ease-in-out;
   transition-property: box-shadow;
   transition-duration: 150ms;
-  margin-top: 5vh;
   font: 'DoTGothic16';
-  font-family: 'DotGothic16', sans-serif
-  }
+  font-family: 'DotGothic16', sans-serif;
+  transform: translateY(20px)
+}
 </style>

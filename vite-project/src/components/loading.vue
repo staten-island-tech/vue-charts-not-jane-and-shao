@@ -1,8 +1,8 @@
 <template>
-  <div id="loadingContainer" v-if="gameInfo.state === 'start'">
+  <div id="loadingContainer" :class="game" v-if="gameInfo.state === 'start'">
     <div id="mainContent">
       <h2 class="game-title">{{ game }}</h2>
-      <p class="room-code">Room Code: {{ gameInfo.roomCode }}</p>
+      <p class="room-code">Room Code: {{ gameInfo.code }}</p>
       <button v-if="role === 'host' && gameInfo.aop > 0" @click.prevent="$emit('startGame')">Start</button>
     </div>
     <div id="sidebar">
@@ -36,28 +36,29 @@ info.audio.loop = true
 #loadingContainer {
   display: flex;
   justify-content: space-between;
+  height: calc(100vh - 15px);;
 }
 
 #mainContent {
   flex: 1;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: #4b5057;
 }
 
 #sidebar {
   width: 200px;
   padding: 20px;
-  background-color: #e0e0e0;
+  background-color: #007bff;
 }
 
 .game-title {
   margin-bottom: 10px;
-  color: #333;
+  color: #007bff;
 }
 
 .room-code {
   margin-bottom: 10px;
-  color: #555;
+  color: #ffffff;
 }
 
 .players-list {
@@ -66,7 +67,7 @@ info.audio.loop = true
 
 .player-item {
   margin-bottom: 5px;
-  color: black;
+  color: ffffff;
 }
 
 button{
