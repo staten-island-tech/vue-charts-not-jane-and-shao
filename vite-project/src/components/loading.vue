@@ -35,11 +35,11 @@ info.audio.loop = true
 <style scoped>
 #loadingContainer {
   display: flex;
-  justify-content: space-between; /* Separate main content and sidebar */
+  justify-content: space-between;
 }
 
 #mainContent {
-  flex: 1; /* Main content takes up remaining space */
+  flex: 1;
   padding: 20px;
   background-color: #f0f0f0;
 }
@@ -52,12 +52,12 @@ info.audio.loop = true
 
 .game-title {
   margin-bottom: 10px;
-  color: #333; /* Darker text color for better contrast */
+  color: #333;
 }
 
 .room-code {
   margin-bottom: 10px;
-  color: #555; /* Slightly lighter text color for room code */
+  color: #555;
 }
 
 .players-list {
