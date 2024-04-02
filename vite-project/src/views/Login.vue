@@ -62,7 +62,6 @@ router.replace({ path: '/lobby' })
       </div>
     </div>
     <div class="d-pad"></div>
-    <img src="https://static.thenounproject.com/png/1273647-200.png">
   </div>
 </div>
 </template>
@@ -163,7 +162,7 @@ button {
   margin-top: 10px;
   border: none;
   border-radius: 5px;
-background-color: #0095b3;
+  background-color: #0095b3;
   color: #ffffff;
   font-weight: bold;
   cursor: pointer;

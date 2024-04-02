@@ -6,13 +6,15 @@
       <p class="msg">{{ i }}</p></div></div>
       <form>
         <input id="formInput" type="text" v-model="message">
-        <button v-if="gameInfo" @click.prevent="sendMessage()">submit</button>
+        <button v-if="gameInfo" @click.prevent="sendMessage()">Send</button>
+        <button @click.prevent="returnToLobby" class="return-button">Return To Login</button>
         <p></p>
       </form>
     </div>
     <p v-else>Host has disconnected. I'm going to do something with my life in the time I saved from not making this end screen</p>
     <h6>jk im just going to code || play pokemon </h6>
     <h6>-Noah Abbas</h6>
+    <button @click.prevent="returnToLobby" class="return-button">Return To Lobby</button>
   </template>
   
   <script setup>
@@ -89,7 +91,10 @@ import prompts from "@/components/prompts.vue"
   
   //   }
   
-  
+  const returnToLobby = () => {
+    window.location = `http://localhost:5173/`;
+  };
+
   </script>
   
   <style  scoped>
