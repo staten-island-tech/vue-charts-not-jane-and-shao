@@ -1,4 +1,4 @@
-<script setup>
+  <script setup>
 import { onMounted } from 'vue';
 import { db } from '@/fireSetup';
 import { ref } from 'vue';
@@ -8,7 +8,6 @@ import { info } from '@/reactive';
 import gSet from '@/components/gSet.vue'
 import { collision } from '@/assets/collisions.js'
 import map from '@/assets/map.png'
-import foreground from '@/assets/foreground.png'
 import knight from '@/assets/knight.png'
 const route = useRoute()
 let selfInfo = ref('teset')
@@ -234,7 +233,7 @@ onMounted(() => {
             c.fillText(plyaer.username, plyaer.xPos + 285 + background.pos.x, plyaer.yPos + background.pos.y)
           }
         })
-        fore.draw()
+
         selfInfo.value.xPos = player.pos.actualX
         selfInfo.value.yPos = player.pos.actualY
         if (info.inLobby) {
@@ -257,7 +256,6 @@ onMounted(() => {
             }if(moving==true){
             player.pos.actualY -= 3
             background.pos.y += 3
-            fore.pos.y +=3
             boundList.forEach((boundary)=>{
               boundary.pos.y+=3
             })
@@ -280,7 +278,6 @@ onMounted(() => {
             }if(moving==true){
             player.pos.actualY += 3
             background.pos.y -= 3
-            fore.pos.y -=3
             boundList.forEach((boundary)=>{
               boundary.pos.y-=3
             })
@@ -304,7 +301,6 @@ onMounted(() => {
             }if(moving==true){
             player.pos.actualX -= 3
             background.pos.x += 3
-            fore.pos.x +=3
             boundList.forEach((boundary)=>{
               boundary.pos.x+=3
             })
@@ -330,7 +326,6 @@ onMounted(() => {
           if(moving==true){
             player.pos.actualX += 3
             background.pos.x -= 3
-            fore.pos.x -=3
             boundList.forEach((boundary)=>{
               boundary.pos.x-=3
             })
