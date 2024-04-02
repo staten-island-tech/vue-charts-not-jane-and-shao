@@ -27,12 +27,12 @@ let showGameSettings = ref(false)
 if (!info.name) {
   window.location = "http://localhost:5173/";
 }
-
+let playerxPos = 3000
+let playeryPos = 3000
 function test() {
   console.log(info)
   let test = new Image()
   test.src = knight
-  console.log(reference)
   set(reference, {
     username: info.name,
     xPos: 0,
@@ -45,7 +45,6 @@ function test() {
     yPos: 0,
     sprite: knight
   }
-
 
 
   onValue(r(qt, 'players/'), (snapshot) => {
@@ -63,19 +62,13 @@ function test() {
 }
 
 let rows = []
-console.log(collision.length)
 for (let i = 0; i < collision.length; i += 128) {
   rows.push(collision.slice(i, i + 128))
 }
 
-console.log(rows)
-
 onMounted(() => {
-  console.log(otherPlayers)
   if (info.name) {
-    console.log(info.name)
     test()
-
     const canvas = document.querySelector("canvas");
     if (canvas.getContext) {
       const c = canvas.getContext("2d");
@@ -138,7 +131,6 @@ onMounted(() => {
           name: info.name
         }
       })
-      console.log(player.properties.name)
 
       let boundList = []
       rows.forEach((x, i) => {
@@ -166,7 +158,10 @@ onMounted(() => {
       window.addEventListener('keydown', (event) => {
         switch (event.key) {
           case 'Shift':
-            showGameSettings.value = true
+          if(showGameSettings.value != true){
+            showGameSettings.value = true} else{
+              showGameSettings.value = false
+            }
             break
           case 'ArrowDown':
           case 's':
@@ -215,23 +210,27 @@ onMounted(() => {
 
       function colliding(obj1,obj2){
         return(obj1.pos.x + 64 >= obj2.pos.x  &&  
-          obj1.pos.x <= obj2.pos.x +32
-          && obj1.pos.y <= obj2.pos.y + 32 
+          obj1.pos.x <= obj2.pos.x +16
+          && obj1.pos.y <= obj2.pos.y + 16 
           && obj1.pos.y + 64 >= obj2.pos.y)
         }
       function animate() {
 
         window.requestAnimationFrame(animate)
+        playerxPos = player.pos.actualX
+        playeryPos = player.pos.actualY
         background.draw()
         boundList.forEach((bndry) => {
           bndry.draw() 
         })
-        c.font = "16px serif";
         player.draw()
+        c.font = "16px DotGothic16";
+        c.fillStyle = "rgb(0,0,0)";
+        c.fillText(`${player.properties.name}`,player.pos.x+16,player.pos.y+32)
         otherPlayers.forEach((plyaer) => {
           if (plyaer.username != player.properties.name) {
             c.drawImage(player.properties.image, plyaer.xPos + background.pos.x, plyaer.yPos + background.pos.y)
-            c.fillText(plyaer.username, plyaer.xPos + 64 + background.pos.x, 64 + plyaer.yPos + background.pos.y)
+            c.fillText(plyaer.username, plyaer.xPos + 16 + background.pos.x, 32 + plyaer.yPos + background.pos.y)
           }
         })
         fore.draw()
@@ -249,7 +248,7 @@ onMounted(() => {
             },
           }
           if(colliding(player,predictBndry)==true){
-            c.fillStyle='blue'
+            c.fillStyle='rgb(255,0,0,0.2)'
             c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
             moving=false
             break
@@ -272,7 +271,7 @@ onMounted(() => {
             },
           }
           if(colliding(player,predictBndry)==true){
-            c.fillStyle='blue'
+            c.fillStyle='rgb(255,0,0,0.2)'
             c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
             moving=false
             break
@@ -295,9 +294,8 @@ onMounted(() => {
             },
           }
           if(colliding(player,predictBndry)==true){
-            c.fillStyle='blue'
+            c.fillStyle='rgb(255,0,0,0.2)'
             c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
-            console.log(predictBndry.pos.x,predictBndry.pos.y,64,64,player)
             moving=false
             break
           }
@@ -320,9 +318,8 @@ onMounted(() => {
             },
           }
           if(colliding(player,predictBndry)==true){
-            c.fillStyle='blue'
+            c.fillStyle='rgb(255,0,0,0.2)'
             c.fillRect(predictBndry.pos.x,predictBndry.pos.y,64,64)
-            console.log('!')
             moving=false
             break
           }
@@ -350,9 +347,8 @@ function closePopup(){
   showGameSettings.value = false;
 }
 
-/* const playerxPos = ref(null)
-const playeryPos = ref(null)
 
+/* 
 function getPosition(){
   get(child(r(getDatabase()), `players/${info.name}`)).then((snapshot) => {
     console.log(snapshot.val())
@@ -370,6 +366,7 @@ function getPosition(){
       <p>X: {{ playerxPos }}</p>
       <p>Y: {{ playeryPos }}</p>
       <p>Please click "Shift" to access our Game Menu.</p>
+      <p>You may also click to update your coordinates.</p>
     </div>
     <div id="canvasBox">
       <canvas width="2225px" height="940">
